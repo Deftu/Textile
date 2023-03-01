@@ -17,7 +17,7 @@ typealias VanillaText = net.minecraft.text.Text
 //$$ typealias VanillaLiteralText = net.minecraft.util.ChatComponentText
 //#endif
 
-//#if MC>=11500
+//#if MC>=11600
 typealias VanillaMutableText = net.minecraft.text.MutableText
 //#elseif MC>=11400
 //$$ typealias VanillaMutableText = net.minecraft.text.BaseText
@@ -48,7 +48,9 @@ object VanillaHelper {
         // create the base text
         val result = createLiteralText("")
         // go through each "before" position children recursively
-        text.children.filter { it.first == Text.TextChildPosition.BEFORE }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach(result::append)
+        text.children.filter { it.first == Text.TextChildPosition.BEFORE }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach {
+            result.append(it)
+        }
         // append the content
         result.append(createLiteralText(text.asContentString()).apply {
             //#if MC>=11400
@@ -92,7 +94,9 @@ object VanillaHelper {
             //#endif
         })
         // go through each "after" position children recursively
-        text.children.filter { it.first == Text.TextChildPosition.AFTER }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach(result::append)
+        text.children.filter { it.first == Text.TextChildPosition.AFTER }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach {
+            result.append(it)
+        }
 
         return result
     }
