@@ -3,39 +3,24 @@ package xyz.deftu.text.utils
 import xyz.deftu.text.Text
 import xyz.deftu.text.TextFormatting
 
-//#if MC>=11200
-typealias VanillaText = net.minecraft.text.Text
+//#if MC <= 1.18.2 && MC >= 1.14
+//$$ public typealias VanillaLiteralText = net.minecraft.text.LiteralText
+//#elseif MC <= 1.12.2
+//$$ public typealias VanillaLiteralText = net.minecraft.util.text.TextComponentString
+//#endif
+
+//#if MC >= 1.14
+public typealias VanillaMutableText = net.minecraft.text.MutableText
 //#else
-//$$ typealias VanillaText = net.minecraft.util.IChatComponent
+//$$ public typealias VanillaMutableText = net.minecraft.util.text.TextComponentString
 //#endif
 
-//#if MC<=11802 && MC>=11400
-//$$ typealias VanillaLiteralText = net.minecraft.text.LiteralText
-//#elseif MC>=11202 && MC<=11202
-//$$ typealias VanillaLiteralText = net.minecraft.util.text.TextComponentString
-//#elseif MC<11200
-//$$ typealias VanillaLiteralText = net.minecraft.util.ChatComponentText
-//#endif
+public typealias VanillaText = net.minecraft.text.Text
+public typealias VanillaFormatting = net.minecraft.util.Formatting
 
-//#if MC>=11600
-typealias VanillaMutableText = net.minecraft.text.MutableText
-//#elseif MC>=11400
-//$$ typealias VanillaMutableText = net.minecraft.text.BaseText
-//#elseif MC>=11200
-//$$ typealias VanillaMutableText = net.minecraft.util.text.ITextComponent
-//#elseif MC<11200
-//$$ typealias VanillaMutableText = net.minecraft.util.IChatComponent
-//#endif
-
-//#if MC>=11200
-typealias VanillaFormatting = net.minecraft.util.Formatting
-//#else
-//$$ typealias VanillaFormatting = net.minecraft.util.EnumChatFormatting
-//#endif
-
-object VanillaHelper {
+public object VanillaHelper {
     @JvmStatic
-    fun createLiteralText(content: String): VanillaMutableText {
+    public fun createLiteralText(content: String): VanillaMutableText {
         //#if MC>=11900
         return VanillaText.literal(content)
         //#else
@@ -44,65 +29,59 @@ object VanillaHelper {
     }
 
     @JvmStatic
-    fun toVanillaText(text: Text): VanillaText {
-        // create the base text
+    public fun toVanillaText(text: Text): VanillaText {
         val result = createLiteralText("")
-        // go through each "before" position children recursively
         text.children.filter { it.first == Text.TextChildPosition.BEFORE }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach {
+            //#if MC >= 1.14
             result.append(it)
+            //#else
+            //$$ result.appendSibling(it)
+            //#endif
         }
-        // append the content
+
+        //#if MC >= 1.14
         result.append(createLiteralText(text.asContentString()).apply {
-            //#if MC>=11400
-            text.formatting.map(::toVanillaFormatting).forEach(this::formatted)
+        //#else
+        //$$ result.appendSibling(createLiteralText(text.asContentString()).apply {
+        //#endif
+            val formatting = text.formatting.map(::toVanillaFormatting)
+            //#if MC >= 1.14
+            formatting.forEach(this::formatted)
             //#else
-            //#if MC>=11200
-            //$$ val style = this.style
+            //$$ formatting.forEach { formatting ->
+            //#if MC >= 1.12.2
+            //$$     val style = style.createDeepCopy()
             //#else
-            //$$ val style = this.chatStyle
+            //$$     val style = chatStyle.createDeepCopy()
             //#endif
-            //$$ text.formatting.map(::toVanillaFormatting).forEach {
-            //$$     when (it) {
-            //$$         VanillaFormatting.BOLD -> style.bold = true
-            //$$         VanillaFormatting.ITALIC -> style.italic = true
-            //$$         VanillaFormatting.UNDERLINE -> style.underlined = true
-            //$$         VanillaFormatting.STRIKETHROUGH -> style.strikethrough = true
-            //$$         VanillaFormatting.OBFUSCATED -> style.obfuscated = true
-            //$$         VanillaFormatting.BLACK -> style.color = VanillaFormatting.BLACK
-            //$$         VanillaFormatting.DARK_BLUE -> style.color = VanillaFormatting.DARK_BLUE
-            //$$         VanillaFormatting.DARK_GREEN -> style.color = VanillaFormatting.DARK_GREEN
-            //$$         VanillaFormatting.DARK_AQUA -> style.color = VanillaFormatting.DARK_AQUA
-            //$$         VanillaFormatting.DARK_RED -> style.color = VanillaFormatting.DARK_RED
-            //$$         VanillaFormatting.DARK_PURPLE -> style.color = VanillaFormatting.DARK_PURPLE
-            //$$         VanillaFormatting.GOLD -> style.color = VanillaFormatting.GOLD
-            //$$         VanillaFormatting.GRAY -> style.color = VanillaFormatting.GRAY
-            //$$         VanillaFormatting.DARK_GRAY -> style.color = VanillaFormatting.DARK_GRAY
-            //$$         VanillaFormatting.BLUE -> style.color = VanillaFormatting.BLUE
-            //$$         VanillaFormatting.GREEN -> style.color = VanillaFormatting.GREEN
-            //$$         VanillaFormatting.AQUA -> style.color = VanillaFormatting.AQUA
-            //$$         VanillaFormatting.RED -> style.color = VanillaFormatting.RED
-            //$$         VanillaFormatting.LIGHT_PURPLE -> style.color = VanillaFormatting.LIGHT_PURPLE
-            //$$         VanillaFormatting.YELLOW -> style.color = VanillaFormatting.YELLOW
-            //$$         VanillaFormatting.WHITE -> style.color = VanillaFormatting.WHITE
-            //$$     }
+            //$$     if (formatting.isColor) style.setColor(formatting)
+            //$$     if (formatting == VanillaFormatting.BOLD) style.setBold(true)
+            //$$     if (formatting == VanillaFormatting.ITALIC) style.setItalic(true)
+            //$$     if (formatting == VanillaFormatting.STRIKETHROUGH) style.setStrikethrough(true)
+            //$$     if (formatting == VanillaFormatting.UNDERLINE) style.setUnderlined(true)
+            //$$     if (formatting == VanillaFormatting.OBFUSCATED) style.setObfuscated(true)
+            //#if MC >= 1.12.2
+            //$$     setStyle(style)
+            //#else
+            //$$     setChatStyle(style)
+            //#endif
             //$$ }
-            //#if MC>=11200
-            //$$ setStyle(style)
-            //#else
-            //$$ setChatStyle(style)
-            //#endif
             //#endif
         })
-        // go through each "after" position children recursively
+
         text.children.filter { it.first == Text.TextChildPosition.AFTER }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach {
+            //#if MC >= 1.14
             result.append(it)
+            //#else
+            //$$ result.appendSibling(it)
+            //#endif
         }
 
         return result
     }
 
     @JvmStatic
-    fun toVanillaFormatting(format: TextFormatting): VanillaFormatting {
+    public fun toVanillaFormatting(format: TextFormatting): VanillaFormatting {
         return when (format) {
             TextFormatting.BLACK -> VanillaFormatting.BLACK
             TextFormatting.DARK_BLUE -> VanillaFormatting.DARK_BLUE
@@ -130,5 +109,5 @@ object VanillaHelper {
     }
 }
 
-fun Text.toVanilla(): VanillaText = VanillaHelper.toVanillaText(this)
-fun TextFormatting.toVanilla(): VanillaFormatting = VanillaHelper.toVanillaFormatting(this)
+public fun Text.toVanilla(): VanillaText = VanillaHelper.toVanillaText(this)
+public fun TextFormatting.toVanilla(): VanillaFormatting = VanillaHelper.toVanillaFormatting(this)

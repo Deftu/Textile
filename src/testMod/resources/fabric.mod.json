@@ -1,0 +1,19 @@
+{
+    "schemaVersion": 1,
+    "id": "test-mod",
+    "name": "Test Mod",
+    "version": "1.0.0",
+    "description": "A test mod for testing purposes/",
+    "environment": "*",
+    "authors": [
+        "Deftu"
+    ],
+    "depends": {
+        "fabricloader": "*"
+    },
+    "entrypoints": {
+        "client": [
+            "com.test.TestMod"
+        ]
+    }
+}

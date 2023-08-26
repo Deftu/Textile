@@ -4,7 +4,7 @@ import net.minecraft.client.resource.language.I18n
 import xyz.deftu.text.MutableText
 import xyz.deftu.text.Text
 
-class TranslatableMutableText(
+public class TranslatableMutableText(
     key: String,
     vararg args: Any
 ) : TranslatableText(key, *args), MutableText {
@@ -16,40 +16,40 @@ class TranslatableMutableText(
     override val children: MutableList<Pair<Text.TextChildPosition, Text>>
         get() = _children
 
-    override fun copy() = TranslatableMutableText(key, *args).apply {
+    override fun copy(): TranslatableMutableText = TranslatableMutableText(key, *args).apply {
         formatting.addAll(this@TranslatableMutableText.formatting)
         children.addAll(this@TranslatableMutableText.children)
     }
 
-    override fun asTruncated(maxLength: Int) = copy().apply {
+    override fun asTruncated(maxLength: Int): TranslatableMutableText = copy().apply {
         truncate(maxLength)
     }
 
-    override fun set(text: Any) = apply {
+    override fun set(text: Any): TranslatableMutableText = apply {
         _content.clear()
         _content.append(text)
     }
 
-    override fun set(text: () -> Any) = set(text())
+    override fun set(text: () -> Any): TranslatableMutableText = set(text())
 
-    override fun prepend(text: Any) = apply {
+    override fun prepend(text: Any): TranslatableMutableText = apply {
         _children.add(Text.TextChildPosition.BEFORE to Text.from(text))
     }
 
-    override fun prepend(text: () -> Any) = prepend(text())
+    override fun prepend(text: () -> Any): TranslatableMutableText = prepend(text())
 
-    override fun append(text: Any) = apply {
+    override fun append(text: Any): TranslatableMutableText = apply {
         _children.add(Text.TextChildPosition.AFTER to Text.from(text))
     }
 
-    override fun append(text: () -> Any) = append(text())
+    override fun append(text: () -> Any): TranslatableMutableText = append(text())
 
-    override fun truncate(maxLength: Int) = apply {
+    override fun truncate(maxLength: Int): TranslatableMutableText = apply {
         _content.clear()
         _content.append(asTruncatedString(maxLength))
     }
 
-    override fun truncate(maxLength: () -> Int) = apply {
+    override fun truncate(maxLength: () -> Int): TranslatableMutableText = apply {
         truncate(maxLength())
     }
 }

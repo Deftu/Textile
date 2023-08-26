@@ -1,5 +1,5 @@
 package xyz.deftu.text
 
-interface TextObjectSerializer<T : Text> {
-    fun serialize(obj: Any): T
+public interface TextObjectSerializer<T : Text> {
+    public fun serialize(obj: Any): T
 }

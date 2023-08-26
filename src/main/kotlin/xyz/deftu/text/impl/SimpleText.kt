@@ -3,24 +3,24 @@ package xyz.deftu.text.impl
 import xyz.deftu.text.Text
 import xyz.deftu.text.TextFormatting
 
-open class SimpleText(
+public open class SimpleText(
     content: String
 ) : Text {
-    open var content = content
-    override val formatting = mutableListOf<TextFormatting>()
-    override var children = mutableListOf<Pair<Text.TextChildPosition, Text>>()
+    public open var content: String = content
+    override val formatting: MutableList<TextFormatting> = mutableListOf()
+    override var children: MutableList<Pair<Text.TextChildPosition, Text>> = mutableListOf()
 
-    override fun copy() = SimpleText(content).apply {
+    override fun copy(): SimpleText = SimpleText(content).apply {
         formatting.addAll(this@SimpleText.formatting)
         children.addAll(this@SimpleText.children)
     }
 
-    override fun asTruncatedString(maxLength: Int) = asContentString().substring(0, maxLength)
-    override fun asTruncated(maxLength: Int) = copy().apply {
+    override fun asTruncatedString(maxLength: Int): String = asContentString().substring(0, maxLength)
+    override fun asTruncated(maxLength: Int): SimpleText = copy().apply {
         content = asTruncatedString(maxLength)
     }
 
-    override fun asContentString() = content
+    override fun asContentString(): String = content
     override fun asFormattedContentString(): String {
         val builder = StringBuilder()
         formatting.sortedWith(TextFormatting.TextFormattingComparator()).forEach(builder::append)
@@ -47,17 +47,17 @@ open class SimpleText(
         return builder.toString()
     }
 
-    override fun replace(key: String, value: Any) = copy().apply { content = content.replace(key, value.toString()) }
-    override fun replace(key: String, value: () -> Any) = copy().apply { content = content.replace(key, value().toString()) }
+    override fun replace(key: String, value: Any): SimpleText = copy().apply { content = content.replace(key, value.toString()) }
+    override fun replace(key: String, value: () -> Any): SimpleText = copy().apply { content = content.replace(key, value().toString()) }
 
-    override fun replaceFirst(key: String, value: Any) = copy().apply { content = content.replaceFirst(key, value.toString()) }
-    override fun replaceFirst(key: String, value: () -> Any) = copy().apply { content = content.replaceFirst(key, value().toString()) }
+    override fun replaceFirst(key: String, value: Any): SimpleText = copy().apply { content = content.replaceFirst(key, value.toString()) }
+    override fun replaceFirst(key: String, value: () -> Any): SimpleText = copy().apply { content = content.replaceFirst(key, value().toString()) }
 
-    override fun format(vararg formatting: TextFormatting) = copy().apply {
+    override fun format(vararg formatting: TextFormatting): SimpleText = copy().apply {
         this.formatting.addAll(formatting)
     }
 
-    override fun format(vararg formatting: () -> TextFormatting) = copy().apply {
+    override fun format(vararg formatting: () -> TextFormatting): SimpleText = copy().apply {
         this.formatting.addAll(formatting.map { it() })
     }
 }

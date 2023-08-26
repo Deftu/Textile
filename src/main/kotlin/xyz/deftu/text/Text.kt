@@ -5,53 +5,53 @@ import xyz.deftu.text.impl.SimpleText
 import xyz.deftu.text.impl.TranslatableMutableText
 import xyz.deftu.text.impl.TranslatableText
 
-interface Text {
-    companion object {
+public interface Text {
+    public companion object {
         private val serializers = mutableMapOf<Class<*>, TextObjectSerializer<*>>()
 
         @JvmStatic
-        fun create(
+        public fun create(
             content: String
-        ) = SimpleText(content)
+        ): Text = SimpleText(content)
 
         @JvmStatic
-        fun createMutable(
+        public fun createMutable(
             content: String
-        ) = SimpleMutableText(content)
+        ): MutableText = SimpleMutableText(content)
 
         @JvmStatic
-        fun translatable(
+        public fun translatable(
             key: String
-        ) = TranslatableText(key)
+        ): Text = TranslatableText(key)
 
         @JvmStatic
-        fun translatable(
+        public fun translatable(
             key: String,
             vararg args: Any
-        ) = TranslatableText(key, *args)
+        ): Text = TranslatableText(key, *args)
 
         @JvmStatic
-        fun translatableMutable(
+        public fun translatableMutable(
             key: String
-        ) = TranslatableMutableText(key)
+        ): MutableText = TranslatableMutableText(key)
 
         @JvmStatic
-        fun translatableMutable(
+        public fun translatableMutable(
             key: String,
             vararg args: Any
-        ) = TranslatableMutableText(key, *args)
+        ): MutableText = TranslatableMutableText(key, *args)
 
         @JvmStatic
-        fun from(
+        public fun from(
             obj: Any
-        ) = when (obj) {
+        ): Text = when (obj) {
             is Text -> obj
             is String -> create(obj)
             else -> serializers[obj::class.java]?.serialize(obj) ?: create(obj.toString())
         }
 
         @JvmStatic
-        fun <T : Text> registerSerializer(
+        public fun <T : Text> registerSerializer(
             clazz: Class<T>,
             serializer: TextObjectSerializer<T>
         ) {
@@ -59,30 +59,30 @@ interface Text {
         }
     }
 
-    val children: List<Pair<TextChildPosition, Text>>
-    val formatting: List<TextFormatting>
+    public val children: List<Pair<TextChildPosition, Text>>
+    public val formatting: List<TextFormatting>
 
-    fun copy(): Text
+    public fun copy(): Text
 
-    fun asTruncatedString(maxLength: Int): String
-    fun asTruncated(maxLength: Int): Text
+    public fun asTruncatedString(maxLength: Int): String
+    public fun asTruncated(maxLength: Int): Text
 
-    fun asContentString(): String
-    fun asFormattedContentString(): String
+    public fun asContentString(): String
+    public fun asFormattedContentString(): String
 
-    fun asString(): String
-    fun asFormattedString(): String
+    public fun asString(): String
+    public fun asFormattedString(): String
 
-    fun replace(key: String, value: Any): Text
-    fun replace(key: String, value: () -> Any): Text
+    public fun replace(key: String, value: Any): Text
+    public fun replace(key: String, value: () -> Any): Text
 
-    fun replaceFirst(key: String, value: Any): Text
-    fun replaceFirst(key: String, value: () -> Any): Text
+    public fun replaceFirst(key: String, value: Any): Text
+    public fun replaceFirst(key: String, value: () -> Any): Text
 
-    fun format(vararg formatting: TextFormatting): Text
-    fun format(vararg formatting: () -> TextFormatting): Text
+    public fun format(vararg formatting: TextFormatting): Text
+    public fun format(vararg formatting: () -> TextFormatting): Text
 
-    enum class TextChildPosition {
+    public enum class TextChildPosition {
         BEFORE,
         AFTER
     }
