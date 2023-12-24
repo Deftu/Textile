@@ -20,11 +20,11 @@ pluginManagement {
 
     plugins {
         kotlin("jvm") version("1.9.0")
-        id("dev.deftu.gradle.multiversion-root") version("1.21.0")
+        id("dev.deftu.gradle.multiversion-root") version("1.22.2")
     }
 }
 
-rootProject.name = "TextCraft"
+rootProject.name = "Textful"
 rootProject.buildFileName = "root.gradle.kts"
 
 listOf(

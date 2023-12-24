@@ -1,4 +1,4 @@
-package xyz.deftu.text
+package dev.deftu.textful
 
 import java.awt.Color
 

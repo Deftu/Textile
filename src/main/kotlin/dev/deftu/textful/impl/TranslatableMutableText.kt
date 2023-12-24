@@ -1,8 +1,8 @@
-package xyz.deftu.text.impl
+package dev.deftu.textful.impl
 
 import net.minecraft.client.resource.language.I18n
-import xyz.deftu.text.MutableText
-import xyz.deftu.text.Text
+import dev.deftu.textful.MutableText
+import dev.deftu.textful.Text
 
 public class TranslatableMutableText(
     key: String,
@@ -25,24 +25,24 @@ public class TranslatableMutableText(
         truncate(maxLength)
     }
 
-    override fun set(text: Any): TranslatableMutableText = apply {
+    override fun set(text: Text): TranslatableMutableText = apply {
         _content.clear()
         _content.append(text)
     }
 
-    override fun set(text: () -> Any): TranslatableMutableText = set(text())
+    override fun set(text: () -> Text): TranslatableMutableText = set(text())
 
-    override fun prepend(text: Any): TranslatableMutableText = apply {
-        _children.add(Text.TextChildPosition.BEFORE to Text.from(text))
+    override fun prepend(text: Text): TranslatableMutableText = apply {
+        _children.add(Text.TextChildPosition.BEFORE to text)
     }
 
-    override fun prepend(text: () -> Any): TranslatableMutableText = prepend(text())
+    override fun prepend(text: () -> Text): TranslatableMutableText = prepend(text())
 
-    override fun append(text: Any): TranslatableMutableText = apply {
-        _children.add(Text.TextChildPosition.AFTER to Text.from(text))
+    override fun append(text: Text): TranslatableMutableText = apply {
+        _children.add(Text.TextChildPosition.AFTER to text)
     }
 
-    override fun append(text: () -> Any): TranslatableMutableText = append(text())
+    override fun append(text: () -> Text): TranslatableMutableText = append(text())
 
     override fun truncate(maxLength: Int): TranslatableMutableText = apply {
         _content.clear()

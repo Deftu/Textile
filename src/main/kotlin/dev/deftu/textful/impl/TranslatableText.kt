@@ -1,8 +1,8 @@
-package xyz.deftu.text.impl
+package dev.deftu.textful.impl
 
 import net.minecraft.client.resource.language.I18n
-import xyz.deftu.text.Text
-import xyz.deftu.text.TextFormatting
+import dev.deftu.textful.Text
+import dev.deftu.textful.TextFormatting
 
 public open class TranslatableText(
     public val key: String,
@@ -11,7 +11,7 @@ public open class TranslatableText(
     public open var content: String = I18n.translate(key, *args)
     override val formatting: MutableList<TextFormatting> = mutableListOf()
     override val children: MutableList<Pair<Text.TextChildPosition, Text>> = mutableListOf()
-    
+
     override fun copy(): TranslatableText = TranslatableText(key, *args).apply {
         formatting.addAll(this@TranslatableText.formatting)
         children.addAll(this@TranslatableText.children)

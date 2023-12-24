@@ -1,7 +1,7 @@
-package xyz.deftu.text.impl
+package dev.deftu.textful.impl
 
-import xyz.deftu.text.MutableText
-import xyz.deftu.text.Text
+import dev.deftu.textful.MutableText
+import dev.deftu.textful.Text
 
 public class SimpleMutableText(
     content: String
@@ -23,24 +23,24 @@ public class SimpleMutableText(
         truncate(maxLength)
     }
 
-    override fun set(text: Any): SimpleMutableText = copy().apply {
+    override fun set(text: Text): SimpleMutableText = copy().apply {
         _content.setLength(0)
         _content.append(text)
     }
 
-    override fun set(text: () -> Any): SimpleMutableText = set(text())
+    override fun set(text: () -> Text): SimpleMutableText = set(text())
 
-    override fun prepend(text: Any): SimpleMutableText = apply {
-        _children.add(Text.TextChildPosition.BEFORE to Text.from(text))
+    override fun prepend(text: Text): SimpleMutableText = apply {
+        _children.add(Text.TextChildPosition.BEFORE to text)
     }
 
-    override fun prepend(text: () -> Any): SimpleMutableText = prepend(text())
+    override fun prepend(text: () -> Text): SimpleMutableText = prepend(text())
 
-    override fun append(text: Any): SimpleMutableText = apply {
-        _children.add(Text.TextChildPosition.AFTER to Text.from(text))
+    override fun append(text: Text): SimpleMutableText = apply {
+        _children.add(Text.TextChildPosition.AFTER to text)
     }
 
-    override fun append(text: () -> Any): SimpleMutableText = append(text())
+    override fun append(text: () -> Text): SimpleMutableText = append(text())
 
     override fun truncate(maxLength: Int): SimpleMutableText = apply {
         _content.setLength(0)

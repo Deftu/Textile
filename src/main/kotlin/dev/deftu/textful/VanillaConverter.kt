@@ -1,7 +1,4 @@
-package xyz.deftu.text.utils
-
-import xyz.deftu.text.Text
-import xyz.deftu.text.TextFormatting
+package dev.deftu.textful
 
 //#if MC <= 1.18.2 && MC >= 1.14
 //$$ public typealias VanillaLiteralText = net.minecraft.text.LiteralText
@@ -18,7 +15,7 @@ public typealias VanillaMutableText = net.minecraft.text.MutableText
 public typealias VanillaText = net.minecraft.text.Text
 public typealias VanillaFormatting = net.minecraft.util.Formatting
 
-public object VanillaHelper {
+public object VanillaConverter {
     @JvmStatic
     public fun createLiteralText(content: String): VanillaMutableText {
         //#if MC>=11900
@@ -41,9 +38,9 @@ public object VanillaHelper {
 
         //#if MC >= 1.14
         result.append(createLiteralText(text.asContentString()).apply {
-        //#else
-        //$$ result.appendSibling(createLiteralText(text.asContentString()).apply {
-        //#endif
+            //#else
+            //$$ result.appendSibling(createLiteralText(text.asContentString()).apply {
+            //#endif
             val formatting = text.formatting.map(::toVanillaFormatting)
             //#if MC >= 1.14
             formatting.forEach(this::formatted)
@@ -109,5 +106,5 @@ public object VanillaHelper {
     }
 }
 
-public fun Text.toVanilla(): VanillaText = VanillaHelper.toVanillaText(this)
-public fun TextFormatting.toVanilla(): VanillaFormatting = VanillaHelper.toVanillaFormatting(this)
+public fun Text.toVanilla(): VanillaText = VanillaConverter.toVanillaText(this)
+public fun TextFormatting.toVanilla(): VanillaFormatting = VanillaConverter.toVanillaFormatting(this)

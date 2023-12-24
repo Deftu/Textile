@@ -4,6 +4,7 @@
     "name": "${mod_name}",
     "version": "${mod_version}",
     "description": "Universal text handling library.",
+    "icon": "icon.png",
     "environment": "*",
     "authors": [
         "Deftu"
