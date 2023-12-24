@@ -14,8 +14,9 @@ import net.fabricmc.api.ClientModInitializer
 //#endif
 //#endif
 
-import xyz.deftu.text.Text
-import xyz.deftu.text.utils.toVanilla
+import dev.deftu.textful.Text
+import dev.deftu.textful.impl.SimpleText
+import dev.deftu.textful.toVanilla
 
 //#if FABRIC==1
 class TestMod : ClientModInitializer {
@@ -48,7 +49,7 @@ class TestMod : ClientModInitializer {
     //#endif
 
     private fun makeTestText(string: String): Text {
-        return Text.create(string)
+        return SimpleText(string)
     }
 
 }
