@@ -1,12 +1,12 @@
 package com.test
 
-//#if FABRIC==1
+//#if FABRIC
 import net.fabricmc.api.ClientModInitializer
 //#else
-//#if MC>=11502
+//#if MC >= 1.15.2
 //$$ import net.minecraftforge.fml.common.Mod
-//$$ import net.minecraftforge.fml.common.Mod.EventBusSubscriber
-//$$ import net.minecraftforge.fml.common.event.FMLInitializationEvent
+//$$ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+//$$ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 //#else
 //$$ import net.minecraftforge.fml.common.Mod
 //$$ import net.minecraftforge.fml.common.Mod.EventHandler
@@ -18,38 +18,40 @@ import dev.deftu.textful.Text
 import dev.deftu.textful.impl.SimpleText
 import dev.deftu.textful.toVanilla
 
-//#if FABRIC==1
+//#if FABRIC
 class TestMod : ClientModInitializer {
 //#else
-//#if MC>=11502
+//#if MC >= 1.15.2
 //$$ @Mod(value = "test-mod")
 //#else
 //$$ @Mod(modid = "test-mod")
 //#endif
 //$$ class TestMod {
 //#endif
+    //#if FORGE && MC >= 1.15.2
+    //$$ init {
+    //$$     FMLJavaModLoadingContext.get().modEventBus.register(this)
+    //$$ }
+    //#endif
 
-    //#if FABRIC==1
-    override fun onInitializeClient() {
+    //#if FABRIC
+    override
+    //#endif
+    fun onInitializeClient(
+        //#if FORGE
+        //#if MC >= 1.15.2
+        //$$ event: FMLClientSetupEvent
+        //#else
+        //$$ event: FMLInitializationEvent
+        //#endif
+        //#endif
+    ) {
         val text = makeTestText("Hello Fabric world!")
         println("Text: $text")
         println("Vanilla Text: ${text.toVanilla()}")
     }
-    //#else
-    //#if MC>=11502
-    //$$ @Mod.EventBusSubscriber
-    //#else
-    //$$ @Mod.EventHandler
-    //#endif
-    //$$ fun initialize(event: FMLInitializationEvent) {
-    //$$     val text = makeTestText("Hello Forge world!")
-    //$$     println("Text: $text")
-    //$$     println("Vanilla Text: ${text.toVanilla()}")
-    //$$ }
-    //#endif
 
     private fun makeTestText(string: String): Text {
         return SimpleText(string)
     }
-
 }
