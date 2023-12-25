@@ -13,5 +13,5 @@ toolkitLoomApi.setupTestClient()
 kotlin.explicitApi()
 
 toolkitMavenPublishing {
-    artifactName.set("${modData.name.lowercase()}-${mcData.version}-${mcData.loader.name}")
+    artifactName.set(modData.name.lowercase())
 }
