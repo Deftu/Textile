@@ -1,3 +1,5 @@
+import dev.deftu.gradle.utils.VersionType
+
 plugins {
     java
     kotlin("jvm")
@@ -18,6 +20,10 @@ toolkitMavenPublishing {
 }
 
 toolkitReleases {
+    if (modData.version.startsWith("0.")) {
+        versionType.set(VersionType.BETA)
+    }
+
     modrinth {
         projectId.set("T0Zb6DLv")
     }
