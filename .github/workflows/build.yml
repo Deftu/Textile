@@ -25,9 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Build with Gradle
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
           java-version: "17"
           distribution: "temurin"
@@ -46,7 +48,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon --stacktrace -Xmx12288M
+        run: ./gradlew build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
