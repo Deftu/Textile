@@ -1,7 +1,7 @@
-package dev.deftu.textful.impl
+package dev.deftu.textile.impl
 
-import dev.deftu.textful.Text
-import dev.deftu.textful.TextFormatting
+import dev.deftu.textile.Text
+import dev.deftu.textile.TextFormatting
 
 public open class SimpleText(
     content: String

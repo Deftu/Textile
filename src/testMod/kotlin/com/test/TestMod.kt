@@ -14,9 +14,9 @@ import net.fabricmc.api.ClientModInitializer
 //#endif
 //#endif
 
-import dev.deftu.textful.Text
-import dev.deftu.textful.impl.SimpleText
-import dev.deftu.textful.toVanilla
+import dev.deftu.textile.Text
+import dev.deftu.textile.impl.SimpleText
+import dev.deftu.textile.toVanilla
 
 //#if FABRIC
 class TestMod : ClientModInitializer {

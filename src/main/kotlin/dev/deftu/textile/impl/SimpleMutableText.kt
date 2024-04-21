@@ -1,7 +1,7 @@
-package dev.deftu.textful.impl
+package dev.deftu.textile.impl
 
-import dev.deftu.textful.MutableText
-import dev.deftu.textful.Text
+import dev.deftu.textile.MutableText
+import dev.deftu.textile.Text
 
 public class SimpleMutableText(
     content: String

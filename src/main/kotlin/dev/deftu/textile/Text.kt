@@ -1,4 +1,4 @@
-package dev.deftu.textful
+package dev.deftu.textile
 
 public interface Text {
     public val children: List<Pair<TextChildPosition, Text>>

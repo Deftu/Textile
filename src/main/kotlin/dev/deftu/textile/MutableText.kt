@@ -1,4 +1,4 @@
-package dev.deftu.textful
+package dev.deftu.textile
 
 public interface MutableText : Text {
     override val children: MutableList<Pair<Text.TextChildPosition, Text>>

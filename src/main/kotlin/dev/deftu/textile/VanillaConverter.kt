@@ -1,4 +1,4 @@
-package dev.deftu.textful
+package dev.deftu.textile
 
 //#if MC <= 1.18.2 && MC >= 1.14
 //$$ public typealias VanillaLiteralText = net.minecraft.text.LiteralText
@@ -24,6 +24,8 @@ public object VanillaConverter {
         //$$ return VanillaLiteralText(content)
         //#endif
     }
+
+    // TODO: Add support for creating text from vanilla text
 
     @JvmStatic
     public fun toVanillaText(text: Text): VanillaText {

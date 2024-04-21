@@ -1,4 +1,4 @@
-package dev.deftu.textful
+package dev.deftu.textile
 
 import java.awt.Color
 
