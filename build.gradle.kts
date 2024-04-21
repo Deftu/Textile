@@ -16,3 +16,9 @@ kotlin.explicitApi()
 toolkitMavenPublishing {
     artifactName.set(modData.name.lowercase())
 }
+
+toolkitReleases {
+    modrinth {
+        projectId.set("T0Zb6DLv")
+    }
+}
