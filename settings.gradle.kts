@@ -24,7 +24,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Textful"
+rootProject.name = extra["mod.name"]?.toString() ?: throw IllegalStateException("mod.name is not defined")
 rootProject.buildFileName = "root.gradle.kts"
 
 listOf(
