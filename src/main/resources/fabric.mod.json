@@ -10,7 +10,8 @@
         "Deftu"
     ],
     "depends": {
-        "fabricloader": "*"
+        "fabricloader": "*",
+        "minecraft": "~${minor_mc_version}"
     },
     "custom": {
         "modmenu": {
