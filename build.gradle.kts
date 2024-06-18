@@ -13,17 +13,11 @@ plugins {
 }
 
 toolkitLoomApi.setupTestClient()
+toolkitMavenPublishing.forceLowercase.set(true)
 kotlin.explicitApi()
 
-toolkitMavenPublishing {
-    artifactName.set(modData.name.lowercase())
-}
-
 toolkitReleases {
-    if (modData.version.startsWith("0.")) {
-        versionType.set(VersionType.BETA)
-    }
-
+    detectVersionType.set(true)
     modrinth {
         projectId.set("T0Zb6DLv")
     }
