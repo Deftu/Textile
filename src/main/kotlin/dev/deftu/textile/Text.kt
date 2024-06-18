@@ -2,7 +2,7 @@ package dev.deftu.textile
 
 public interface Text {
     public val children: List<Pair<TextChildPosition, Text>>
-    public val formatting: List<TextFormatting>
+    public val formatting: List<Format>
 
     public fun copy(): Text
 
@@ -21,8 +21,8 @@ public interface Text {
     public fun replaceFirst(key: String, value: Any): Text
     public fun replaceFirst(key: String, value: () -> Any): Text
 
-    public fun format(vararg formatting: TextFormatting): Text
-    public fun format(vararg formatting: () -> TextFormatting): Text
+    public fun format(vararg formatting: Format): Text
+    public fun format(vararg formatting: () -> Format): Text
 
     public enum class TextChildPosition {
         BEFORE,

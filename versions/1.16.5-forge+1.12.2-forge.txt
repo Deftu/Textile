@@ -1,0 +1,5 @@
+net.minecraft.network.chat.Component net.minecraft.util.text.ITextComponent
+net.minecraft.network.chat.MutableComponent net.minecraft.util.text.TextComponentString
+net.minecraft.network.chat.TextComponent net.minecraft.util.text.TextComponentString
+net.minecraft.network.chat.MutableComponent append() appendSibling()
+net.minecraft.network.chat.Component getString() getUnformattedText()

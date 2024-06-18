@@ -2,14 +2,14 @@ package dev.deftu.textile.impl
 
 import net.minecraft.client.resource.language.I18n
 import dev.deftu.textile.Text
-import dev.deftu.textile.TextFormatting
+import dev.deftu.textile.Format
 
 public open class TranslatableText(
     public val key: String,
     public vararg val args: Any
 ): Text {
     public open var content: String = I18n.translate(key, *args)
-    override val formatting: MutableList<TextFormatting> = mutableListOf()
+    override val formatting: MutableList<Format> = mutableListOf()
     override val children: MutableList<Pair<Text.TextChildPosition, Text>> = mutableListOf()
 
     override fun copy(): TranslatableText = TranslatableText(key, *args).apply {
@@ -25,7 +25,7 @@ public open class TranslatableText(
     override fun asContentString(): String = asString()
     override fun asFormattedContentString(): String {
         val builder = StringBuilder()
-        formatting.sortedWith(TextFormatting.TextFormattingComparator()).forEach(builder::append)
+        formatting.sortedWith(Format.TextFormattingComparator()).forEach(builder::append)
         builder.append(asContentString())
         return builder.toString()
     }
@@ -41,10 +41,10 @@ public open class TranslatableText(
     override fun asFormattedString(): String {
         val builder = StringBuilder()
         children.filter { it.first == Text.TextChildPosition.BEFORE }.forEach { builder.append(it.second.asFormattedString()) }
-        builder.append(TextFormatting.RESET)
+        builder.append(Format.RESET)
         formatting.forEach(builder::append)
         builder.append(I18n.translate(key, *args))
-        builder.append(TextFormatting.RESET)
+        builder.append(Format.RESET)
         children.filter { it.first == Text.TextChildPosition.AFTER }.forEach { builder.append(it.second.asFormattedString()) }
         return builder.toString()
     }
@@ -55,11 +55,11 @@ public open class TranslatableText(
     override fun replaceFirst(key: String, value: Any): TranslatableText = copy().apply { content = content.replaceFirst(key, value.toString()) }
     override fun replaceFirst(key: String, value: () -> Any): TranslatableText = copy().apply { content = content.replaceFirst(key, value().toString()) }
 
-    override fun format(vararg formatting: TextFormatting): TranslatableText = copy().apply {
+    override fun format(vararg formatting: Format): TranslatableText = copy().apply {
         this.formatting.addAll(formatting)
     }
 
-    override fun format(vararg formatting: () -> TextFormatting): TranslatableText = copy().apply {
+    override fun format(vararg formatting: () -> Format): TranslatableText = copy().apply {
         this.formatting.addAll(formatting.map { it() })
     }
 }

@@ -3,6 +3,7 @@ package com.test
 //#if FABRIC
 import net.fabricmc.api.ClientModInitializer
 //#else
+//#if FORGE
 //#if MC >= 1.15.2
 //$$ import net.minecraftforge.fml.common.Mod
 //$$ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
@@ -11,6 +12,11 @@ import net.fabricmc.api.ClientModInitializer
 //$$ import net.minecraftforge.fml.common.Mod
 //$$ import net.minecraftforge.fml.common.Mod.EventHandler
 //$$ import net.minecraftforge.fml.common.event.FMLInitializationEvent
+//#endif
+//#else
+//$$ import net.neoforged.bus.api.IEventBus
+//$$ import net.neoforged.fml.common.Mod
+//$$ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 //#endif
 //#endif
 
@@ -34,11 +40,17 @@ class TestMod : ClientModInitializer {
     //$$ }
     //#endif
 
+    //#if NEOFORGED
+    //$$ constructor(modEventBus: IEventBus) {
+    //$$     modEventBus.register(this)
+    //$$ }
+    //#endif
+
     //#if FABRIC
     override
     //#endif
     fun onInitializeClient(
-        //#if FORGE
+        //#if FORGE-LIKE
         //#if MC >= 1.15.2
         //$$ event: FMLClientSetupEvent
         //#else

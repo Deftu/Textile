@@ -1,8 +1,9 @@
 package dev.deftu.textile
 
+import net.minecraft.util.Formatting
 import java.awt.Color
 
-public enum class TextFormatting(
+public enum class Format(
     public val code: Char,
     public val color: Color? = null
 ) {
@@ -34,18 +35,47 @@ public enum class TextFormatting(
     public val isFormat: Boolean
         get() = !isColor
 
-    public operator fun plus(other: TextFormatting): String = "$this$other"
+    public operator fun plus(other: Format): String = "$this$other"
     public operator fun plus(other: String): String = "$this$other"
     public operator fun plus(other: Text): Text = other.format(this)
 
     override fun toString(): String = "$COLOR_CHAR$code"
 
     public companion object {
+
         public const val COLOR_CHAR: Char = '\u00a7'
         public val FORMATTING_CODE_PATTERN: Regex = Regex("§[0-9a-fk-or]", RegexOption.IGNORE_CASE)
 
-        public fun from(code: Char): TextFormatting = values().first { it.code == code }
-        public fun from(code: String): TextFormatting = from(code.firstOrNull() ?: RESET.code)
+        @Suppress("EnumValuesSoftDeprecate")
+        public val VANILLA_MAPPED: Map<Format, Formatting> = values().associateWith { formatting ->
+            when (formatting) {
+                BLACK -> Formatting.BLACK
+                DARK_BLUE -> Formatting.DARK_BLUE
+                DARK_GREEN -> Formatting.DARK_GREEN
+                DARK_AQUA -> Formatting.DARK_AQUA
+                DARK_RED -> Formatting.DARK_RED
+                DARK_PURPLE -> Formatting.DARK_PURPLE
+                GOLD -> Formatting.GOLD
+                GRAY -> Formatting.GRAY
+                DARK_GRAY -> Formatting.DARK_GRAY
+                BLUE -> Formatting.BLUE
+                GREEN -> Formatting.GREEN
+                AQUA -> Formatting.AQUA
+                RED -> Formatting.RED
+                LIGHT_PURPLE -> Formatting.LIGHT_PURPLE
+                YELLOW -> Formatting.YELLOW
+                WHITE -> Formatting.WHITE
+                OBFUSCATED -> Formatting.OBFUSCATED
+                BOLD -> Formatting.BOLD
+                STRIKETHROUGH -> Formatting.STRIKETHROUGH
+                UNDERLINE -> Formatting.UNDERLINE
+                ITALIC -> Formatting.ITALIC
+                RESET -> Formatting.RESET
+            }
+        }
+
+        public fun from(code: Char): Format = values().first { it.code == code }
+        public fun from(code: String): Format = from(code.firstOrNull() ?: RESET.code)
 
         public fun translateAlternateColorCodes(altColorChar: Char, textToTranslate: String): String {
             val b = textToTranslate.toCharArray()
@@ -67,10 +97,12 @@ public enum class TextFormatting(
         public fun stripFormat(text: String): String = text.replace(COLOR_CHAR, '§').replace(FORMATTING_CODE_PATTERN) {
             if (it.value[1] in 'a'..'r') "" else it.value
         }
+
     }
 
-    public class TextFormattingComparator : Comparator<TextFormatting> {
-        override fun compare(o1: TextFormatting, o2: TextFormatting): Int {
+    public class TextFormattingComparator : Comparator<Format> {
+
+        override fun compare(o1: Format, o2: Format): Int {
             return if (o1.isColor && o2.isColor) {
                 // Colors are sorted by their ordinal
                 o1.ordinal - o2.ordinal
@@ -88,5 +120,6 @@ public enum class TextFormatting(
                 0
             }
         }
+
     }
 }
