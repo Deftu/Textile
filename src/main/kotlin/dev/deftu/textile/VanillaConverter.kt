@@ -4,14 +4,15 @@ package dev.deftu.textile
 //$$ import net.minecraft.text.LiteralText
 //#endif
 
-import dev.deftu.textile.impl.SimpleMutableText
+import dev.deftu.textile.impl.SimpleMutableTextHolder
 import net.minecraft.text.MutableText
 import net.minecraft.util.Formatting
+import java.util.Optional
 
 public object VanillaConverter {
 
     @JvmStatic
-    public fun createLiteralText(content: String): MutableText {
+    private fun createLiteralText(content: String): MutableText {
         //#if MC >= 1.19.2
         return net.minecraft.text.Text.literal(content)
         //#else
@@ -20,25 +21,15 @@ public object VanillaConverter {
     }
 
     @JvmStatic
-    public fun toVanillaFormatting(format: Format): Formatting {
-        return Format.VANILLA_MAPPED[format] ?: Formatting.RESET
+    public fun toVanillaFormatting(format: TextFormat): Formatting {
+        return TextFormat.VANILLA_MAPPED[format] ?: Formatting.RESET
     }
 
     @JvmStatic
-    public fun toVanillaText(text: Text): net.minecraft.text.Text {
+    public fun toVanillaText(textHolder: TextHolder): net.minecraft.text.Text {
         val result = createLiteralText("")
-        text.children.filter { (pos, _) ->
-            pos == Text.TextChildPosition.BEFORE
-        }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach {
-            //#if MC >= 1.16.5
-            result.append(it)
-            //#else
-            //$$ result.appendSibling(it)
-            //#endif
-        }
-
-        result.append(createLiteralText(text.asContentString()).apply {
-            val formatting = text.formatting.map(::toVanillaFormatting)
+        result.append(createLiteralText(textHolder.asLeafString()).apply {
+            val formatting = textHolder.formatting.map(::toVanillaFormatting)
             //#if MC >= 1.16.5
             formatting.forEach(this::formatted)
             //#else
@@ -59,9 +50,7 @@ public object VanillaConverter {
             //#endif
         })
 
-        text.children.filter { (pos, _) ->
-            pos == Text.TextChildPosition.AFTER
-        }.map(Pair<Text.TextChildPosition, Text>::second).map(::toVanillaText).forEach {
+        textHolder.children.map(::toVanillaText).forEach {
             //#if MC >= 1.16.5
             result.append(it)
             //#else
@@ -73,41 +62,78 @@ public object VanillaConverter {
     }
 
     @JvmStatic
-    public fun fromVanillaFormatting(format: Formatting): Format {
-        return Format.VANILLA_MAPPED.entries.firstOrNull { (_, vanilla) ->
+    public fun fromVanillaFormatting(format: Formatting): TextFormat {
+        return TextFormat.VANILLA_MAPPED.entries.firstOrNull { (_, vanilla) ->
             vanilla == format
-        }?.key ?: Format.RESET
+        }?.key ?: TextFormat.RESET
     }
 
     @JvmStatic
-    public fun fromVanillaText(text: net.minecraft.text.Text): Text {
-        val result = SimpleMutableText("")
+    public fun fromVanillaText(text: net.minecraft.text.Text, format: Set<TextFormat>): TextHolder {
+        if (!text.style.isEmpty) {
+            return fromVanillaText(text)
+        }
 
-        result.append(SimpleMutableText(text.string).apply {
+        val result = SimpleMutableTextHolder("")
+        val content = StringBuilder()
+        //#if MC >= 1.19.2
+        text.content.visit { string ->
+            content.append(string)
+            Optional.empty<String>()
+        }
+        //#elseif MC >= 1.16.5
+        //$$ content.append(text.asString())
+        //#else
+        //$$ content.append(text.unformattedText)
+        //#endif
+        result.append(SimpleMutableTextHolder(content.toString()).apply {
+            format(*format.toTypedArray())
+        })
+
+        text.siblings.map { sibling -> fromVanillaText(sibling, format) }.forEach(result::append)
+        return result
+    }
+
+    @JvmStatic
+    public fun fromVanillaText(text: net.minecraft.text.Text): TextHolder {
+        val result = SimpleMutableTextHolder("")
+        val content = StringBuilder()
+        //#if MC >= 1.19.2
+        text.content.visit { string ->
+            content.append(string)
+            Optional.empty<String>()
+        }
+        //#elseif MC >= 1.16.5
+        //$$ content.append(text.asString())
+        //#else
+        //$$ content.append(text.unformattedText)
+        //#endif
+        var copiedFormatting: Set<TextFormat>
+        result.append(SimpleMutableTextHolder(content.toString()).apply {
             //#if MC >= 1.16.5
             val formatting = Formatting.byName(text.style.color?.name)
             formatting?.let(::fromVanillaFormatting)?.let { format(it) }
             //#else
             //$$ text.style.color?.let(::fromVanillaFormatting)?.let { formatting -> format(formatting) }
             //#endif
-            if (text.style.isBold) format(Format.BOLD)
-            if (text.style.isItalic) format(Format.ITALIC)
-            if (text.style.isStrikethrough) format(Format.STRIKETHROUGH)
-            if (text.style.isUnderlined) format(Format.UNDERLINE)
-            if (text.style.isObfuscated) format(Format.OBFUSCATED)
-        })
+            if (text.style.isBold) format(TextFormat.BOLD)
+            if (text.style.isItalic) format(TextFormat.ITALIC)
+            if (text.style.isStrikethrough) format(TextFormat.STRIKETHROUGH)
+            if (text.style.isUnderlined) format(TextFormat.UNDERLINE)
+            if (text.style.isObfuscated) format(TextFormat.OBFUSCATED)
+        }.apply { copiedFormatting = formatting })
 
-        text.siblings.forEach {
-            result.append(fromVanillaText(it))
-        }
-
+        text.siblings.map { text ->
+            if (copiedFormatting.isEmpty()) fromVanillaText(text)
+            else fromVanillaText(text, copiedFormatting)
+        }.forEach(result::append)
         return result
     }
 
 }
 
-public fun Text.toVanilla(): net.minecraft.text.Text = VanillaConverter.toVanillaText(this)
-public fun Format.toVanilla(): Formatting = VanillaConverter.toVanillaFormatting(this)
+public fun TextHolder.toVanilla(): net.minecraft.text.Text = VanillaConverter.toVanillaText(this)
+public fun TextFormat.toVanilla(): Formatting = VanillaConverter.toVanillaFormatting(this)
 
-public fun net.minecraft.text.Text.convert(): Text = VanillaConverter.fromVanillaText(this)
-public fun Formatting.convert(): Format = VanillaConverter.fromVanillaFormatting(this)
+public fun net.minecraft.text.Text.convert(): TextHolder = VanillaConverter.fromVanillaText(this)
+public fun Formatting.convert(): TextFormat = VanillaConverter.fromVanillaFormatting(this)

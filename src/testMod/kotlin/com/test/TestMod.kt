@@ -20,8 +20,8 @@ import net.fabricmc.api.ClientModInitializer
 //#endif
 //#endif
 
-import dev.deftu.textile.Text
-import dev.deftu.textile.impl.SimpleText
+import dev.deftu.textile.TextHolder
+import dev.deftu.textile.impl.SimpleTextHolder
 import dev.deftu.textile.toVanilla
 
 //#if FABRIC
@@ -40,7 +40,7 @@ class TestMod : ClientModInitializer {
     //$$ }
     //#endif
 
-    //#if NEOFORGED
+    //#if NEOFORGE
     //$$ constructor(modEventBus: IEventBus) {
     //$$     modEventBus.register(this)
     //$$ }
@@ -63,7 +63,7 @@ class TestMod : ClientModInitializer {
         println("Vanilla Text: ${text.toVanilla()}")
     }
 
-    private fun makeTestText(string: String): Text {
-        return SimpleText(string)
+    private fun makeTestText(string: String): TextHolder {
+        return SimpleTextHolder(string)
     }
 }

@@ -3,7 +3,7 @@ package dev.deftu.textile
 import net.minecraft.util.Formatting
 import java.awt.Color
 
-public enum class Format(
+public enum class TextFormat(
     public val code: Char,
     public val color: Color? = null
 ) {
@@ -35,9 +35,11 @@ public enum class Format(
     public val isFormat: Boolean
         get() = !isColor
 
-    public operator fun plus(other: Format): String = "$this$other"
+    public operator fun plus(other: TextFormat): String = "$this$other"
+
     public operator fun plus(other: String): String = "$this$other"
-    public operator fun plus(other: Text): Text = other.format(this)
+
+    public operator fun plus(other: TextHolder): TextHolder = other.formatted(this)
 
     override fun toString(): String = "$COLOR_CHAR$code"
 
@@ -47,7 +49,7 @@ public enum class Format(
         public val FORMATTING_CODE_PATTERN: Regex = Regex("§[0-9a-fk-or]", RegexOption.IGNORE_CASE)
 
         @Suppress("EnumValuesSoftDeprecate")
-        public val VANILLA_MAPPED: Map<Format, Formatting> = values().associateWith { formatting ->
+        public val VANILLA_MAPPED: Map<TextFormat, Formatting> = values().associateWith { formatting ->
             when (formatting) {
                 BLACK -> Formatting.BLACK
                 DARK_BLUE -> Formatting.DARK_BLUE
@@ -74,8 +76,8 @@ public enum class Format(
             }
         }
 
-        public fun from(code: Char): Format = values().first { it.code == code }
-        public fun from(code: String): Format = from(code.firstOrNull() ?: RESET.code)
+        public fun from(code: Char): TextFormat = values().first { it.code == code }
+        public fun from(code: String): TextFormat = from(code.firstOrNull() ?: RESET.code)
 
         public fun translateAlternateColorCodes(altColorChar: Char, textToTranslate: String): String {
             val b = textToTranslate.toCharArray()
@@ -100,9 +102,9 @@ public enum class Format(
 
     }
 
-    public class TextFormattingComparator : Comparator<Format> {
+    public class TextFormattingComparator : Comparator<TextFormat> {
 
-        override fun compare(o1: Format, o2: Format): Int {
+        override fun compare(o1: TextFormat, o2: TextFormat): Int {
             return if (o1.isColor && o2.isColor) {
                 // Colors are sorted by their ordinal
                 o1.ordinal - o2.ordinal
