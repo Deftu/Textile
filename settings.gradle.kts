@@ -20,7 +20,7 @@ pluginManagement {
 
     plugins {
         kotlin("jvm") version("2.0.0")
-        id("dev.deftu.gradle.multiversion-root") version("2.0.3")
+        id("dev.deftu.gradle.multiversion-root") version("2.2.3")
     }
 }
 
@@ -28,10 +28,6 @@ rootProject.name = extra["mod.name"]?.toString() ?: throw IllegalStateException(
 rootProject.buildFileName = "root.gradle.kts"
 
 listOf(
-    "1.8.9-forge",
-
-    "1.12.2-forge",
-
     "1.16.5-forge",
     "1.16.5-fabric",
 
