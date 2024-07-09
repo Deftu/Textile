@@ -6,7 +6,6 @@ package dev.deftu.textile.minecraft
 
 import dev.deftu.textile.SimpleMutableTextHolder
 import dev.deftu.textile.TextFormat
-import dev.deftu.textile.TextFormat.*
 import dev.deftu.textile.TextHolder
 import net.minecraft.text.MutableText
 import net.minecraft.util.Formatting
@@ -16,7 +15,7 @@ public object VanillaConverter {
 
     @JvmStatic
     @Suppress("EnumValuesSoftDeprecate")
-    public val VANILLA_MAPPED_FORMATTING: Map<MinecraftTextFormat, Formatting> = MinecraftTextFormat.values.associateWith { formatting ->
+    public val VANILLA_MAPPED_FORMATTING: Map<MinecraftTextFormat, Formatting> = MinecraftTextFormat.entries.associateWith { formatting ->
         when (formatting) {
             MinecraftTextFormat.BLACK -> Formatting.BLACK
             MinecraftTextFormat.DARK_BLUE -> Formatting.DARK_BLUE

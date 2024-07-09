@@ -95,11 +95,16 @@ public class MinecraftTextFormat private constructor(
         public val RESET: MinecraftTextFormat = MinecraftTextFormat('r')
 
         @JvmStatic
-        public val values: List<MinecraftTextFormat> = listOf(
+        public val entries: List<MinecraftTextFormat> = listOf(
             BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY,
             DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE,
             OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINE, ITALIC, RESET
         )
+        
+        @JvmStatic
+        public fun values(): Array<MinecraftTextFormat> {
+            return entries.toTypedArray()
+        }
 
         @JvmStatic
         public fun from(code: Char): MinecraftTextFormat {
