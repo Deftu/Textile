@@ -68,6 +68,6 @@ preprocess {
     forge_1_17_01.link(fabric_1_17_01)
     fabric_1_17_01.link(fabric_1_16_05)
     fabric_1_16_05.link(forge_1_16_05)
-    forge_1_16_05.link(forge_1_12_02, file("version/1.16.5-forge+1.12.2-forge.txt"))
-    forge_1_12_02.link(forge_1_08_09, file("version/1.12.2-forge+1.8.9-forge.txt"))
+    forge_1_16_05.link(forge_1_12_02, file("versions/1.16.5-forge+1.12.2-forge.txt"))
+    forge_1_12_02.link(forge_1_08_09, file("versions/1.12.2-forge+1.8.9-forge.txt"))
 }
