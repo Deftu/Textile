@@ -3,7 +3,7 @@ package dev.deftu.textile.minecraft
 import dev.deftu.textile.TextFormat
 import java.awt.Color
 
-public class MinecraftTextFormat(
+public class MinecraftTextFormat private constructor(
     public val code: Char,
     public override val color: Color? = null
 ) : TextFormat(color) {
