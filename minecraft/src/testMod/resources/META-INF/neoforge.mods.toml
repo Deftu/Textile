@@ -1,0 +1,18 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+issueTrackerURL="https://github.com/Deftu/Textile/issues"
+license="LGPL-3.0-or-later"
+
+[[mods]]
+    modId="testmod"
+    version="1.0.0"
+    displayName="Test Mod"
+    description="A test mod for testing purposes."
+    authors="Deftu"
+
+[[dependencies.testmod]]
+    modId="neoforge"
+    mandatory=true
+    versionRange="[20.2,)"
+    ordering="NONE"
+    side="BOTH"

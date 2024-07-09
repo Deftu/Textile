@@ -1,0 +1,22 @@
+{
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "name": "${mod_name}",
+    "version": "${mod_version}",
+    "icon": "icon.png",
+    "environment": "*",
+    "authors": [
+        "Deftu"
+    ],
+    "depends": {
+        "fabricloader": "*",
+        "minecraft": "~${minor_mc_version}"
+    },
+    "custom": {
+        "modmenu": {
+            "badges": [
+                "library"
+            ]
+        }
+    }
+}

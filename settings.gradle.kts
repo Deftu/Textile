@@ -24,10 +24,18 @@ pluginManagement {
     }
 }
 
-rootProject.name = extra["mod.name"]?.toString() ?: throw IllegalStateException("mod.name is not defined")
-rootProject.buildFileName = "root.gradle.kts"
+rootProject.name = extra["project.name"]?.toString() ?: throw IllegalStateException("project.name is not defined")
 
+include(":api")
+
+// Setup Minecraft
+include(":minecraft")
+project(":minecraft").buildFileName = "root.gradle.kts"
 listOf(
+    "1.8.9-forge",
+
+    "1.12.2-forge",
+
     "1.16.5-forge",
     "1.16.5-fabric",
 
@@ -60,9 +68,9 @@ listOf(
     "1.21-neoforge",
     "1.21-fabric"
 ).forEach { version ->
-    include(":$version")
-    project(":$version").apply {
-        projectDir = file("versions/$version")
+    include(":minecraft:$version")
+    project(":minecraft:$version").apply {
+        projectDir = file("minecraft/versions/$version")
         buildFileName = "../../build.gradle.kts"
     }
 }
