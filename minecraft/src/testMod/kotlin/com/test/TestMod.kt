@@ -22,6 +22,7 @@ import net.fabricmc.api.ClientModInitializer
 
 import dev.deftu.textile.SimpleTextHolder
 import dev.deftu.textile.TextHolder
+import dev.deftu.textile.minecraft.MinecraftTextFormat
 import dev.deftu.textile.minecraft.toVanilla
 
 //#if FABRIC
@@ -58,8 +59,9 @@ class TestMod : ClientModInitializer {
         //#endif
         //#endif
     ) {
-        val text = makeTestText("Hello world!")
+        val text = makeTestText("Hello world!").formatted(MinecraftTextFormat.RED)
         println("Text: $text")
+        println("String: ${text.asString()}")
         println("Vanilla Text: ${text.toVanilla()}")
     }
 

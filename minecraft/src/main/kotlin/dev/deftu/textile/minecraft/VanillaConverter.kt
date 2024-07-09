@@ -16,30 +16,30 @@ public object VanillaConverter {
 
     @JvmStatic
     @Suppress("EnumValuesSoftDeprecate")
-    public val VANILLA_MAPPED_FORMATTING: Map<TextFormat, Formatting> = TextFormat.values().associateWith { formatting ->
+    public val VANILLA_MAPPED_FORMATTING: Map<MinecraftTextFormat, Formatting> = MinecraftTextFormat.values.associateWith { formatting ->
         when (formatting) {
-            BLACK -> Formatting.BLACK
-            DARK_BLUE -> Formatting.DARK_BLUE
-            DARK_GREEN -> Formatting.DARK_GREEN
-            DARK_AQUA -> Formatting.DARK_AQUA
-            DARK_RED -> Formatting.DARK_RED
-            DARK_PURPLE -> Formatting.DARK_PURPLE
-            GOLD -> Formatting.GOLD
-            GRAY -> Formatting.GRAY
-            DARK_GRAY -> Formatting.DARK_GRAY
-            BLUE -> Formatting.BLUE
-            GREEN -> Formatting.GREEN
-            AQUA -> Formatting.AQUA
-            RED -> Formatting.RED
-            LIGHT_PURPLE -> Formatting.LIGHT_PURPLE
-            YELLOW -> Formatting.YELLOW
-            WHITE -> Formatting.WHITE
-            OBFUSCATED -> Formatting.OBFUSCATED
-            BOLD -> Formatting.BOLD
-            STRIKETHROUGH -> Formatting.STRIKETHROUGH
-            UNDERLINE -> Formatting.UNDERLINE
-            ITALIC -> Formatting.ITALIC
-            RESET -> Formatting.RESET
+            MinecraftTextFormat.BLACK -> Formatting.BLACK
+            MinecraftTextFormat.DARK_BLUE -> Formatting.DARK_BLUE
+            MinecraftTextFormat.DARK_GREEN -> Formatting.DARK_GREEN
+            MinecraftTextFormat.DARK_AQUA -> Formatting.DARK_AQUA
+            MinecraftTextFormat.DARK_RED -> Formatting.DARK_RED
+            MinecraftTextFormat.DARK_PURPLE -> Formatting.DARK_PURPLE
+            MinecraftTextFormat.GOLD -> Formatting.GOLD
+            MinecraftTextFormat.GRAY -> Formatting.GRAY
+            MinecraftTextFormat.DARK_GRAY -> Formatting.DARK_GRAY
+            MinecraftTextFormat.BLUE -> Formatting.BLUE
+            MinecraftTextFormat.GREEN -> Formatting.GREEN
+            MinecraftTextFormat.AQUA -> Formatting.AQUA
+            MinecraftTextFormat.RED -> Formatting.RED
+            MinecraftTextFormat.LIGHT_PURPLE -> Formatting.LIGHT_PURPLE
+            MinecraftTextFormat.YELLOW -> Formatting.YELLOW
+            MinecraftTextFormat.WHITE -> Formatting.WHITE
+            MinecraftTextFormat.OBFUSCATED -> Formatting.OBFUSCATED
+            MinecraftTextFormat.BOLD -> Formatting.BOLD
+            MinecraftTextFormat.STRIKETHROUGH -> Formatting.STRIKETHROUGH
+            MinecraftTextFormat.UNDERLINE -> Formatting.UNDERLINE
+            MinecraftTextFormat.ITALIC -> Formatting.ITALIC
+            else -> Formatting.RESET
         }
     }
 
@@ -97,7 +97,7 @@ public object VanillaConverter {
     public fun fromVanillaFormatting(format: Formatting): TextFormat {
         return VANILLA_MAPPED_FORMATTING.entries.firstOrNull { (_, vanilla) ->
             vanilla == format
-        }?.key ?: TextFormat.RESET
+        }?.key ?: MinecraftTextFormat.RESET
     }
 
     @JvmStatic
@@ -148,11 +148,11 @@ public object VanillaConverter {
             //#else
             //$$ text.style.color?.let(::fromVanillaFormatting)?.let { formatting -> format(formatting) }
             //#endif
-            if (text.style.isBold) format(TextFormat.BOLD)
-            if (text.style.isItalic) format(TextFormat.ITALIC)
-            if (text.style.isStrikethrough) format(TextFormat.STRIKETHROUGH)
-            if (text.style.isUnderlined) format(TextFormat.UNDERLINE)
-            if (text.style.isObfuscated) format(TextFormat.OBFUSCATED)
+            if (text.style.isBold) format(MinecraftTextFormat.BOLD)
+            if (text.style.isItalic) format(MinecraftTextFormat.ITALIC)
+            if (text.style.isStrikethrough) format(MinecraftTextFormat.STRIKETHROUGH)
+            if (text.style.isUnderlined) format(MinecraftTextFormat.UNDERLINE)
+            if (text.style.isObfuscated) format(MinecraftTextFormat.OBFUSCATED)
         }.apply { copiedFormatting = formatting })
 
         text.siblings.map { text ->
