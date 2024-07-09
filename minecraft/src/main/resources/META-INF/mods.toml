@@ -7,7 +7,9 @@ license="LGPL-3.0-or-later"
     modId="${mod_id}"
     version="${mod_version}"
     displayName="${mod_name}"
+    description="${mod_description}"
     authors="Deftu"
+    logoFile="icon.png"
 
 [[dependencies.${mod_id}]]
     modId="forge"
