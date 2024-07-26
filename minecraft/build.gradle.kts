@@ -1,4 +1,5 @@
 import dev.deftu.gradle.utils.MinecraftVersion
+import dev.deftu.gradle.utils.includeOrShade
 
 plugins {
     java
@@ -7,6 +8,7 @@ plugins {
     id("dev.deftu.gradle.tools")
     id("dev.deftu.gradle.tools.resources")
     id("dev.deftu.gradle.tools.bloom")
+    id("dev.deftu.gradle.tools.shadow")
     id("dev.deftu.gradle.tools.publishing.maven")
     id("dev.deftu.gradle.tools.minecraft.loom")
     id("dev.deftu.gradle.tools.minecraft.api")
@@ -29,7 +31,9 @@ toolkitReleases {
 }
 
 dependencies {
-    api(rootProject.project(":api"))
+    api(includeOrShade(project(":api")) {
+        isTransitive = false
+    })
 
     if (mcData.isFabric) {
         modImplementation("net.fabricmc.fabric-api:fabric-api:${mcData.dependencies.fabric.fabricApiVersion}")
