@@ -11,6 +11,14 @@ public interface MutableTextHolder : TextHolder {
     public fun set(textHolder: TextHolder): MutableTextHolder
 
     /**
+     * Sets the contents of this text holder.
+     *
+     * @since 0.6.0
+     * @author Deftu
+     */
+    public fun set(text: String): MutableTextHolder
+
+    /**
      * Appends the given text holder to this text holder, making it a child.
      *
      * @since 0.4.0

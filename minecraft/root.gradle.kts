@@ -11,8 +11,11 @@ subprojects {
 }
 
 preprocess {
-    val neoforge_1_21 = createNode("1.21-neoforge", 1_21_00, "srg")
-    val fabric_1_21 = createNode("1.21-fabric", 1_21_00, "yarn")
+    val neoforge_1_21_4 = createNode("1.21.4-neoforge", 1_21_04, "srg")
+    val fabric_1_21_4 = createNode("1.21.4-fabric", 1_21_04, "yarn")
+
+    val neoforge_1_21_1 = createNode("1.21.1-neoforge", 1_21_01, "srg")
+    val fabric_1_21_1 = createNode("1.21.1-fabric", 1_21_01, "yarn")
 
     val neoforge_1_20_06 = createNode("1.20.6-neoforge", 1_20_06, "srg")
     val fabric_1_20_06 = createNode("1.20.6-fabric", 1_20_06, "yarn")
@@ -44,11 +47,15 @@ preprocess {
     val fabric_1_16_05 = createNode("1.16.5-fabric", 1_16_05, "yarn")
 
     val forge_1_12_02 = createNode("1.12.2-forge", 1_12_02, "srg")
+    val fabric_1_12_02 = createNode("1.12.2-fabric", 1_12_02, "yarn")
 
     val forge_1_08_09 = createNode("1.8.9-forge", 1_08_09, "srg")
+    val fabric_1_08_09 = createNode("1.8.9-fabric", 1_08_09, "yarn")
 
-    neoforge_1_21.link(fabric_1_21)
-    fabric_1_21.link(fabric_1_20_06)
+    neoforge_1_21_4.link(fabric_1_21_4)
+    fabric_1_21_4.link(fabric_1_21_1)
+    neoforge_1_21_1.link(fabric_1_21_1)
+    fabric_1_21_1.link(fabric_1_20_06)
     neoforge_1_20_06.link(fabric_1_20_06)
     fabric_1_20_06.link(fabric_1_20_04)
     forge_1_20_04.link(fabric_1_20_04)
@@ -69,5 +76,7 @@ preprocess {
     fabric_1_17_01.link(fabric_1_16_05)
     fabric_1_16_05.link(forge_1_16_05)
     forge_1_16_05.link(forge_1_12_02, file("versions/1.16.5-forge+1.12.2-forge.txt"))
-    forge_1_12_02.link(forge_1_08_09, file("versions/1.12.2-forge+1.8.9-forge.txt"))
+    forge_1_12_02.link(fabric_1_12_02)
+    fabric_1_12_02.link(fabric_1_08_09)
+    forge_1_08_09.link(fabric_1_08_09)
 }

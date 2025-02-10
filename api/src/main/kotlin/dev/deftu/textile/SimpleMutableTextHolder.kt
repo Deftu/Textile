@@ -18,6 +18,10 @@ public open class SimpleMutableTextHolder(
         _formatting.addAll(textHolder.formatting)
     }
 
+    override fun set(text: String): SimpleMutableTextHolder = apply {
+        content = text
+    }
+
     override fun append(textHolder: TextHolder): SimpleMutableTextHolder = apply {
         _children.add(textHolder)
     }

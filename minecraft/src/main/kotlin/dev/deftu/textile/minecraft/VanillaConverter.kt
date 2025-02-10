@@ -65,11 +65,7 @@ public object VanillaConverter {
             formatting.forEach(this::formatted)
             //#else
             //$$ formatting.forEach { formatting ->
-            //#if MC >= 1.12.2
             //$$     val style = style.createDeepCopy()
-            //#else
-            //$$     val style = chatStyle.createDeepCopy()
-            //#endif
             //$$     if (formatting.isColor) style.setColor(formatting)
             //$$     if (formatting == TextFormatting.BOLD) style.setBold(true)
             //$$     if (formatting == TextFormatting.ITALIC) style.setItalic(true)
