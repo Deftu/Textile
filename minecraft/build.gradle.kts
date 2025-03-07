@@ -1,7 +1,7 @@
-import dev.deftu.gradle.utils.MinecraftVersion
+import dev.deftu.gradle.utils.version.MinecraftVersions
 import dev.deftu.gradle.utils.includeOrShade
 
-0plugins {
+plugins {
     java
     kotlin("jvm")
     id("dev.deftu.gradle.multiversion")
@@ -19,14 +19,19 @@ kotlin.explicitApi()
 toolkitMavenPublishing.forceLowercase.set(true)
 toolkitLoomApi.setupTestClient()
 toolkitMultiversion.moveBuildsToRootProject.set(true)
-if (mcData.isForgeLike && mcData.version >= MinecraftVersion.VERSION_1_16_5) {
+if (mcData.isForgeLike && mcData.version >= MinecraftVersions.VERSION_1_16_5) {
     toolkitLoomHelper.useKotlinForForge()
 }
 
 toolkitReleases {
     detectVersionType.set(true)
+
     modrinth {
         projectId.set("T0Zb6DLv")
+    }
+
+    curseforge {
+        projectId.set("1215303")
     }
 }
 
