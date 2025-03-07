@@ -1,4 +1,8 @@
-[![BisectHosting](https://www.bisecthosting.com/partners/custom-banners/8fb6621b-811a-473b-9087-c8c42b50e74c.png)](https://bisecthosting.com/deftu)
+# Textile
+
+A simple text interface library.
+
+Particularly useful in Minecraft mods via the default-provided `minecraft` module, supporting most major versions.
 
 ---
 
@@ -10,4 +14,9 @@
 
 ---
 
-### A simple text interface library, permitting a developer to easily handle text inbetween multiple versions of Minecraft.
+[![BisectHosting](https://www.bisecthosting.com/partners/custom-banners/8fb6621b-811a-473b-9087-c8c42b50e74c.png)](https://bisecthosting.com/deftu)
+
+---
+
+**This project is licensed under [LGPL-3.0][lgpl]**\
+**&copy; 2024 Deftu**
