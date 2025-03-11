@@ -14,6 +14,13 @@ public class MinecraftTextFormat private constructor(
     public val isFormat: Boolean
         get() = !isColor
 
+    /**
+     * Sorts the two formats via [COMPARATOR] then returns the result of concatenating the two format codes.
+     */
+    public operator fun plus(other: MinecraftTextFormat): String {
+        return listOf(this, other).sortedWith(COMPARATOR).joinToString("", transform = MinecraftTextFormat::toString)
+    }
+
     override fun toString(): String {
         return "$COLOR_CHAR$code"
     }
@@ -28,78 +35,80 @@ public class MinecraftTextFormat private constructor(
         @JvmStatic
         public val FORMATTING_CODE_PATTERN: Regex = Regex("§[0-9a-fk-or]", RegexOption.IGNORE_CASE)
 
-        @JvmStatic
-        public val BLACK: MinecraftTextFormat = MinecraftTextFormat('0', Color(0x000000))
+        @JvmField
+        public val BLACK: MinecraftTextFormat = noInline { MinecraftTextFormat('0', Color(0x000000)) }
 
-        @JvmStatic
-        public val DARK_BLUE: MinecraftTextFormat = MinecraftTextFormat('1', Color(0x0000AA))
+        @JvmField
+        public val DARK_BLUE: MinecraftTextFormat = noInline { MinecraftTextFormat('1', Color(0x0000AA)) }
 
-        @JvmStatic
-        public val DARK_GREEN: MinecraftTextFormat = MinecraftTextFormat('2', Color(0x00AA00))
+        @JvmField
+        public val DARK_GREEN: MinecraftTextFormat = noInline { MinecraftTextFormat('2', Color(0x00AA00)) }
 
-        @JvmStatic
-        public val DARK_AQUA: MinecraftTextFormat = MinecraftTextFormat('3', Color(0x00AAAA))
+        @JvmField
+        public val DARK_AQUA: MinecraftTextFormat = noInline { MinecraftTextFormat('3', Color(0x00AAAA)) }
 
-        @JvmStatic
-        public val DARK_RED: MinecraftTextFormat = MinecraftTextFormat('4', Color(0xAA0000))
+        @JvmField
+        public val DARK_RED: MinecraftTextFormat = noInline { MinecraftTextFormat('4', Color(0xAA0000)) }
 
-        @JvmStatic
-        public val DARK_PURPLE: MinecraftTextFormat = MinecraftTextFormat('5', Color(0xAA00AA))
+        @JvmField
+        public val DARK_PURPLE: MinecraftTextFormat = noInline { MinecraftTextFormat('5', Color(0xAA00AA)) }
 
-        @JvmStatic
-        public val GOLD: MinecraftTextFormat = MinecraftTextFormat('6', Color(0xFFAA00))
+        @JvmField
+        public val GOLD: MinecraftTextFormat = noInline { MinecraftTextFormat('6', Color(0xFFAA00)) }
 
-        @JvmStatic
-        public val GRAY: MinecraftTextFormat = MinecraftTextFormat('7', Color(0xAAAAAA))
+        @JvmField
+        public val GRAY: MinecraftTextFormat = noInline { MinecraftTextFormat('7', Color(0xAAAAAA)) }
 
-        @JvmStatic
-        public val DARK_GRAY: MinecraftTextFormat = MinecraftTextFormat('8', Color(0x555555))
+        @JvmField
+        public val DARK_GRAY: MinecraftTextFormat = noInline { MinecraftTextFormat('8', Color(0x555555)) }
 
-        @JvmStatic
-        public val BLUE: MinecraftTextFormat = MinecraftTextFormat('9', Color(0x5555FF))
+        @JvmField
+        public val BLUE: MinecraftTextFormat = noInline { MinecraftTextFormat('9', Color(0x5555FF)) }
 
-        @JvmStatic
-        public val GREEN: MinecraftTextFormat = MinecraftTextFormat('a', Color(0x55FF55))
+        @JvmField
+        public val GREEN: MinecraftTextFormat = noInline { MinecraftTextFormat('a', Color(0x55FF55)) }
 
-        @JvmStatic
-        public val AQUA: MinecraftTextFormat = MinecraftTextFormat('b', Color(0x55FFFF))
+        @JvmField
+        public val AQUA: MinecraftTextFormat = noInline { MinecraftTextFormat('b', Color(0x55FFFF)) }
 
-        @JvmStatic
-        public val RED: MinecraftTextFormat = MinecraftTextFormat('c', Color(0xFF5555))
+        @JvmField
+        public val RED: MinecraftTextFormat = noInline { MinecraftTextFormat('c', Color(0xFF5555)) }
 
-        @JvmStatic
-        public val LIGHT_PURPLE: MinecraftTextFormat = MinecraftTextFormat('d', Color(0xFF55FF))
+        @JvmField
+        public val LIGHT_PURPLE: MinecraftTextFormat = noInline { MinecraftTextFormat('d', Color(0xFF55FF)) }
 
-        @JvmStatic
-        public val YELLOW: MinecraftTextFormat = MinecraftTextFormat('e', Color(0xFFFF55))
+        @JvmField
+        public val YELLOW: MinecraftTextFormat = noInline { MinecraftTextFormat('e', Color(0xFFFF55)) }
 
-        @JvmStatic
-        public val WHITE: MinecraftTextFormat = MinecraftTextFormat('f', Color(0xFFFFFF))
+        @JvmField
+        public val WHITE: MinecraftTextFormat = noInline { MinecraftTextFormat('f', Color(0xFFFFFF)) }
 
-        @JvmStatic
-        public val OBFUSCATED: MinecraftTextFormat = MinecraftTextFormat('k')
+        @JvmField
+        public val OBFUSCATED: MinecraftTextFormat = noInline { MinecraftTextFormat('k') }
 
-        @JvmStatic
-        public val BOLD: MinecraftTextFormat = MinecraftTextFormat('l')
+        @JvmField
+        public val BOLD: MinecraftTextFormat = noInline { MinecraftTextFormat('l') }
 
-        @JvmStatic
-        public val STRIKETHROUGH: MinecraftTextFormat = MinecraftTextFormat('m')
+        @JvmField
+        public val STRIKETHROUGH: MinecraftTextFormat = noInline { MinecraftTextFormat('m') }
 
-        @JvmStatic
-        public val UNDERLINE: MinecraftTextFormat = MinecraftTextFormat('n')
+        @JvmField
+        public val UNDERLINE: MinecraftTextFormat = noInline { MinecraftTextFormat('n') }
 
-        @JvmStatic
-        public val ITALIC: MinecraftTextFormat = MinecraftTextFormat('o')
+        @JvmField
+        public val ITALIC: MinecraftTextFormat = noInline { MinecraftTextFormat('o') }
 
-        @JvmStatic
-        public val RESET: MinecraftTextFormat = MinecraftTextFormat('r')
+        @JvmField
+        public val RESET: MinecraftTextFormat = noInline { MinecraftTextFormat('r') }
 
-        @JvmStatic
-        public val entries: List<MinecraftTextFormat> = listOf(
-            BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY,
-            DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE,
-            OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINE, ITALIC, RESET
-        )
+        @JvmField
+        public val entries: List<MinecraftTextFormat> = noInline {
+            listOf(
+                BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY,
+                DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE,
+                OBFUSCATED, BOLD, STRIKETHROUGH, UNDERLINE, ITALIC, RESET
+            )
+        }
 
         @JvmStatic
         public fun values(): Array<MinecraftTextFormat> {
@@ -171,6 +180,12 @@ public class MinecraftTextFormat private constructor(
                 if (it.value[1] in 'a'..'r') "" else it.value
             }
         }
+
+        /**
+         * Adapted from EssentialGG UniversalCraft under LGPL-3.0
+         * https://github.com/EssentialGG/UniversalCraft/blob/f4917e139b5f6e5346c3bafb6f56ce8877854bf1/LICENSE
+         */
+        private inline fun <T> noInline(init: () -> T): T = init()
 
     }
 

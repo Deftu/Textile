@@ -4,11 +4,11 @@ import java.awt.Color
 
 public open class TextFormat(public open val color: Color? = null) {
 
-    public operator fun plus(other: TextFormat): String = "$this$other"
+    public open operator fun plus(other: TextFormat): String = "$this$other"
 
-    public operator fun plus(other: String): String = "$this$other"
+    public open operator fun plus(other: String): String = "$this$other"
 
-    public operator fun plus(other: TextHolder): TextHolder = other.formatted(this)
+    public open operator fun plus(other: TextHolder): TextHolder = other.formatted(this)
 
     /**
      * By default, [TextFormat.toString] returns the hexadecimal representation of the color.

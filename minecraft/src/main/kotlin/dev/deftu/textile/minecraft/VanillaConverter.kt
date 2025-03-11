@@ -14,31 +14,32 @@ import java.util.Optional
 public object VanillaConverter {
 
     @JvmStatic
-    @Suppress("EnumValuesSoftDeprecate")
-    public val VANILLA_MAPPED_FORMATTING: Map<MinecraftTextFormat, Formatting> = MinecraftTextFormat.entries.associateWith { formatting ->
-        when (formatting) {
-            MinecraftTextFormat.BLACK -> Formatting.BLACK
-            MinecraftTextFormat.DARK_BLUE -> Formatting.DARK_BLUE
-            MinecraftTextFormat.DARK_GREEN -> Formatting.DARK_GREEN
-            MinecraftTextFormat.DARK_AQUA -> Formatting.DARK_AQUA
-            MinecraftTextFormat.DARK_RED -> Formatting.DARK_RED
-            MinecraftTextFormat.DARK_PURPLE -> Formatting.DARK_PURPLE
-            MinecraftTextFormat.GOLD -> Formatting.GOLD
-            MinecraftTextFormat.GRAY -> Formatting.GRAY
-            MinecraftTextFormat.DARK_GRAY -> Formatting.DARK_GRAY
-            MinecraftTextFormat.BLUE -> Formatting.BLUE
-            MinecraftTextFormat.GREEN -> Formatting.GREEN
-            MinecraftTextFormat.AQUA -> Formatting.AQUA
-            MinecraftTextFormat.RED -> Formatting.RED
-            MinecraftTextFormat.LIGHT_PURPLE -> Formatting.LIGHT_PURPLE
-            MinecraftTextFormat.YELLOW -> Formatting.YELLOW
-            MinecraftTextFormat.WHITE -> Formatting.WHITE
-            MinecraftTextFormat.OBFUSCATED -> Formatting.OBFUSCATED
-            MinecraftTextFormat.BOLD -> Formatting.BOLD
-            MinecraftTextFormat.STRIKETHROUGH -> Formatting.STRIKETHROUGH
-            MinecraftTextFormat.UNDERLINE -> Formatting.UNDERLINE
-            MinecraftTextFormat.ITALIC -> Formatting.ITALIC
-            else -> Formatting.RESET
+    public val VANILLA_MAPPED_FORMATTING: Map<MinecraftTextFormat, Formatting> = noInline {
+        MinecraftTextFormat.entries.associateWith { formatting ->
+            when (formatting) {
+                MinecraftTextFormat.BLACK -> Formatting.BLACK
+                MinecraftTextFormat.DARK_BLUE -> Formatting.DARK_BLUE
+                MinecraftTextFormat.DARK_GREEN -> Formatting.DARK_GREEN
+                MinecraftTextFormat.DARK_AQUA -> Formatting.DARK_AQUA
+                MinecraftTextFormat.DARK_RED -> Formatting.DARK_RED
+                MinecraftTextFormat.DARK_PURPLE -> Formatting.DARK_PURPLE
+                MinecraftTextFormat.GOLD -> Formatting.GOLD
+                MinecraftTextFormat.GRAY -> Formatting.GRAY
+                MinecraftTextFormat.DARK_GRAY -> Formatting.DARK_GRAY
+                MinecraftTextFormat.BLUE -> Formatting.BLUE
+                MinecraftTextFormat.GREEN -> Formatting.GREEN
+                MinecraftTextFormat.AQUA -> Formatting.AQUA
+                MinecraftTextFormat.RED -> Formatting.RED
+                MinecraftTextFormat.LIGHT_PURPLE -> Formatting.LIGHT_PURPLE
+                MinecraftTextFormat.YELLOW -> Formatting.YELLOW
+                MinecraftTextFormat.WHITE -> Formatting.WHITE
+                MinecraftTextFormat.OBFUSCATED -> Formatting.OBFUSCATED
+                MinecraftTextFormat.BOLD -> Formatting.BOLD
+                MinecraftTextFormat.STRIKETHROUGH -> Formatting.STRIKETHROUGH
+                MinecraftTextFormat.UNDERLINE -> Formatting.UNDERLINE
+                MinecraftTextFormat.ITALIC -> Formatting.ITALIC
+                else -> Formatting.RESET
+            }
         }
     }
 
@@ -156,6 +157,12 @@ public object VanillaConverter {
         }.forEach(result::append)
         return result
     }
+
+    /**
+     * Adapted from EssentialGG UniversalCraft under LGPL-3.0
+     * https://github.com/EssentialGG/UniversalCraft/blob/f4917e139b5f6e5346c3bafb6f56ce8877854bf1/LICENSE
+     */
+    private inline fun <T> noInline(init: () -> T): T = init()
 
 }
 
