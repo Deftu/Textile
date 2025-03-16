@@ -42,7 +42,7 @@ public open class MutableTextBuilder<T : MCTextHolder<T>>(
     }
 
     public fun child(
-        initialValue: String,
+        initialValue: String = "",
         block: MutableTextBuilder<T>.() -> Unit
     ) {
         child(text(Mutable, targetHolder, initialValue, factory, block))
