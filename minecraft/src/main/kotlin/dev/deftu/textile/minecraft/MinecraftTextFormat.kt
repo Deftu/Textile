@@ -29,11 +29,11 @@ public class MinecraftTextFormat private constructor(
 
         public const val COLOR_CHAR: Char = '\u00a7'
 
-        @JvmStatic
-        public val COMPARATOR: MinecraftTextFormatComparator = MinecraftTextFormatComparator()
+        @JvmField
+        public val COMPARATOR: MinecraftTextFormatComparator = noInline { MinecraftTextFormatComparator() }
 
-        @JvmStatic
-        public val FORMATTING_CODE_PATTERN: Regex = Regex("§[0-9a-fk-or]", RegexOption.IGNORE_CASE)
+        @JvmField
+        public val FORMATTING_CODE_PATTERN: Regex = noInline { Regex("§[0-9a-fk-or]", RegexOption.IGNORE_CASE) }
 
         @JvmField
         public val BLACK: MinecraftTextFormat = noInline { MinecraftTextFormat('0', Color(0x000000)) }
