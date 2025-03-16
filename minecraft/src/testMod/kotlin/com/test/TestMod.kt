@@ -1,10 +1,12 @@
 package com.test
 
-//#if FABRIC
 import dev.deftu.textile.dsl.Mutable
-import dev.deftu.textile.dsl.text
 import dev.deftu.textile.minecraft.MCClickEvent
 import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder
+import dev.deftu.textile.minecraft.MCTextFormat
+import dev.deftu.textile.minecraft.dsl.text
+
+//#if FABRIC
 import net.fabricmc.api.ClientModInitializer
 //#else
 //#if FORGE
@@ -23,9 +25,6 @@ import net.fabricmc.api.ClientModInitializer
 //$$ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 //#endif
 //#endif
-
-import dev.deftu.textile.minecraft.MCTextFormat
-import dev.deftu.textile.minecraft.dsl.text
 
 //#if FABRIC
 class TestMod : ClientModInitializer {
