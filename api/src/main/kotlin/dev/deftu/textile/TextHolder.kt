@@ -8,7 +8,7 @@ import java.util.Optional
  * @since 0.4.0
  * @author Deftu
  */
-public interface TextHolder {
+public interface TextHolder<T : TextHolder<T, F>, F : TextFormat> {
 
     /**
      * All children of this text holder, appended in the order they were added.
@@ -16,7 +16,7 @@ public interface TextHolder {
      * @since 0.4.0
      * @author Deftu
      */
-    public val children: List<TextHolder>
+    public val children: List<TextHolder<*, *>>
 
     /**
      * The formatting applied to this text holder.
@@ -24,7 +24,7 @@ public interface TextHolder {
      * @since 0.4.0
      * @author Deftu
      */
-    public val formatting: Set<TextFormat>
+    public val formatting: Set<F>
 
     public fun <T> visit(visitor: TextHolderVisitor<T>): Optional<out T>
 
@@ -34,7 +34,7 @@ public interface TextHolder {
      * @since 0.4.0
      * @author Deftu
      */
-    public fun copy(): TextHolder
+    public fun copy(): T
 
     /**
      * Converts this text holder to a string, including it's formatting and children.
@@ -58,7 +58,7 @@ public interface TextHolder {
      * @since 0.4.0
      * @author Deftu
      */
-    public fun asLeafString(): String
+    public fun asExclusiveString(): String
 
     /**
      * Returns a recreation of the text holder with the given formatting applied to it.
@@ -66,6 +66,6 @@ public interface TextHolder {
      * @since 0.4.0
      * @author Deftu
      */
-    public fun formatted(vararg formatting: TextFormat): TextHolder
+    public fun withFormatting(vararg formatting: F): T
 
 }

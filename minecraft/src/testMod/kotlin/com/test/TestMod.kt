@@ -1,6 +1,10 @@
 package com.test
 
 //#if FABRIC
+import dev.deftu.textile.dsl.Mutable
+import dev.deftu.textile.dsl.text
+import dev.deftu.textile.minecraft.MCClickEvent
+import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder
 import net.fabricmc.api.ClientModInitializer
 //#else
 //#if FORGE
@@ -20,10 +24,8 @@ import net.fabricmc.api.ClientModInitializer
 //#endif
 //#endif
 
-import dev.deftu.textile.SimpleTextHolder
-import dev.deftu.textile.TextHolder
-import dev.deftu.textile.minecraft.MinecraftTextFormat
-import dev.deftu.textile.minecraft.toVanilla
+import dev.deftu.textile.minecraft.MCTextFormat
+import dev.deftu.textile.minecraft.dsl.text
 
 //#if FABRIC
 class TestMod : ClientModInitializer {
@@ -59,13 +61,20 @@ class TestMod : ClientModInitializer {
         //#endif
         //#endif
     ) {
-        val text = makeTestText("Hello world!").formatted(MinecraftTextFormat.RED)
-        println("Text: $text")
-        println("String: ${text.asString()}")
-        println("Vanilla Text: ${text.toVanilla()}")
-    }
+        val text = text<MCSimpleMutableTextHolder>(Mutable, "Hello, World!") {
+            formatting(MCTextFormat.RED)
 
-    private fun makeTestText(string: String): TextHolder {
-        return SimpleTextHolder(string)
+            clickEvent = MCClickEvent.runCommand("/say \"Hello, World!\"")
+
+            child {
+                content("This is a child")
+                formatting(MCTextFormat.BOLD)
+
+                clickEvent = MCClickEvent.runCommand("/say \"This is a child\"")
+            }
+        }
+
+        println(text)
+        println(text.asVanilla())
     }
 }

@@ -1,0 +1,46 @@
+package dev.deftu.textile.minecraft
+
+import dev.deftu.textile.ValueBackedTextHolder
+
+public open class MCSimpleTextHolder(
+    public override var content: String
+) : MCTextHolder<MCSimpleTextHolder>, ValueBackedTextHolder<MCSimpleTextHolder, MCTextFormat>(content) {
+
+    final override var clickEvent: MCClickEvent? = null
+        private set
+
+    final override var hoverEvent: MCHoverEvent? = null
+        private set
+
+    override fun copy(): MCSimpleTextHolder {
+        return MCSimpleTextHolder(content).apply {
+            clickEvent = this@MCSimpleTextHolder.clickEvent
+            hoverEvent = this@MCSimpleTextHolder.hoverEvent
+        }
+    }
+
+    override fun withoutClickEvent(): MCSimpleTextHolder {
+        return copy().apply {
+            clickEvent = null
+        }
+    }
+
+    override fun withClickEvent(event: MCClickEvent): MCSimpleTextHolder {
+        return copy().apply {
+            clickEvent = event
+        }
+    }
+
+    override fun withoutHoverEvent(): MCSimpleTextHolder {
+        return copy().apply {
+            hoverEvent = null
+        }
+    }
+
+    override fun withHoverEvent(event: MCHoverEvent): MCSimpleTextHolder {
+        return copy().apply {
+            hoverEvent = event
+        }
+    }
+
+}
