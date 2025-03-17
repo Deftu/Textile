@@ -75,5 +75,10 @@ class TestMod : ClientModInitializer {
 
         println(text)
         println(text.asVanilla())
+
+        text.set("Hey hey hey!")
+
+        println(text)
+        println(text.asVanilla())
     }
 }
