@@ -15,6 +15,7 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
 
     public companion object {
 
+        @JvmStatic
         public fun convertToVanilla(text: TextHolder<*, *>): Text {
             val result = VanillaTextHelper.createLiteralText(text.asExclusiveString()).apply {
                 val formatting = text.formatting.filterIsInstance<MCTextFormat>().sortedWith(MCTextFormat.COMPARATOR).map(MCTextFormat::convertToVanilla)
@@ -58,6 +59,7 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
             return result
         }
 
+        @JvmStatic
         public fun convertFromVanilla(text: Text): MCTextHolder<*> {
             val result = MCSimpleMutableTextHolder("")
             val content = StringBuilder()
@@ -106,6 +108,7 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
             return result
         }
 
+        @JvmStatic
         public fun convertFromVanilla(text: Text, formatting: Set<MCTextFormat>): MCTextHolder<*> {
             val result = MCSimpleMutableTextHolder("")
             val content = StringBuilder()
