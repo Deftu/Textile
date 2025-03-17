@@ -2,6 +2,7 @@ package com.test
 
 import dev.deftu.textile.dsl.Mutable
 import dev.deftu.textile.minecraft.MCClickEvent
+import dev.deftu.textile.minecraft.MCHoverEvent
 import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder
 import dev.deftu.textile.minecraft.MCTextFormat
 import dev.deftu.textile.minecraft.dsl.text
@@ -60,10 +61,20 @@ class TestMod : ClientModInitializer {
         //#endif
         //#endif
     ) {
+        val dividerSize = 20
+        println("-".repeat(dividerSize))
+        test1()
+        println("-".repeat(dividerSize))
+        test2()
+        println("-".repeat(dividerSize))
+    }
+
+    private fun test1() {
         val text = text<MCSimpleMutableTextHolder>(Mutable, "Hello, World!") {
             formatting(MCTextFormat.RED)
 
             clickEvent = MCClickEvent.runCommand("/say \"Hello, World!\"")
+            hoverEvent = MCHoverEvent.ShowText("This is a test")
 
             child {
                 content("This is a child")
@@ -81,4 +92,23 @@ class TestMod : ClientModInitializer {
         println(text)
         println(text.asVanilla())
     }
+
+    private fun test2() {
+        val text = MCSimpleMutableTextHolder("Hello, World!")
+            .addFormatting(MCTextFormat.RED)
+            .setClickEvent(MCClickEvent.openUrl("https://google.com"))
+            .setHoverEvent(MCHoverEvent.ShowText("This is a test"))
+
+        println(text)
+        println(text.asVanilla())
+
+        text.set("Hey hey hey!")
+            .setFormatting(MCTextFormat.GREEN)
+            .setClickEvent(MCClickEvent.runCommand("say Hi!"))
+            .setHoverEvent(MCHoverEvent.ShowText("Hey there!"))
+
+        println(text)
+        println(text.asVanilla())
+    }
+
 }
