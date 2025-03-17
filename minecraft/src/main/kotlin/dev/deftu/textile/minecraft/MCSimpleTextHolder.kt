@@ -43,4 +43,8 @@ public open class MCSimpleTextHolder(
         }
     }
 
+    override fun toString(): String {
+        return "MCSimpleTextHolder(content='$content', formatting=$_formatting, children=$_children, clickEvent=$clickEvent, hoverEvent=$hoverEvent)"
+    }
+
 }

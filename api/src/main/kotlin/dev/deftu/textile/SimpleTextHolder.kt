@@ -9,4 +9,8 @@ public class SimpleTextHolder(content: String) : ValueBackedTextHolder<SimpleTex
         }
     }
 
+    override fun toString(): String {
+        return "SimpleTextHolder(content='$content', children=$_children, formatting=$_formatting)"
+    }
+
 }

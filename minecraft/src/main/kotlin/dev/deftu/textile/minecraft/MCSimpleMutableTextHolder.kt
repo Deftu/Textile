@@ -53,4 +53,8 @@ public open class MCSimpleMutableTextHolder(
         return this
     }
 
+    override fun toString(): String {
+        return "MCSimpleMutableTextHolder(content='$_content', cache='$content', isDirty=$isDirty, formatting=$_formatting, children=$_children, clickEvent=$clickEvent, hoverEvent=$hoverEvent)"
+    }
+
 }

@@ -62,4 +62,8 @@ public abstract class ValueBackedMutableTextHolder<T : ValueBackedMutableTextHol
         return this as T
     }
 
+    override fun toString(): String {
+        return "ValueBackedMutableTextHolder(content='$_content', cache='$content', isDirty=$isDirty, formatting=$_formatting, children=$_children)"
+    }
+
 }

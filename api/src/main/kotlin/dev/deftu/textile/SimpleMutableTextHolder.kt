@@ -9,4 +9,8 @@ public class SimpleMutableTextHolder(content: String) : ValueBackedMutableTextHo
         }
     }
 
+    override fun toString(): String {
+        return "SimpleMutableTextHolder(content='$_content', cache='$content', isDirty=$isDirty, children=$_children, formatting=$_formatting)"
+    }
+
 }
