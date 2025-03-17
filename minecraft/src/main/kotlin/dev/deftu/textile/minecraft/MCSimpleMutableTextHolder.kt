@@ -6,11 +6,11 @@ public open class MCSimpleMutableTextHolder(
     content: String
 ) : MCMutableTextHolder<MCSimpleMutableTextHolder>, ValueBackedMutableTextHolder<MCSimpleMutableTextHolder, MCTextFormat>(content) {
 
-    final override var clickEvent: MCClickEvent? = null
-        private set
+    override var clickEvent: MCClickEvent? = null
+        protected set
 
-    final override var hoverEvent: MCHoverEvent? = null
-        private set
+    override var hoverEvent: MCHoverEvent? = null
+        protected set
 
     override fun copy(): MCSimpleMutableTextHolder {
         return MCSimpleMutableTextHolder(content).apply {
