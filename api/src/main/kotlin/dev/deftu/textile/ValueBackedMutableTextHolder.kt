@@ -5,12 +5,22 @@ public abstract class ValueBackedMutableTextHolder<T : ValueBackedMutableTextHol
     content: String
 ) : MutableTextHolder<T, F>, ValueBackedTextHolder<T, F>(content) {
 
-    private val _content = StringBuilder(content)
-    override var content: String
-        get() = _content.toString()
+    protected val _content: StringBuilder = StringBuilder(content)
+    protected var isDirty: Boolean = false
+
+    override var content: String = content
+        get() {
+            if (isDirty) {
+                field = _content.toString()
+                isDirty = false
+            }
+
+            return field
+        }
         set(value) {
             _content.setLength(0)
             _content.append(value)
+            isDirty = true
         }
 
     override fun set(text: TextHolder<*, *>): T = apply {

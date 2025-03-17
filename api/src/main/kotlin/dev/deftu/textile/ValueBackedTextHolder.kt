@@ -9,10 +9,11 @@ public abstract class ValueBackedTextHolder<T : ValueBackedTextHolder<T, F>, F :
     protected val _children: MutableList<TextHolder<*, *>> = mutableListOf()
     protected val _formatting: MutableSet<F> = mutableSetOf()
 
-    override val formatting: Set<F>
-        get() = _formatting.toSet()
     override val children: List<TextHolder<*, *>>
         get() = _children.toList()
+
+    override val formatting: Set<F>
+        get() = _formatting.toSet()
 
     override fun <T> visit(visitor: TextHolderVisitor<T>): Optional<out T> {
         val optional = visitor.accept(content)
