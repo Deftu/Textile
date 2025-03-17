@@ -37,7 +37,13 @@ public abstract class ValueBackedMutableTextHolder<T : ValueBackedMutableTextHol
         _children.add(text)
     } as T
 
-    override fun format(vararg formatting: F): T {
+    override fun addFormatting(vararg formatting: F): T {
+        _formatting.addAll(formatting)
+        return this as T
+    }
+
+    override fun setFormatting(vararg formatting: F): T {
+        _formatting.clear()
         _formatting.addAll(formatting)
         return this as T
     }

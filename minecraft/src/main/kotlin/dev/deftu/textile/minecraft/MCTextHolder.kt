@@ -75,15 +75,15 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
             result.append(MCSimpleMutableTextHolder(content.toString()).apply {
                 //#if MC >= 1.16.5
                 val formatting = Formatting.byName(text.style.color?.name)
-                formatting?.let(MCTextFormat::convertFromVanilla)?.let { format(it) }
+                formatting?.let(MCTextFormat::convertFromVanilla)?.let { addFormatting(it) }
                 //#else
-                //$$ text.style.color?.let(MCTextFormat::convertFromVanilla)?.let { formatting -> format(formatting) }
+                //$$ text.style.color?.let(MCTextFormat::convertFromVanilla)?.let { formatting -> addFormatting(formatting) }
                 //#endif
-                if (text.style.isBold) format(MCTextFormat.BOLD)
-                if (text.style.isItalic) format(MCTextFormat.ITALIC)
-                if (text.style.isStrikethrough) format(MCTextFormat.STRIKETHROUGH)
-                if (text.style.isUnderlined) format(MCTextFormat.UNDERLINE)
-                if (text.style.isObfuscated) format(MCTextFormat.OBFUSCATED)
+                if (text.style.isBold) addFormatting(MCTextFormat.BOLD)
+                if (text.style.isItalic) addFormatting(MCTextFormat.ITALIC)
+                if (text.style.isStrikethrough) addFormatting(MCTextFormat.STRIKETHROUGH)
+                if (text.style.isUnderlined) addFormatting(MCTextFormat.UNDERLINE)
+                if (text.style.isObfuscated) addFormatting(MCTextFormat.OBFUSCATED)
 
                 val clickEvent = text.style.clickEvent
                 if (clickEvent != null) {
@@ -120,7 +120,7 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
             //$$ content.append(text.unformattedText)
             //#endif
             result.append(MCSimpleMutableTextHolder(content.toString()).apply {
-                formatting.forEach { format(it) }
+                formatting.forEach { addFormatting(it) }
 
                 val clickEvent = text.style.clickEvent
                 if (clickEvent != null) {

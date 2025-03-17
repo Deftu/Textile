@@ -32,7 +32,15 @@ public interface MutableTextHolder<T : MutableTextHolder<T, F>, F : TextFormat> 
      * @since 0.4.0
      * @author Deftu
      */
-    public fun format(vararg formatting: F): T
+    public fun addFormatting(vararg formatting: F): T
+
+    /**
+     * Applies formatting to this text holder.
+     *
+     * @since 0.11.0
+     * @author Deftu
+     */
+    public fun setFormatting(vararg formatting: F): T
 
     /**
      * Replaces a given key with a value.
