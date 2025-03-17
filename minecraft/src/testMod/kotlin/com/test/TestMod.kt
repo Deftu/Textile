@@ -1,5 +1,12 @@
 package com.test
 
+import dev.deftu.textile.dsl.Mutable
+import dev.deftu.textile.minecraft.MCClickEvent
+import dev.deftu.textile.minecraft.MCHoverEvent
+import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder
+import dev.deftu.textile.minecraft.MCTextFormat
+import dev.deftu.textile.minecraft.dsl.text
+
 //#if FABRIC
 import net.fabricmc.api.ClientModInitializer
 //#else
@@ -19,11 +26,6 @@ import net.fabricmc.api.ClientModInitializer
 //$$ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 //#endif
 //#endif
-
-import dev.deftu.textile.SimpleTextHolder
-import dev.deftu.textile.TextHolder
-import dev.deftu.textile.minecraft.MinecraftTextFormat
-import dev.deftu.textile.minecraft.toVanilla
 
 //#if FABRIC
 class TestMod : ClientModInitializer {
@@ -59,13 +61,54 @@ class TestMod : ClientModInitializer {
         //#endif
         //#endif
     ) {
-        val text = makeTestText("Hello world!").formatted(MinecraftTextFormat.RED)
-        println("Text: $text")
-        println("String: ${text.asString()}")
-        println("Vanilla Text: ${text.toVanilla()}")
+        val dividerSize = 20
+        println("-".repeat(dividerSize))
+        test1()
+        println("-".repeat(dividerSize))
+        test2()
+        println("-".repeat(dividerSize))
     }
 
-    private fun makeTestText(string: String): TextHolder {
-        return SimpleTextHolder(string)
+    private fun test1() {
+        val text = text<MCSimpleMutableTextHolder>(Mutable, "Hello, World!") {
+            formatting(MCTextFormat.RED)
+
+            clickEvent = MCClickEvent.runCommand("/say \"Hello, World!\"")
+            hoverEvent = MCHoverEvent.ShowText("This is a test")
+
+            child {
+                content("This is a child")
+                formatting(MCTextFormat.BOLD)
+
+                clickEvent = MCClickEvent.runCommand("/say \"This is a child\"")
+            }
+        }
+
+        println(text)
+        println(text.asVanilla())
+
+        text.set("Hey hey hey!")
+
+        println(text)
+        println(text.asVanilla())
     }
+
+    private fun test2() {
+        val text = MCSimpleMutableTextHolder("Hello, World!")
+            .addFormatting(MCTextFormat.RED)
+            .setClickEvent(MCClickEvent.openUrl("https://google.com"))
+            .setHoverEvent(MCHoverEvent.ShowText("This is a test"))
+
+        println(text)
+        println(text.asVanilla())
+
+        text.set("Hey hey hey!")
+            .setFormatting(MCTextFormat.GREEN)
+            .setClickEvent(MCClickEvent.runCommand("say Hi!"))
+            .setHoverEvent(MCHoverEvent.ShowText("Hey there!"))
+
+        println(text)
+        println(text.asVanilla())
+    }
+
 }
