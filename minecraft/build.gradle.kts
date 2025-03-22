@@ -36,7 +36,7 @@ toolkitReleases {
 }
 
 dependencies {
-    api(includeOrShade(project(":api")) {
+    api(includeOrShade(project(":")) {
         isTransitive = false
     })
 }

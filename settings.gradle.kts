@@ -26,8 +26,6 @@ pluginManagement {
 
 rootProject.name = extra["project.name"]?.toString() ?: throw IllegalStateException("project.name is not defined")
 
-include(":api")
-
 // Setup Minecraft
 include(":minecraft")
 project(":minecraft").buildFileName = "root.gradle.kts"
