@@ -2,6 +2,18 @@ package dev.deftu.textile
 
 public class SimpleMutableTextHolder(content: String) : ValueBackedMutableTextHolder<SimpleMutableTextHolder, TextFormat>(content) {
 
+    public companion object {
+
+        @JvmStatic
+        public fun fromImmutable(text: SimpleTextHolder): SimpleMutableTextHolder {
+            return SimpleMutableTextHolder(text.content).apply {
+                _children.addAll(text.children)
+                _formatting.addAll(text.formatting)
+            }
+        }
+
+    }
+
     override fun copy(): SimpleMutableTextHolder {
         return SimpleMutableTextHolder(content).apply {
             _children.addAll(this@SimpleMutableTextHolder.children)

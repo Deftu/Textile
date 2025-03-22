@@ -6,6 +6,20 @@ public open class MCSimpleMutableTextHolder(
     content: String
 ) : MCMutableTextHolder<MCSimpleMutableTextHolder>, ValueBackedMutableTextHolder<MCSimpleMutableTextHolder, MCTextFormat>(content) {
 
+    public companion object {
+
+        @JvmStatic
+        public fun fromImmutable(text: MCSimpleTextHolder): MCSimpleMutableTextHolder {
+            return MCSimpleMutableTextHolder(text.content).apply {
+                _children.addAll(text.children)
+                _formatting.addAll(text.formatting)
+                clickEvent = text.clickEvent
+                hoverEvent = text.hoverEvent
+            }
+        }
+
+    }
+
     override var clickEvent: MCClickEvent? = null
         protected set
 
@@ -14,6 +28,8 @@ public open class MCSimpleMutableTextHolder(
 
     override fun copy(): MCSimpleMutableTextHolder {
         return MCSimpleMutableTextHolder(content).apply {
+            _children.addAll(this@MCSimpleMutableTextHolder.children)
+            _formatting.addAll(this@MCSimpleMutableTextHolder.formatting)
             clickEvent = this@MCSimpleMutableTextHolder.clickEvent
             hoverEvent = this@MCSimpleMutableTextHolder.hoverEvent
         }
