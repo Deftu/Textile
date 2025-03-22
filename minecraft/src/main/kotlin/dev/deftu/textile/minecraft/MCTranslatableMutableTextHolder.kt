@@ -7,10 +7,26 @@ public class MCTranslatableMutableTextHolder(
     public val args: Array<Any>
 ) : MCSimpleMutableTextHolder(I18n.translate(key, *args)) {
 
+    public companion object {
+
+        @JvmStatic
+        public fun fromImmutable(text: MCTranslatableTextHolder): MCTranslatableMutableTextHolder {
+            return MCTranslatableMutableTextHolder(text.key, text.args).apply {
+                _children.addAll(text.children)
+                _formatting.addAll(text.formatting)
+                clickEvent = text.clickEvent
+                hoverEvent = text.hoverEvent
+            }
+        }
+
+    }
+
     public constructor(key: String): this(key, emptyArray())
 
     override fun copy(): MCSimpleMutableTextHolder {
         return MCTranslatableMutableTextHolder(key, args).apply {
+            _children.addAll(this@MCTranslatableMutableTextHolder.children)
+            _formatting.addAll(this@MCTranslatableMutableTextHolder.formatting)
             clickEvent = this@MCTranslatableMutableTextHolder.clickEvent
             hoverEvent = this@MCTranslatableMutableTextHolder.hoverEvent
         }
