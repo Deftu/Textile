@@ -14,6 +14,8 @@ public open class MCSimpleMutableTextHolder(
 
     override fun copy(): MCSimpleMutableTextHolder {
         return MCSimpleMutableTextHolder(content).apply {
+            _children.addAll(this@MCSimpleMutableTextHolder.children)
+            _formatting.addAll(this@MCSimpleMutableTextHolder.formatting)
             clickEvent = this@MCSimpleMutableTextHolder.clickEvent
             hoverEvent = this@MCSimpleMutableTextHolder.hoverEvent
         }

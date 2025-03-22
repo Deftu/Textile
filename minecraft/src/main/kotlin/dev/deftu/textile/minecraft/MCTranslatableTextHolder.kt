@@ -11,6 +11,8 @@ public open class MCTranslatableTextHolder(
 
     override fun copy(): MCTranslatableTextHolder {
         return MCTranslatableTextHolder(key, args).apply {
+            _children.addAll(this@MCTranslatableTextHolder.children)
+            _formatting.addAll(this@MCTranslatableTextHolder.formatting)
             clickEvent = this@MCTranslatableTextHolder.clickEvent
             hoverEvent = this@MCTranslatableTextHolder.hoverEvent
         }
