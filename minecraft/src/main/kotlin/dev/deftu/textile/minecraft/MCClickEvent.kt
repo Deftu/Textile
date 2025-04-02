@@ -1,5 +1,9 @@
 package dev.deftu.textile.minecraft
 
+//#if MC >= 1.21.5
+//$$ import java.net.URI
+//#endif
+
 import net.minecraft.text.ClickEvent
 
 @Suppress("DataClassPrivateConstructor")
@@ -17,6 +21,7 @@ public data class MCClickEvent private constructor(val action: ClickAction, val 
     @Suppress("EnumValuesSoftDeprecate")
     public companion object {
 
+        //#if MC <= 1.21.4
         @JvmField
         public val VANILLA_MAPPED_CLICK_ACTIONS: Map<ClickAction, ClickEvent.Action> = noInline {
             ClickAction.values().associateWith { action ->
@@ -29,19 +34,42 @@ public data class MCClickEvent private constructor(val action: ClickAction, val 
                 }
             }
         }
+        //#endif
 
         @JvmStatic
         public fun convertFromVanilla(event: ClickEvent): MCClickEvent? {
+            //#if MC >= 1.21.5
+            //$$ return when (event) {
+            //$$     is ClickEvent.OpenUrl -> MCClickEvent(ClickAction.OPEN_URL, event.uri.toString())
+            //$$     is ClickEvent.OpenFile -> MCClickEvent(ClickAction.OPEN_FILE, event.path)
+            //$$     is ClickEvent.RunCommand -> MCClickEvent(ClickAction.RUN_COMMAND, event.command)
+            //$$     is ClickEvent.SuggestCommand -> MCClickEvent(ClickAction.SUGGEST_COMMAND, event.command)
+            //$$     is ClickEvent.ChangePage -> MCClickEvent(ClickAction.CHANGE_PAGE, event.page.toString())
+            //$$     else -> null
+            //$$}
+            //#else
             val action = VANILLA_MAPPED_CLICK_ACTIONS.entries.firstOrNull { it.value == event.action }?.key
                 ?: return null
             return MCClickEvent(action, event.value)
+            //#endif
         }
 
         @JvmStatic
         public fun convertToVanilla(event: MCClickEvent): ClickEvent? {
-            val mapped = VANILLA_MAPPED_CLICK_ACTIONS[event.action]
+            //#if MC >= 1.21.5
+            //$$ return when (event.action) {
+            //$$     ClickAction.OPEN_URL -> ClickEvent.OpenUrl(URI.create(event.value))
+            //$$     ClickAction.OPEN_FILE -> ClickEvent.OpenFile(event.value)
+            //$$     ClickAction.RUN_COMMAND -> ClickEvent.RunCommand(event.value)
+            //$$     ClickAction.SUGGEST_COMMAND -> ClickEvent.SuggestCommand(event.value)
+            //$$     ClickAction.CHANGE_PAGE -> ClickEvent.ChangePage(event.value.toIntOrNull() ?: 0)
+            //$$     else -> null
+            //$$ }
+            //#else
+            val action = VANILLA_MAPPED_CLICK_ACTIONS[event.action]
                 ?: throw IllegalArgumentException("Invalid click action")
-            return ClickEvent(mapped, event.value)
+            return ClickEvent(action, event.value)
+            //#endif
         }
 
         @JvmStatic

@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     java
     kotlin("jvm")
-    val dgtVersion = "2.28.0"
+    val dgtVersion = "2.30.0"
     id("dev.deftu.gradle.tools") version(dgtVersion)
     id("dev.deftu.gradle.tools.resources") version(dgtVersion)
     id("dev.deftu.gradle.tools.bloom") version(dgtVersion)
