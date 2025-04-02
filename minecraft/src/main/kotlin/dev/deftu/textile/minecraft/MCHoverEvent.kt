@@ -105,7 +105,14 @@ public sealed class MCHoverEvent private constructor() {
 
         @JvmStatic
         public fun convertFromVanilla(event: HoverEvent): MCHoverEvent? {
-            //#if MC >= 1.16.5
+            //#if MC >= 1.21.5
+            //$$ return when (event) {
+            //$$     is HoverEvent.ShowText -> ShowText(event.value.tryCollapseToString() ?: event.value.string)
+            //$$     is HoverEvent.ShowItem -> ShowItem(event.item)
+            //$$     is HoverEvent.ShowEntity -> ShowEntity(MCEntityContent.convertFromVanilla(event.entity))
+            //$$     else -> null
+            //$$ }
+            //#elseif MC >= 1.16.5
             return when (event.action) {
                 HoverEvent.Action.SHOW_TEXT -> {
                     val value = event.getValue(HoverEvent.Action.SHOW_TEXT)?.let { MCTextHolder.convertFromVanilla(it) }?.asString()
@@ -150,7 +157,13 @@ public sealed class MCHoverEvent private constructor() {
 
         @JvmStatic
         public fun convertToVanilla(event: MCHoverEvent): HoverEvent {
-            //#if MC >= 1.16.5
+            //#if MC >= 1.21.5
+            //$$ return when (event) {
+            //$$     is ShowText -> HoverEvent.ShowText(MCSimpleTextHolder(event.value).asVanilla())
+            //$$     is ShowItem -> HoverEvent.ShowItem(event.value)
+            //$$     is ShowEntity -> HoverEvent.ShowEntity(event.createVanillaWrapper())
+            //$$ }
+            //#elseif MC >= 1.16.5
             return when (event) {
                 is ShowText -> HoverEvent(HoverEvent.Action.SHOW_TEXT, MCSimpleTextHolder(event.value).asVanilla())
                 is ShowItem -> HoverEvent(HoverEvent.Action.SHOW_ITEM, event.createVanillaWrapper())

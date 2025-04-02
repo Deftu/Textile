@@ -1,0 +1,3 @@
+net.minecraft.network.chat.HoverEvent$ShowItem net.minecraft.network.chat.HoverEvent$ItemStackInfo
+
+net.minecraft.network.chat.HoverEvent$EntityTooltipInfo uuid id
