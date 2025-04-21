@@ -1,5 +1,7 @@
 package dev.deftu.textile
 
+import kotlin.jvm.JvmStatic
+
 public class SimpleMutableTextHolder(content: String) : ValueBackedMutableTextHolder<SimpleMutableTextHolder, TextFormat>(content) {
 
     public companion object {

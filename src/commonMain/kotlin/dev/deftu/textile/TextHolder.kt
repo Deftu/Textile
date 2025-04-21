@@ -1,7 +1,5 @@
 package dev.deftu.textile
 
-import java.util.Optional
-
 /**
  * Represents a class which holds, formats, and manipulates text.
  *
@@ -26,7 +24,7 @@ public interface TextHolder<T : TextHolder<T, F>, F : TextFormat> {
      */
     public val formatting: Set<F>
 
-    public fun <T> visit(visitor: TextHolderVisitor<T>): Optional<out T>
+    public fun <T> visit(visitor: TextHolderVisitor<T>): T?
 
     /**
      * Creates an exact copy of this text holder.

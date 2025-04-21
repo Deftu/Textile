@@ -1,7 +1,5 @@
 package dev.deftu.textile
 
-import java.util.*
-
 public abstract class ValueBackedTextHolder<T : ValueBackedTextHolder<T, F>, F : TextFormat>(
     public open var content: String
 ) : TextHolder<T, F> {
@@ -15,19 +13,19 @@ public abstract class ValueBackedTextHolder<T : ValueBackedTextHolder<T, F>, F :
     override val formatting: Set<F>
         get() = _formatting.toSet()
 
-    override fun <T> visit(visitor: TextHolderVisitor<T>): Optional<out T> {
+    override fun <T> visit(visitor: TextHolderVisitor<T>): T? {
         val optional = visitor.accept(content)
-        if (optional.isPresent) {
+        if (optional != null) {
             return optional
         } else {
             for (child in children) {
                 val result = child.visit(visitor)
-                if (result.isPresent) {
+                if (result != null) {
                     return result
                 }
             }
 
-            return Optional.empty<T>()
+            return null
         }
     }
 

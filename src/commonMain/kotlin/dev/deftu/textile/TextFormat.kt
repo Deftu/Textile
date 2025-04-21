@@ -1,8 +1,6 @@
 package dev.deftu.textile
 
-import java.awt.Color
-
-public open class TextFormat(public open val color: Color? = null) {
+public open class TextFormat(public open val color: TextColor? = null) {
 
     public open operator fun plus(other: TextFormat): String = "$this$other"
 
@@ -15,9 +13,7 @@ public open class TextFormat(public open val color: Color? = null) {
      * By default, [TextFormat.toString] returns the hexadecimal representation of the color.
      */
     override fun toString(): String {
-        return color?.let { color ->
-            "#${Integer.toHexString(color.rgb)}"
-        } ?: ""
+        return color?.hex ?: "null"
     }
 
 }

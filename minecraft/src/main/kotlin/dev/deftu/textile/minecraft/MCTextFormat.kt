@@ -1,12 +1,12 @@
 package dev.deftu.textile.minecraft
 
+import dev.deftu.textile.TextColor
 import dev.deftu.textile.TextFormat
 import net.minecraft.util.Formatting
-import java.awt.Color
 
 public class MCTextFormat private constructor(
     public val code: Char,
-    public override val color: Color? = null
+    public override val color: TextColor? = null
 ) : TextFormat(color) {
 
     public val isColor: Boolean
@@ -41,52 +41,52 @@ public class MCTextFormat private constructor(
         public val FORMATTING_CODE_PATTERN: Regex = noInline { Regex("§[0-9a-fk-or]", RegexOption.IGNORE_CASE) }
 
         @JvmField
-        public val BLACK: MCTextFormat = noInline { MCTextFormat('0', Color(0x000000)) }
+        public val BLACK: MCTextFormat = noInline { MCTextFormat('0', TextColor(0x000000)) }
 
         @JvmField
-        public val DARK_BLUE: MCTextFormat = noInline { MCTextFormat('1', Color(0x0000AA)) }
+        public val DARK_BLUE: MCTextFormat = noInline { MCTextFormat('1', TextColor(0x0000AA)) }
 
         @JvmField
-        public val DARK_GREEN: MCTextFormat = noInline { MCTextFormat('2', Color(0x00AA00)) }
+        public val DARK_GREEN: MCTextFormat = noInline { MCTextFormat('2', TextColor(0x00AA00)) }
 
         @JvmField
-        public val DARK_AQUA: MCTextFormat = noInline { MCTextFormat('3', Color(0x00AAAA)) }
+        public val DARK_AQUA: MCTextFormat = noInline { MCTextFormat('3', TextColor(0x00AAAA)) }
 
         @JvmField
-        public val DARK_RED: MCTextFormat = noInline { MCTextFormat('4', Color(0xAA0000)) }
+        public val DARK_RED: MCTextFormat = noInline { MCTextFormat('4', TextColor(0xAA0000)) }
 
         @JvmField
-        public val DARK_PURPLE: MCTextFormat = noInline { MCTextFormat('5', Color(0xAA00AA)) }
+        public val DARK_PURPLE: MCTextFormat = noInline { MCTextFormat('5', TextColor(0xAA00AA)) }
 
         @JvmField
-        public val GOLD: MCTextFormat = noInline { MCTextFormat('6', Color(0xFFAA00)) }
+        public val GOLD: MCTextFormat = noInline { MCTextFormat('6', TextColor(0xFFAA00)) }
 
         @JvmField
-        public val GRAY: MCTextFormat = noInline { MCTextFormat('7', Color(0xAAAAAA)) }
+        public val GRAY: MCTextFormat = noInline { MCTextFormat('7', TextColor(0xAAAAAA)) }
 
         @JvmField
-        public val DARK_GRAY: MCTextFormat = noInline { MCTextFormat('8', Color(0x555555)) }
+        public val DARK_GRAY: MCTextFormat = noInline { MCTextFormat('8', TextColor(0x555555)) }
 
         @JvmField
-        public val BLUE: MCTextFormat = noInline { MCTextFormat('9', Color(0x5555FF)) }
+        public val BLUE: MCTextFormat = noInline { MCTextFormat('9', TextColor(0x5555FF)) }
 
         @JvmField
-        public val GREEN: MCTextFormat = noInline { MCTextFormat('a', Color(0x55FF55)) }
+        public val GREEN: MCTextFormat = noInline { MCTextFormat('a', TextColor(0x55FF55)) }
 
         @JvmField
-        public val AQUA: MCTextFormat = noInline { MCTextFormat('b', Color(0x55FFFF)) }
+        public val AQUA: MCTextFormat = noInline { MCTextFormat('b', TextColor(0x55FFFF)) }
 
         @JvmField
-        public val RED: MCTextFormat = noInline { MCTextFormat('c', Color(0xFF5555)) }
+        public val RED: MCTextFormat = noInline { MCTextFormat('c', TextColor(0xFF5555)) }
 
         @JvmField
-        public val LIGHT_PURPLE: MCTextFormat = noInline { MCTextFormat('d', Color(0xFF55FF)) }
+        public val LIGHT_PURPLE: MCTextFormat = noInline { MCTextFormat('d', TextColor(0xFF55FF)) }
 
         @JvmField
-        public val YELLOW: MCTextFormat = noInline { MCTextFormat('e', Color(0xFFFF55)) }
+        public val YELLOW: MCTextFormat = noInline { MCTextFormat('e', TextColor(0xFFFF55)) }
 
         @JvmField
-        public val WHITE: MCTextFormat = noInline { MCTextFormat('f', Color(0xFFFFFF)) }
+        public val WHITE: MCTextFormat = noInline { MCTextFormat('f', TextColor(0xFFFFFF)) }
 
         @JvmField
         public val OBFUSCATED: MCTextFormat = noInline { MCTextFormat('k') }
