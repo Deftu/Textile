@@ -1,4 +1,6 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform") version("2.0.10")
@@ -11,22 +13,30 @@ kotlin {
     explicitApi()
 
     // --- JVM (Desktop, Android, Server) ---
-    jvm()
+    jvm {
+        // Compile to Java 8 bytecode
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
+
+        withJava()
+    }
 
     // --- JavaScript (Browser, Node.js) ---
     js(IR) {
         generateTypeScriptDefinitions()
+        binaries.library()
         browser()
         nodejs()
-        binaries.library()
     }
 
     // --- WebAssembly (Experimental) ---
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         generateTypeScriptDefinitions()
-        browser()
         binaries.library()
+        browser()
     }
 
     // --- Native (Commonly Used Platforms) ---
@@ -50,5 +60,11 @@ kotlin {
                 implementation(kotlin("test-junit"))
             }
         }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
