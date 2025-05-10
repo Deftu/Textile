@@ -21,6 +21,7 @@ kotlin {
         }
 
         withJava()
+        withSourcesJar()
     }
 
     // --- JavaScript (Browser, Node.js) ---
