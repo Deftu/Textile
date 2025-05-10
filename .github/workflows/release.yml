@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: 'Select the repository to publish to'
+        required: true
+        type: choice
+        options:
+          - Releases
+          - Snapshots
+
+jobs:
+  publish:
+    runs-on: macos-latest
+    environment: Release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Set up Gradle caching
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Grant execute permission for Gradle wrapper
+        run: chmod +x ./gradlew
+
+      - name: Run publish task
+        env:
+          DEFTU_PUBLISHING_USERNAME: ${{ secrets.DEFTU_PUBLISHING_USERNAME }}
+          DEFTU_PUBLISHING_PASSWORD: ${{ secrets.DEFTU_PUBLISHING_PASSWORD }}
+        run: ./gradlew publishAllPublicationsToDeftu${{ github.event.inputs.repository }}Repository
