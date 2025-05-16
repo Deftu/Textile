@@ -1,16 +1,28 @@
 {
     "schemaVersion": 1,
     "id": "${mod_id}",
-    "name": "${mod_name}",
     "version": "${mod_version}",
+    "name": "${mod_name}",
+    "description": "${mod_description}",
     "icon": "icon.png",
-    "environment": "*",
     "authors": [
         "Deftu"
     ],
+    "contact": {
+        "issues": "https://github.com/Deftu/${mod_name}/issues",
+        "sources": "https://github.com/Deftu/${mod_name}"
+    },
+    "license": "LGPL-3.0-or-later",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "dev.deftu.textile.minecraft.TextileEntrypoint"
+        ]
+    },
     "depends": {
-        "fabricloader": "*",
-        "minecraft": "~${minor_mc_version}"
+        "minecraft": "~${minor_mc_version}",
+        "fabric": "*",
+        "fabric-language-kotlin": "*"
     },
     "custom": {
         "modmenu": {
