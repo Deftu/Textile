@@ -17,8 +17,11 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
 
         @JvmStatic
         public fun convertToVanilla(text: TextHolder<*, *>): Text {
-            val result = VanillaTextHelper.createLiteralText(text.asExclusiveString()).apply {
-                val formatting = text.formatting.filterIsInstance<MCTextFormat>().sortedWith(MCTextFormat.COMPARATOR).map(MCTextFormat::convertToVanilla)
+            val result = VanillaTextHelper.createLiteralText("").apply {
+                val formatting = text.formatting
+                    .filterIsInstance<MCTextFormat>()
+                    .sortedWith(MCTextFormat.COMPARATOR)
+                    .map(MCTextFormat::convertToVanilla)
                 //#if MC >= 1.16.5
                 formatting.forEach(this::formatted)
                 //#else
@@ -55,7 +58,9 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
                 }
             }
 
+            result.append(VanillaTextHelper.createLiteralText(text.asExclusiveString()))
             text.children.map { convertToVanilla(it) }.forEach(result::append)
+
             return result
         }
 
@@ -69,9 +74,12 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
                 Optional.empty<String>()
             }
             //#elseif MC >= 1.16.5
-            //$$ content.append(text.asString())
+            //$$ text.visit {
+            //$$    content.append(it)
+            //$$    Optional.empty<String>()
+            //$$ }
             //#else
-            //$$ content.append(text.unformattedText)
+            //$$ content.append(text.unformattedComponentText)
             //#endif
             var copiedFormatting: Set<MCTextFormat>
             result.append(MCSimpleMutableTextHolder(content.toString()).apply {
@@ -118,9 +126,12 @@ public interface MCTextHolder<T : MCTextHolder<T>> : TextHolder<T, MCTextFormat>
                 Optional.empty<String>()
             }
             //#elseif MC >= 1.16.5
-            //$$ content.append(text.asString())
+            //$$ text.visit {
+            //$$    content.append(it)
+            //$$    Optional.empty<String>()
+            //$$ }
             //#else
-            //$$ content.append(text.unformattedText)
+            //$$ content.append(text.unformattedComponentText)
             //#endif
             result.append(MCSimpleMutableTextHolder(content.toString()).apply {
                 formatting.forEach { addFormatting(it) }
