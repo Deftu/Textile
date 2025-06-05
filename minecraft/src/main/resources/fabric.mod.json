@@ -21,7 +21,6 @@
     },
     "depends": {
         "minecraft": "~${minor_mc_version}",
-        "fabric": "*",
         "fabric-language-kotlin": "*"
     },
     "custom": {
