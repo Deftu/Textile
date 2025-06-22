@@ -4,6 +4,7 @@ import dev.deftu.textile.minecraft.MCClickEvent
 import dev.deftu.textile.minecraft.MCHoverEvent
 import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder
 import dev.deftu.textile.minecraft.MCTextFormat
+import java.net.URI
 
 //#if FABRIC
 import net.fabricmc.api.ClientModInitializer
@@ -68,7 +69,7 @@ class TestMod : ClientModInitializer {
     private fun test1() {
         val text = MCSimpleMutableTextHolder("Hello, World!")
             .addFormatting(MCTextFormat.RED)
-            .setClickEvent(MCClickEvent.openUrl("https://google.com"))
+            .setClickEvent(MCClickEvent.OpenUrl(URI.create("https://google.com")))
             .setHoverEvent(MCHoverEvent.ShowText("This is a test"))
 
         println(text)
@@ -76,7 +77,7 @@ class TestMod : ClientModInitializer {
 
         text.set("Hey hey hey!")
             .setFormatting(MCTextFormat.GREEN)
-            .setClickEvent(MCClickEvent.runCommand("say Hi!"))
+            .setClickEvent(MCClickEvent.RunCommand("say Hi!"))
             .setHoverEvent(MCHoverEvent.ShowText("Hey there!"))
 
         println(text)
