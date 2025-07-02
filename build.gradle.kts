@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform") version("2.0.20")
-    val dgtVersion = "2.37.0"
+    val dgtVersion = "2.39.0"
     id("dev.deftu.gradle.tools") version(dgtVersion)
     id("dev.deftu.gradle.tools.publishing.maven") version(dgtVersion)
 }
