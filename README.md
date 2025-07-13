@@ -1,8 +1,7 @@
 # Textile
 
-A simple text interface library.
-
-Particularly useful in Minecraft mods via the default-provided `minecraft` module, supporting most major versions.
+A Kotlin-first, minimal and powerful text interface library. Enabling clean abstraction of text handling
+across various platforms.
 
 ---
 
@@ -48,7 +47,7 @@ maven(url = "https://maven.deftu.dev/releases") {
     <summary>Groovy (.gradle)</summary>
 
 ```gradle
-modImplementation "dev.deftu:textile:<version>"
+implementation "dev.deftu:textile:<version>"
 ```
 
 </details>
@@ -114,7 +113,7 @@ modImplementation "dev.deftu:textile-<minecraft version>-<loader>:<version>"
     <summary>Kotlin (.gradle.kts)</summary>
 
 ```gradle
-implementation("dev.deftu:textile-<minecraft version>-<loader>:<version>")
+modImplementation("dev.deftu:textile-<minecraft version>-<loader>:<version>")
 ```
 
 </details>
@@ -177,9 +176,8 @@ tailored for Minecraft's text system. This module supports most major Minecraft 
 These can be automatically converted to and from Minecraft's own text component system, allowing you to
 easily integrate Textile text holders into your Minecraft mods.
 
-Not only does this allow you to use Textile's powerful text handling features and libraries using it,
-but it also allows you to interface with Minecraft's text system across several Minecraft versions
-with minimal effort on your part.
+Not only does this let you use Textile’s rich text API, but it also makes integrating with Minecraft's
+text system trivial across several Minecraft versions.
 
 The text holders implemented for the Minecraft version are identical to the base ones provided by Textile,
 but with `MC` prefixed on them, as well as 2 additional ones for translations. These additional text holders
