@@ -19,7 +19,7 @@ pluginManagement {
     }
 
     plugins {
-        id("dev.deftu.gradle.multiversion-root") version("2.39.0")
+        id("dev.deftu.gradle.multiversion-root") version("2.43.0")
     }
 }
 
@@ -84,6 +84,9 @@ listOf(
 
     "1.21.7-neoforge",
     "1.21.7-fabric",
+
+    "1.21.8-neoforge",
+    "1.21.8-fabric",
 ).forEach { version ->
     include(":minecraft:$version")
     project(":minecraft:$version").apply {
