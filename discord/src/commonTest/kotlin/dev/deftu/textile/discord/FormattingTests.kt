@@ -15,61 +15,61 @@ class FormattingTests {
     }
 
     @Test
-    fun `bold formatting`() {
+    fun bold_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.Bold)
         assertEquals("**${TEST_PHRASE}**", text.asString())
     }
 
     @Test
-    fun `italic formatting`() {
+    fun italic_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.Italic)
         assertEquals("*${TEST_PHRASE}*", text.asString())
     }
 
     @Test
-    fun `underline formatting`() {
+    fun underline_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.Underline)
         assertEquals("__${TEST_PHRASE}__", text.asString())
     }
 
     @Test
-    fun `strikethrough formatting`() {
+    fun strikethrough_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.Strikethrough)
         assertEquals("~~${TEST_PHRASE}~~", text.asString())
     }
 
     @Test
-    fun `inline code formatting`() {
+    fun inline_code_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.InlineCode)
         assertEquals("`${TEST_PHRASE}`", text.asString())
     }
 
     @Test
-    fun `code block formatting`() {
+    fun code_block_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.CodeBlock("kotlin"))
         assertEquals("```kotlin\n${TEST_PHRASE}\n```", text.asString())
     }
 
     @Test
-    fun `spoiler formatting`() {
+    fun spoiler_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.Spoiler)
         assertEquals("||${TEST_PHRASE}||", text.asString())
     }
 
     @Test
-    fun `quote line formatting`() {
+    fun quote_line_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.QuoteLine)
         assertEquals("> $TEST_PHRASE", text.asString())
     }
 
     @Test
-    fun `quote block formatting`() {
+    fun quote_block_formatting() {
         val text = createTestText().withFormatting(DiscordTextFormat.QuoteBlock)
         assertEquals(">>> $TEST_PHRASE", text.asString())
     }
 
     @Test
-    fun `bold and italic formatting`() {
+    fun bold_and_italic_formatting() {
         val text = createTestText().withFormatting(
             DiscordTextFormat.Bold,
             DiscordTextFormat.Italic
@@ -79,7 +79,7 @@ class FormattingTests {
     }
 
     @Test
-    fun `multiple formats`() {
+    fun multiple_formats() {
         val text = createTestText().withFormatting(
             DiscordTextFormat.Bold,
             DiscordTextFormat.Italic,
@@ -90,7 +90,7 @@ class FormattingTests {
     }
 
     @Test
-    fun `multiple formats with different orders`() {
+    fun multiple_formats_with_different_orders() {
         val text = createTestText().withFormatting(
             DiscordTextFormat.Underline,
             DiscordTextFormat.Bold,
@@ -101,7 +101,7 @@ class FormattingTests {
     }
 
     @Test
-    fun `rendered correctly in siblings`() {
+    fun rendered_correctly_in_siblings() {
         val parentText = SimpleMutableTextHolder.fromImmutable(createTestText().withFormatting(DiscordTextFormat.Bold))
         val childText = createTestText().withFormatting(DiscordTextFormat.Spoiler)
         parentText.append(childText)
@@ -109,7 +109,7 @@ class FormattingTests {
     }
 
     @Test
-    fun `rendered correctly in siblings with multiple formats`() {
+    fun rendered_correctly_in_siblings_with_multiple_formats() {
         val parentText = SimpleMutableTextHolder.fromImmutable(createTestText().withFormatting(DiscordTextFormat.Bold, DiscordTextFormat.Italic))
         val childText = createTestText().withFormatting(DiscordTextFormat.Spoiler, DiscordTextFormat.Underline)
         parentText.append(childText)
@@ -117,7 +117,7 @@ class FormattingTests {
     }
 
     @Test
-    fun `rendered correctly in siblings with clashing formats`() {
+    fun rendered_correctly_in_siblings_with_clashing_formats() {
         val parentText = SimpleMutableTextHolder.fromImmutable(createTestText().withFormatting(DiscordTextFormat.Bold, DiscordTextFormat.Italic))
         val childText = createTestText().withFormatting(DiscordTextFormat.Bold, DiscordTextFormat.Underline)
         parentText.append(childText)
