@@ -3,7 +3,6 @@ package dev.deftu.textile
 public abstract class ValueBackedTextHolder<T : ValueBackedTextHolder<T, F>, F : TextFormat>(
     public open var content: String
 ) : TextHolder<T, F> {
-
     protected val _children: MutableList<TextHolder<*, *>> = mutableListOf()
     protected val _formatting: MutableSet<F> = mutableSetOf()
 
@@ -31,8 +30,9 @@ public abstract class ValueBackedTextHolder<T : ValueBackedTextHolder<T, F>, F :
 
     override fun asString(): String {
         val builder = StringBuilder()
-        formatting.forEach(builder::append)
+        for (format in formatting) builder.append(format.startValue)
         builder.append(content)
+        for (format in formatting.reversed()) builder.append(format.end)
         children.forEach { child -> builder.append(child.asString()) }
         return builder.toString()
     }
@@ -46,8 +46,9 @@ public abstract class ValueBackedTextHolder<T : ValueBackedTextHolder<T, F>, F :
 
     override fun asExclusiveString(): String {
         val builder = StringBuilder()
-        formatting.forEach(builder::append)
+        for (format in formatting) builder.append(format.startValue)
         builder.append(content)
+        for (format in formatting.reversed()) builder.append(format.end)
         return builder.toString()
     }
 
@@ -58,5 +59,4 @@ public abstract class ValueBackedTextHolder<T : ValueBackedTextHolder<T, F>, F :
     override fun toString(): String {
         return "ValueBackedTextHolder(content='$content', formatting=$_formatting, children=$_children)"
     }
-
 }

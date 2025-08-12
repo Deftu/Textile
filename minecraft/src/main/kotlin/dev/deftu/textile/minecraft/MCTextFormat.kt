@@ -9,6 +9,8 @@ public class MCTextFormat private constructor(
     public override val color: TextColor? = null
 ) : TextFormat(color) {
 
+    override val start: String = "$COLOR_CHAR$code"
+
     public val isColor: Boolean
         get() = color != null
 
@@ -24,10 +26,6 @@ public class MCTextFormat private constructor(
      */
     public operator fun plus(other: MCTextFormat): String {
         return listOf(this, other).sortedWith(COMPARATOR).joinToString("", transform = MCTextFormat::toString)
-    }
-
-    override fun toString(): String {
-        return "$COLOR_CHAR$code"
     }
 
     public companion object {
