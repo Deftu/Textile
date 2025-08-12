@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform") version("2.0.20")
-    val dgtVersion = "2.43.0"
-    id("dev.deftu.gradle.tools") version(dgtVersion)
-    id("dev.deftu.gradle.tools.publishing.maven") version(dgtVersion)
+    kotlin("multiplatform")
+    id("dev.deftu.gradle.tools")
+    id("dev.deftu.gradle.tools.publishing.maven")
 }
 
 kotlin {
@@ -61,6 +61,10 @@ kotlin {
     watchosSimulatorArm64() // watchOS simulator on Apple Silicon (ARM64)
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(project(":"))
+        }
+
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
