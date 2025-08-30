@@ -28,6 +28,10 @@ public class MCTextFormat private constructor(
         return listOf(this, other).sortedWith(COMPARATOR).joinToString("", transform = MCTextFormat::toString)
     }
 
+    override fun toString(): String {
+        return start
+    }
+
     public companion object {
 
         public const val COLOR_CHAR: Char = '\u00a7'
