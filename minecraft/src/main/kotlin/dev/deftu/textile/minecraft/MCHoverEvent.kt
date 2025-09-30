@@ -15,21 +15,17 @@ import net.minecraft.entity.EntityType
 //#endif
 
 public sealed class MCHoverEvent private constructor() {
-
     public data class ShowText(public val value: String) : MCHoverEvent()
 
     public data class ShowItem(public val value: ItemStack) : MCHoverEvent() {
-
         //#if MC >= 1.16.5
         internal fun createVanillaWrapper(): HoverEvent.ItemStackContent {
             return HoverEvent.ItemStackContent(value)
         }
         //#endif
-
     }
 
     public data class ShowEntity(public val value: MCEntityContent) : MCHoverEvent() {
-
         //#if MC >= 1.16.5
         internal fun createVanillaWrapper(): HoverEvent.EntityContent {
             return HoverEvent.EntityContent(
@@ -51,21 +47,18 @@ public sealed class MCHoverEvent private constructor() {
         //$$     return MCSimpleTextHolder(nbt.toString()).asVanilla()
         //$$ }
         //#endif
-
     }
 
     public data class MCEntityContent(
         //#if MC >= 1.16.5
         public val type: EntityType<*>,
         //#else
-        //$$ public val type: ResourceLocation,
+        //$$ public val type: String?,
         //#endif
         public val uuid: UUID,
         public val name: Optional<MCSimpleTextHolder>
     ) {
-
         public companion object {
-
             @JvmStatic
             public fun convertFromVanilla(
                 //#if MC >= 1.16.5
@@ -87,22 +80,19 @@ public sealed class MCHoverEvent private constructor() {
                 //#else
                 //$$ val nbt = JsonToNBT.getTagFromJson(content.unformattedText)
                 //#if MC >= 1.12.2
-                //$$ val id = nbt.getUniqueId("id") ?: throw IllegalArgumentException("Invalid entity content")
+                //$$ val id = nbt.getUniqueId("id") ?: throw IllegalArgumentException("Invalid entity content (missing UUID)")
                 //#else
-                //$$ val id = UUID.fromString(nbt.getString("id") ?: throw IllegalArgumentException("Invalid entity content"))
+                //$$ val id = UUID.fromString(nbt.getString("id") ?: throw IllegalArgumentException("Invalid entity content (missing UUID)"))
                 //#endif
-                //$$ val type = if (nbt.hasKey("type", 8)) ResourceLocation(nbt.getString("type")) else throw IllegalArgumentException("Invalid entity content")
+                //$$ val type = if (nbt.hasKey("type", 8)) nbt.getString("type") else null
                 //$$ val name = Optional.ofNullable(nbt.getString("name")).map { MCSimpleTextHolder(it) }
                 //$$ return MCEntityContent(type, id, name)
                 //#endif
             }
-
         }
-
     }
 
     public companion object {
-
         @JvmStatic
         public fun convertFromVanilla(event: HoverEvent): MCHoverEvent? {
             //#if MC >= 1.21.5
@@ -186,18 +176,12 @@ public sealed class MCHoverEvent private constructor() {
             //#endif
         }
 
-        //#if MC <= 1.12.2
-        //$$ private inline fun <T> noInline(init: () -> T): T = init()
-        //#if FABRIC
-        //$$
+        //#if FABRIC && MC <= 1.12.2
         //$$ private fun ItemStack.serializeNBT(): NbtCompound {
         //$$     val value = NbtCompound()
         //$$     toNbt(value)
         //$$     return value
         //$$ }
         //#endif
-        //#endif
-
     }
-
 }
