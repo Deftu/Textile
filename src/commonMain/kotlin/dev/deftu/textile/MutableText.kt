@@ -37,7 +37,10 @@ public class MutableText(
                 }
 
                 if (hasSiblings) {
-                    if (isStyled) append(", ")
+                    if (isStyled) {
+                        append(", ")
+                    }
+
                     append("siblings=$siblings")
                 }
 
