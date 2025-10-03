@@ -76,3 +76,21 @@ java {
         languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
+
+subprojects {
+    plugins.withId("maven-publish") {
+        extensions.configure<PublishingExtension> {
+            publications.withType<MavenPublication>().configureEach {
+                val base = "${rootProject.projectData.name}-${project.name}"
+
+                // Keep the KMP suffixes like -jvm, -js, etc.
+                val suffix = name.removePrefix(project.name)
+                    .removePrefix("kotlinMultiplatform") // Remove KMP default prefix
+                    .removePrefix("mavenJava") // Remove default Java publication prefix
+                artifactId = if (suffix.isNotEmpty()) "$base-$suffix" else base
+
+                logger.lifecycle(">>> *** Configuring publication for project ${project.name} with base name '$base', suffix '$suffix' and artifact ID '$artifactId'")
+            }
+        }
+    }
+}
