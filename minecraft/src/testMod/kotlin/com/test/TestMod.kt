@@ -1,10 +1,14 @@
 package com.test
 
-import dev.deftu.textile.minecraft.MCClickEvent
-import dev.deftu.textile.minecraft.MCHoverEvent
-import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder
-import dev.deftu.textile.minecraft.MCTextFormat
+import dev.deftu.textile.Text
+import dev.deftu.textile.TextStyle
+import dev.deftu.textile.minecraft.ClickEvent
+import dev.deftu.textile.minecraft.HoverEvent
+import dev.deftu.textile.minecraft.MCText
+import dev.deftu.textile.minecraft.MCTextStyle
+import dev.deftu.textile.minecraft.TextColors
 import java.net.URI
+import net.minecraft.util.Formatting
 
 //#if FABRIC
 import net.fabricmc.api.ClientModInitializer
@@ -64,24 +68,62 @@ class TestMod : ClientModInitializer {
         println("-".repeat(dividerSize))
         test1()
         println("-".repeat(dividerSize))
+        test2()
+        println("-".repeat(dividerSize))
+        test3()
+        println("-".repeat(dividerSize))
+        collapseToString_ReopenSpam()
     }
 
     private fun test1() {
-        val text = MCSimpleMutableTextHolder("Hello, World!")
-            .addFormatting(MCTextFormat.RED)
-            .setClickEvent(MCClickEvent.OpenUrl(URI.create("https://google.com")))
-            .setHoverEvent(MCHoverEvent.ShowText("This is a test"))
+        val text = Text.literal("Hello, World!")
+            .setStyle(MCTextStyle()
+                .setColor(TextColors.RED)
+                .setClickEvent(ClickEvent.OpenUrl(URI.create("https://google.com")))
+                .setHoverEvent(HoverEvent.ShowText(Text.literal("This is a test")))
+                .build())
 
         println(text)
-        println(text.asVanilla())
-
-        text.set("Hey hey hey!")
-            .setFormatting(MCTextFormat.GREEN)
-            .setClickEvent(MCClickEvent.RunCommand("say Hi!"))
-            .setHoverEvent(MCHoverEvent.ShowText("Hey there!"))
-
-        println(text)
-        println(text.asVanilla())
+        println(MCText.convert(text))
+        println(text.collapseToString())
     }
 
+    private fun test2() {
+        val text = Text.literal("Hello, Deftu!")
+            .setStyle(MCTextStyle()
+                .setColor(TextColors.hex("#C33F3F"))
+                .setClickEvent(ClickEvent.OpenUrl(URI.create("https://deftu.dev")))
+                .setHoverEvent(HoverEvent.ShowText(Text.literal("Oh my guh!")))
+                .build())
+
+        println(text)
+        println(MCText.convert(text))
+        println(text.collapseToString())
+    }
+
+    private fun test3() {
+        val text = Text.literal("Hello, Deftu!")
+            .setStyle(MCTextStyle()
+                .setColor(TextColors.hex("#C33F3F").withFallback(Formatting.RED))
+                .setClickEvent(ClickEvent.OpenUrl(URI.create("https://deftu.dev")))
+                .setHoverEvent(HoverEvent.ShowText(Text.literal("Oh my guh!")))
+                .build())
+
+        println(text)
+        println(MCText.convert(text))
+        println(text.collapseToString())
+    }
+
+    private fun collapseToString_ReopenSpam() {
+        val bold = TextStyle.Property(TextStyle.PropertyKey<Boolean>("bold", sortIndex = 10), true, left="**", right="**")
+        val a = Text.literal("A").setStyle(TextStyle.EMPTY.withProperties(bold))
+        val b = Text.literal("B").setStyle(TextStyle.EMPTY.withProperties(bold))
+        val doc = a.append(b)
+
+        // Your current collapseToString:
+        // -> "**A****B**"  (re-opens around every chunk)
+        // Desired:
+        // -> "**AB**"
+        println(doc.collapseToString())
+    }
 }

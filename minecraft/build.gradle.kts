@@ -39,4 +39,8 @@ dependencies {
     api(includeOrShade(project(":")) {
         isTransitive = false
     })
+
+    if (mcData.isFabric) {
+        modImplementation("net.fabricmc:fabric-language-kotlin:${mcData.dependencies.fabric.fabricLanguageKotlinVersion}")
+    }
 }

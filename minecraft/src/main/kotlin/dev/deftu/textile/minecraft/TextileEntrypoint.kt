@@ -32,7 +32,6 @@ public class TextileEntrypoint
     : ModInitializer
 //#endif
 {
-
     private val logger = LogManager.getLogger(TextileEntrypoint::class.java)
 
     //#if FORGE && MC >= 1.16.5
@@ -70,5 +69,4 @@ public class TextileEntrypoint
     //$$     modEventBus.addListener(this::onInitialize)
     //$$ }
     //#endif
-
 }

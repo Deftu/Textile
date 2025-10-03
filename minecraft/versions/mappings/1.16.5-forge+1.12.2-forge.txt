@@ -3,3 +3,10 @@ net.minecraft.network.chat.MutableComponent net.minecraft.util.text.TextComponen
 net.minecraft.network.chat.TextComponent net.minecraft.util.text.TextComponentString
 net.minecraft.network.chat.MutableComponent append() appendSibling()
 net.minecraft.network.chat.Component getString() getUnformattedText()
+
+net.minecraft.network.chat.Style net.minecraft.util.text.Style
+net.minecraft.network.chat.Style withBold() setBold()
+net.minecraft.network.chat.Style withItalic() setItalic()
+net.minecraft.network.chat.Style withUnderlined() setUnderlined()
+net.minecraft.network.chat.Style withClickEvent() setClickEvent()
+net.minecraft.network.chat.Style withHoverEvent() setHoverEvent()
