@@ -23,6 +23,25 @@ public object MCText {
     }
 
     @JvmStatic
+    public fun translatable(key: String, vararg replacements: Any): MutableText {
+        return Text.of(TranslatableTextContent(key, replacements))
+    }
+
+    @JvmStatic
+    public fun translatable(key: String, fallback: String?, vararg replacements: Any): MutableText {
+        return Text.of(TranslatableTextContent(key, fallback, replacements))
+    }
+    @JvmStatic
+    public fun translatable(key: String, style: TextStyle, vararg replacements: Any): MutableText {
+        return Text.of(TranslatableTextContent(key, replacements), style)
+    }
+
+    @JvmStatic
+    public fun translatable(key: String, fallback: String?, style: TextStyle, vararg replacements: Any): MutableText {
+        return Text.of(TranslatableTextContent(key, fallback, replacements), style)
+    }
+
+    @JvmStatic
     public fun wrap(text: VanillaText): Text {
         val result = Text.literal(buildString {
             text.content.visit { content ->

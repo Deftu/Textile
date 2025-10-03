@@ -4,6 +4,8 @@ net.minecraft.network.chat.TextComponent net.minecraft.util.text.TextComponentSt
 net.minecraft.network.chat.MutableComponent append() appendSibling()
 net.minecraft.network.chat.Component getString() getUnformattedText()
 
+net.minecraft.locale.Language net.minecraft.client.resources.Language
+
 net.minecraft.network.chat.Style net.minecraft.util.text.Style
 net.minecraft.network.chat.Style withBold() setBold()
 net.minecraft.network.chat.Style withItalic() setItalic()
