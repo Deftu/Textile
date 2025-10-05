@@ -1,10 +1,19 @@
 package dev.deftu.textile
 
 public class MutableText(
-    override var content: TextContent,
-    override var siblings: List<Text>,
-    override var style: TextStyle,
+    content: TextContent,
+    siblings: List<Text>,
+    style: TextStyle,
 ) : Text {
+    override var content: TextContent = content
+        private set
+
+    override var siblings: List<Text> = siblings
+        private set
+
+    override var style: TextStyle = style
+        private set
+
     public fun append(text: Text): MutableText {
         this.siblings += text
         return this
