@@ -1,7 +1,6 @@
 # Textile
 
-A Kotlin-first, minimal and powerful text interface library. Enabling clean abstraction of text handling
-across various platforms.
+Kotlin-first text interfacing library. Minimal, fast and portable. No magic, just build text, style it, and ship it.
 
 ---
 
@@ -13,7 +12,7 @@ across various platforms.
 
 ---
 
-## Usage
+## Installation
 
 ### Repository
 
@@ -66,6 +65,10 @@ implementation("dev.deftu:textile:<version>")
 <details>
     <summary>Minecraft versions & mod loaders</summary>
 
+- 1.21.9 NeoForge    (1.21.9-neoforge)
+- 1.21.9 Fabric      (1.21.9-fabric)
+- 1.21.8 NeoForge    (1.21.8-neoforge)
+- 1.21.8 Fabric      (1.21.8-fabric)
 - 1.21.7 NeoForge    (1.21.7-neoforge)
 - 1.21.7 Fabric      (1.21.7-fabric)
 - 1.21.6 NeoForge    (1.21.6-neoforge)
@@ -104,7 +107,8 @@ implementation("dev.deftu:textile:<version>")
     <summary>Groovy (.gradle)</summary>
 
 ```gradle
-modImplementation "dev.deftu:textile-<minecraft version>-<loader>:<version>"
+// f.ex "dev.deftu:textile-1.19.4-fabric:1.0.0"
+modImplementation "dev.deftu:textile-<minecraft.version>-<loader>:<version>"
 ```
 
 </details>
@@ -113,93 +117,58 @@ modImplementation "dev.deftu:textile-<minecraft version>-<loader>:<version>"
     <summary>Kotlin (.gradle.kts)</summary>
 
 ```gradle
-modImplementation("dev.deftu:textile-<minecraft version>-<loader>:<version>")
+// f.ex "dev.deftu:textile-1.19.4-fabric:1.0.0"
+modImplementation("dev.deftu:textile-<minecraft.version>-<loader>:<version>")
 ```
 
 </details>
 
-## Examples
+## API TL;DR
 
-### Basic Usage
+Textile revolves around three primary concepts:
+- `Text`: Node with `content`, `style` and potentially `siblings`.
+- `TextStyle`: Map of properties that define how your text looks and is outputted when converted to a string.
+- `StringVisitor`: Visit leaf strings, whether they be given to you raw or styled.
 
-```kt
-import dev.deftu.textile.TextHolder
-import dev.deftu.textile.SimpleTextHolder
+The following examples make use of the Minecraft module.
 
-fun main() {
-    // Very simple literal text implementation bundled with Textile
-    val firstText = SimpleTextHolder("Hello, World!")
-    printText(firstText)
-    
-    // You can extend TextHolder to create custom text holders
-    // Including ones which support translations!
-    val secondText = MyCustomTextHolder(TranslationKeys.MY_TRANSLATION_KEY)
-    printText(secondText) // Prints the translation of MY_TRANSLATION_KEY, as provided by you
-}
+### Building text
 
-fun printText(text: TextHolder<*, *>) {
-    println(text.asString())
-}
+```kotlin
+import dev.deftu.textile.Text
+import dev.deftu.textile.minecraft.MCTextStyle
+import dev.deftu.textile.minecraft.TextColors
+
+val message = Text.literal("Hello, ")
+    .append(Text.literal("world").setStyle(MCTextStyle.color(TextColors.RED).bold()))
+    .append(Text.literal("!"))
 ```
 
-### Mutability
+### Visiting strings (in render order)
 
-Now, Textile's `TextHolder` is immutable by default, allowing you to control how you
-handle the text state in your application. Should you want to mutate existing text
-without creating duplicates or children of the original text, you can use
-`MutableTextHolder`.
+```kotlin
+import dev.deftu.textile.TextStyle
 
-```kt
-import dev.deftu.textile.MutableTextHolder
-import dev.deftu.textile.SimpleTextHolder
-import dev.deftu.textile.SimpleMutableTextHolder
-
-fun main() {
-    // MutableTextHolder allows you to mutate the text without creating a duplicate/copy of the original text
-    val mutableText = SimpleMutableTextHolder("Hello, World!")
-    
-    // Mutate the text by adding a child
-    mutableText.append(SimpleTextHolder(" How are you?"))
-    
-    // Print the mutated text
-    println(mutableText.asString()) // Outputs: Hello, World! How are you?
-}
+message.visit({ content, style ->
+    println("$content | $style")
+    // Returns Unit from println, which is effectively a "keep going" signal
+}, TextStyle.EMPTY)
 ```
 
----
+### Collapsing into a single string value / into legacy codes
 
-## Minecraft Integration
+```kotlin
+val content = message.collapseToString()
+```
 
-Textile provides a default module for Minecraft, which includes various text holder implementations
-tailored for Minecraft's text system. This module supports most major Minecraft versions and loaders.
+### Converting your `Text` into a Minecraft component using the Minecraft module
 
-These can be automatically converted to and from Minecraft's own text component system, allowing you to
-easily integrate Textile text holders into your Minecraft mods.
+```kotlin
+import dev.deftu.textile.minecraft.MCText
 
-Not only does this let you use Textile’s rich text API, but it also makes integrating with Minecraft's
-text system trivial across several Minecraft versions.
-
-The text holders implemented for the Minecraft version are identical to the base ones provided by Textile,
-but with `MC` prefixed on them, as well as 2 additional ones for translations. These additional text holders
-include utilities for Minecraft's click and hover events, as well as converting to Minecraft's text component
-system.
-
-### How do I create a `MCTextHolder` from a vanilla component?
-
-`MCTextHolder` gives you a static `convertFromVanilla` method, which takes a vanilla component and outputs
-an identical `MCTextHolder` instance to the original component.
-
-The opposite can be done with `MCTextHolder#convertToVanilla` (static) or `MCTextHolder#asVanilla`,
-which takes **ANY** `TextHolder` and outputs a vanilla component with a structure identical to it.
-Keep in mind that click and hover events can ONLY be carried over from `MCTextHolder`, you'll need
-to either extend `MCTextHolder` or write your own conversion logic if you want to carry over click
-and hover events from other text holders.
-
-### How do I build out my own `MCTextHolder`?
-
-The easiest way to do so is with literal text through `MCSimpleTextHolder`.
-
-You can find an example/test on how to do this in [TestMod.kt](./minecraft/src/testMod/kotlin/com/test/TestMod.kt).
+val component = MCText.convert(message) // Textile -> Vanilla Component
+// val back = MCText.wrap(component) // Vanilla Component -> Textile
+```
 
 ---
 
@@ -208,4 +177,4 @@ You can find an example/test on how to do this in [TestMod.kt](./minecraft/src/t
 ---
 
 **This project is licensed under [LGPL-3.0][lgpl]**\
-**&copy; 2024 Deftu**
+**&copy; 2025 Deftu**
