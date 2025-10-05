@@ -22,7 +22,7 @@ public data class MCTextStyle @JvmOverloads public constructor(
         public const val COLOR_CHAR: Char = '\u00A7'
 
         @JvmStatic
-        public fun colored(color: TextColor): MCTextStyle {
+        public fun color(color: TextColor): MCTextStyle {
             return MCTextStyle(color = color)
         }
 
