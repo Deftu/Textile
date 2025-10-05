@@ -71,38 +71,43 @@ public interface Text : StringVisitable {
         var currentProperties = listOf<TextStyle.Property<*>>()
         visit({ content, style ->
             if (content.isEmpty()) {
-                return@visit null
+                return@visit
             }
 
             val nextProperties = style.properties
-            val closing = currentProperties.filter { currentProperty ->
-                nextProperties.none { nextProperty ->
-                    nextProperty.key == currentProperty.key && nextProperty.value == currentProperty.value
-                }
+
+            // Check identity as fast path to skip a list comparison in the case that the instance is unchanged
+            // We'll fall back to equality check in case the instance is different but the properties are the same
+            @Suppress("SuspiciousEqualsCombination")
+            if (nextProperties === currentProperties || nextProperties == currentProperties) {
+                builder.append(content)
+                currentProperties = nextProperties
+                return@visit
             }
 
-            val opening = nextProperties.filter { nextProperty ->
-                currentProperties.none { currentProperty ->
-                    currentProperty.key == nextProperty.key && currentProperty.value == nextProperty.value
-                }
-            }
+            val currentByKey = currentProperties.associateBy(TextStyle.Property<*>::key)
+            val nextByKey = nextProperties.associateBy(TextStyle.Property<*>::key)
 
-            for (property in closing.sortedWith(closingOrder)) {
-                property.right?.let(builder::append)
-            }
+            currentByKey.values.asSequence()
+                .filter { prop -> nextByKey[prop.key]?.value != prop.value }
+                .sortedWith(closingOrder)
+                .mapNotNull(TextStyle.Property<*>::right)
+                .forEach(builder::append)
 
-            for (property in opening.sortedWith(openingOrder)) {
-                property.left?.let(builder::append)
-            }
+            nextByKey.values.asSequence()
+                .filter { prop -> currentByKey[prop.key]?.value != prop.value }
+                .sortedWith(openingOrder)
+                .mapNotNull(TextStyle.Property<*>::left)
+                .forEach(builder::append)
 
             builder.append(content)
             currentProperties = nextProperties
-            null
         }, TextStyle.EMPTY)
 
-        for (property in currentProperties.sortedWith(closingOrder)) {
-            property.right?.let(builder::append)
-        }
+        currentProperties.asSequence()
+            .sortedWith(closingOrder)
+            .mapNotNull(TextStyle.Property<*>::right)
+            .forEach(builder::append)
 
         return builder.toString()
     }
