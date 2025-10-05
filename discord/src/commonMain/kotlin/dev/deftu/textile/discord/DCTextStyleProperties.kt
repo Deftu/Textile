@@ -21,7 +21,7 @@ public object DCTextStyleProperties {
     @JvmField public val STRIKETHROUGH_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey("discord:strikethrough", 3)
     @JvmField public val SPOILER_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey("discord:spoiler", 4)
     @JvmField public val INLINE_CODE_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey("discord:inline_code", 5)
-    @JvmField public val CODE_BLOCK_KEY: TextStyle.PropertyKey<String?> = TextStyle.PropertyKey("discord:code_block_language", 6)
+    @JvmField public val CODE_BLOCK_KEY: TextStyle.PropertyKey<CodeBlock> = TextStyle.PropertyKey("discord:code_block", 6)
     @JvmField public val QUOTE_LINE_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey("discord:quote_line", 7)
     @JvmField public val QUOTE_BLOCK_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey("discord:quote_block", 8)
 
@@ -86,13 +86,12 @@ public object DCTextStyleProperties {
     }
 
     @JvmStatic
-    public fun codeBlock(language: String? = null): TextStyle.Property<String?> {
-        val leftFmt = if (language != null) "$CODE_BLOCK_FMT$language\n" else "$CODE_BLOCK_FMT\n"
+    public fun codeBlock(data: CodeBlock): TextStyle.Property<CodeBlock> {
         return TextStyle.Property(
             CODE_BLOCK_KEY,
-            language,
-            left = leftFmt,
-            right = "\n$CODE_BLOCK_FMT"
+            data,
+            left = data.openingTag,
+            right = data.closingTag
         )
     }
 

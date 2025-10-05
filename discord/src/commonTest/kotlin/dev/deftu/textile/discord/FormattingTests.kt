@@ -46,7 +46,7 @@ class FormattingTests {
 
     @Test
     fun code_block_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(codeBlockLanguage = "kotlin").build())
+        val text = createTestText().setStyle(DCTextStyle().setCodeBlockLanguage("kotlin").build())
         assertEquals("```kotlin\n${TEST_PHRASE}\n```", text.collapseToString())
     }
 
@@ -79,28 +79,4 @@ class FormattingTests {
         val text = createTestText().setStyle(DCTextStyle(isBold = true, isItalic = true, isUnderlined = true).build())
         assertEquals("***__${TEST_PHRASE}__***", text.collapseToString())
     }
-
-//    @Test
-//    fun rendered_correctly_in_siblings() {
-//        val parentText = SimpleMutableTextHolder.fromImmutable(createTestText().withFormatting(DiscordTextFormat.Bold))
-//        val childText = createTestText().withFormatting(DiscordTextFormat.Spoiler)
-//        parentText.append(childText)
-//        assertEquals("**${TEST_PHRASE}**||${TEST_PHRASE}||", parentText.asString())
-//    }
-//
-//    @Test
-//    fun rendered_correctly_in_siblings_with_multiple_formats() {
-//        val parentText = SimpleMutableTextHolder.fromImmutable(createTestText().withFormatting(DiscordTextFormat.Bold, DiscordTextFormat.Italic))
-//        val childText = createTestText().withFormatting(DiscordTextFormat.Spoiler, DiscordTextFormat.Underline)
-//        parentText.append(childText)
-//        assertEquals("***${TEST_PHRASE}***||__${TEST_PHRASE}__||", parentText.asString())
-//    }
-//
-//    @Test
-//    fun rendered_correctly_in_siblings_with_clashing_formats() {
-//        val parentText = SimpleMutableTextHolder.fromImmutable(createTestText().withFormatting(DiscordTextFormat.Bold, DiscordTextFormat.Italic))
-//        val childText = createTestText().withFormatting(DiscordTextFormat.Bold, DiscordTextFormat.Underline)
-//        parentText.append(childText)
-//        assertEquals("***${TEST_PHRASE}*****__${TEST_PHRASE}__**", parentText.asString())
-//    }
 }
