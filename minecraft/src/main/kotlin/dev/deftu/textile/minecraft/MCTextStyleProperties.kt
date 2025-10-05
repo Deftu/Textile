@@ -39,7 +39,7 @@ public object MCTextStyleProperties {
 
     @JvmStatic
     public fun color(color: TextColor): TextStyle.Property<TextColor> {
-        return TextStyle.Property(COLOR_KEY, color, left = if (!color.isCustom) color.formatting?.toString() else null)
+        return TextStyle.Property(COLOR_KEY, color, left = color.formattingString)
     }
 
     @JvmStatic
