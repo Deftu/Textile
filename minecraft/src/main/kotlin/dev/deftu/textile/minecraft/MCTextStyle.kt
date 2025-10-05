@@ -20,6 +20,11 @@ public data class MCTextStyle @JvmOverloads public constructor(
 ) {
     public companion object {
         public const val COLOR_CHAR: Char = '\u00A7'
+        
+        @JvmStatic
+        public fun colored(color: TextColor): MCTextStyle {
+            return MCTextStyle(color = color)
+        }
 
         @JvmStatic
         public fun get(style: TextStyle): MCTextStyle {
@@ -63,32 +68,88 @@ public data class MCTextStyle @JvmOverloads public constructor(
         return if (bold == isBold) this else copy(isBold = bold)
     }
 
+    public fun bold(): MCTextStyle {
+        return setBold(true)
+    }
+
+    public fun notBold(): MCTextStyle {
+        return setBold(false)
+    }
+
     public fun setItalic(italic: Boolean?): MCTextStyle {
         return if (italic == isItalic) this else copy(isItalic = italic)
+    }
+
+    public fun italic(): MCTextStyle {
+        return setItalic(true)
+    }
+
+    public fun notItalic(): MCTextStyle {
+        return setItalic(false)
     }
 
     public fun setUnderlined(underlined: Boolean?): MCTextStyle {
         return if (underlined == isUnderlined) this else copy(isUnderlined = underlined)
     }
 
+    public fun underlined(): MCTextStyle {
+        return setUnderlined(true)
+    }
+
+    public fun notUnderlined(): MCTextStyle {
+        return setUnderlined(false)
+    }
+
     public fun setStrikethrough(strikethrough: Boolean?): MCTextStyle {
         return if (strikethrough == isStrikethrough) this else copy(isStrikethrough = strikethrough)
+    }
+
+    public fun strikethrough(): MCTextStyle {
+        return setStrikethrough(true)
+    }
+
+    public fun notStrikethrough(): MCTextStyle {
+        return setStrikethrough(false)
     }
 
     public fun setObfuscated(obfuscated: Boolean?): MCTextStyle {
         return if (obfuscated == isObfuscated) this else copy(isObfuscated = obfuscated)
     }
 
+    public fun obfuscated(): MCTextStyle {
+        return setObfuscated(true)
+    }
+
+    public fun notObfuscated(): MCTextStyle {
+        return setObfuscated(false)
+    }
+
     public fun setColor(color: TextColor?): MCTextStyle {
         return if (color == this.color) this else copy(color = color)
+    }
+
+    public fun colored(color: TextColor): MCTextStyle {
+        return setColor(color)
+    }
+
+    public fun clearColor(): MCTextStyle {
+        return setColor(null)
     }
 
     public fun setClickEvent(event: ClickEvent?): MCTextStyle {
         return if (event == clickEvent) this else copy(clickEvent = event)
     }
 
+    public fun clearClickEvent(): MCTextStyle {
+        return setClickEvent(null)
+    }
+
     public fun setHoverEvent(event: HoverEvent?): MCTextStyle {
         return if (event == hoverEvent) this else copy(hoverEvent = event)
+    }
+
+    public fun clearHoverEvent(): MCTextStyle {
+        return setHoverEvent(null)
     }
 
     public fun build(): TextStyle {
