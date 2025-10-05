@@ -55,7 +55,7 @@ public data class TextStyle(public val propertiesByName: Map<PropertyKey<*>, Pro
 
     override fun toString(): String {
         return buildString {
-            append("Style[ ")
+            append("Style[")
 
             properties.forEachIndexed { index, property ->
                 if (index > 0) append(", ")
@@ -64,7 +64,7 @@ public data class TextStyle(public val propertiesByName: Map<PropertyKey<*>, Pro
                 append(property.value)
             }
 
-            append(" ]")
+            append("]")
         }
     }
 }
