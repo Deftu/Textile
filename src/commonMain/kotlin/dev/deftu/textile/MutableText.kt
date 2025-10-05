@@ -28,9 +28,17 @@ public class MutableText(
         return this
     }
 
+    public fun fillStyle(builder: TextStyleBuilder): MutableText {
+        return fillStyle(builder.build())
+    }
+
     public fun setStyle(style: TextStyle): MutableText {
         this.style = style
         return this
+    }
+
+    public fun setStyle(builder: TextStyleBuilder): MutableText {
+        return setStyle(builder.build())
     }
 
     override fun toString(): String {

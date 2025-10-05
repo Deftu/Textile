@@ -15,6 +15,11 @@ public interface Text : StringVisitable {
         }
 
         @JvmStatic
+        public fun of(content: TextContent, builder: TextStyleBuilder): MutableText {
+            return MutableText(content, emptyList(), builder.build())
+        }
+
+        @JvmStatic
         public fun empty(): MutableText {
             return of(TextContent.Empty)
         }
@@ -27,6 +32,11 @@ public interface Text : StringVisitable {
         @JvmStatic
         public fun literal(content: String, style: TextStyle): MutableText {
             return of(TextContent.Literal(content), style)
+        }
+
+        @JvmStatic
+        public fun literal(content: String, builder: TextStyleBuilder): MutableText {
+            return of(TextContent.Literal(content), builder.build())
         }
     }
 
@@ -107,6 +117,10 @@ public interface Text : StringVisitable {
                 }
             }, style))
         }.filterNotNull()
+    }
+
+    public fun withStyle(builder: TextStyleBuilder): List<Text> {
+        return withStyle(builder.build())
     }
 
     public fun withoutStyle(): List<Text> {

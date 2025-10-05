@@ -2,6 +2,7 @@ package dev.deftu.textile.minecraft
 
 import dev.deftu.textile.Text
 import dev.deftu.textile.TextStyle
+import dev.deftu.textile.TextStyleBuilder
 import net.minecraft.text.Style
 
 //#if MC <= 1.16.5
@@ -17,7 +18,7 @@ public data class MCTextStyle @JvmOverloads public constructor(
     public val color: TextColor? = null,
     public val clickEvent: ClickEvent? = null,
     public val hoverEvent: HoverEvent? = null
-) {
+) : TextStyleBuilder {
     public companion object {
         public const val COLOR_CHAR: Char = '\u00A7'
 
@@ -152,7 +153,7 @@ public data class MCTextStyle @JvmOverloads public constructor(
         return setHoverEvent(null)
     }
 
-    public fun build(): TextStyle {
+    override fun build(): TextStyle {
         val props = mutableListOf<TextStyle.Property<*>>()
         isBold?.let { value -> props.add(MCTextStyleProperties.bold(value)) }
         isItalic?.let { value -> props.add(MCTextStyleProperties.italic(value)) }
