@@ -42,5 +42,9 @@ dependencies {
 
     if (mcData.isFabric) {
         modImplementation("net.fabricmc:fabric-language-kotlin:${mcData.dependencies.fabric.fabricLanguageKotlinVersion}")
+
+        if (mcData.version >= MinecraftVersions.VERSION_1_16_5) {
+            modImplementation(fabricApi.module("fabric-lifecycle-events-v1", mcData.dependencies.fabric.fabricApiVersion))
+        }
     }
 }

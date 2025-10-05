@@ -64,6 +64,22 @@ class TestMod : ClientModInitializer {
         println("-".repeat(dividerSize))
         test4()
         println("-".repeat(dividerSize))
+        test5()
+        println("-".repeat(dividerSize))
+
+        //#if FABRIC && MC >= 1.16.5
+        var tick = 0
+        net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register { client ->
+            if (tick++ < 20) {
+                return@register
+            }
+
+            println("-".repeat(dividerSize))
+            test4()
+            println("-".repeat(dividerSize))
+            tick = 0
+        }
+        //#endif
     }
 
     private fun test1() {
@@ -95,7 +111,7 @@ class TestMod : ClientModInitializer {
     private fun test3() {
         val text = MCText.literal("Hello, Deftu!")
             .setStyle(MCTextStyle()
-                .setColor(TextColors.hex("#C33F3F").withFallback(Formatting.RED))
+                .setColor(TextColors.hex("#C33F3F").withFallback(Formatting.RED, false))
                 .setClickEvent(ClickEvent.OpenUrl(URI.create("https://deftu.dev")))
                 .setHoverEvent(HoverEvent.ShowText(MCText.literal("Oh my guh!")))
                 .build())
@@ -106,11 +122,24 @@ class TestMod : ClientModInitializer {
     }
 
     private fun test4() {
-        val text = MCText.translatable("gui.yes")
+        val text = MCText.translatable("gui.done")
             .setStyle(MCTextStyle()
                 .setColor(TextColors.GREEN)
-                .setClickEvent(ClickEvent.RunCommand("/say Yes!"))
+                .setClickEvent(ClickEvent.RunCommand("/say Done!"))
                 .setHoverEvent(HoverEvent.ShowText(MCText.literal("Click me!")))
+                .build())
+
+        println(text)
+        println(MCText.convert(text))
+        println(text.collapseToString())
+    }
+
+    private fun test5() {
+        val text = MCText.literal("Hello, Deftu!")
+            .setStyle(MCTextStyle()
+                .setColor(TextColors.hex("#C33F3F").withFallback(Formatting.RED))
+                .setClickEvent(ClickEvent.OpenUrl(URI.create("https://deftu.dev")))
+                .setHoverEvent(HoverEvent.ShowText(MCText.literal("Oh my guh!")))
                 .build())
 
         println(text)
