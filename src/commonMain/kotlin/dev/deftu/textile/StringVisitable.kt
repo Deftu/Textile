@@ -14,6 +14,10 @@ public interface StringVisitable {
                 override fun <T> visit(visitor: StringVisitor.Styled<T>, style: TextStyle): T? {
                     return visitor.visit(text, style)
                 }
+
+                override fun toString(): String {
+                    return "StringVisitable.Plain($text)"
+                }
             }
         }
     }
