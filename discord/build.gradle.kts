@@ -9,10 +9,6 @@ plugins {
     id("dev.deftu.gradle.tools.publishing.maven")
 }
 
-toolkitMavenPublishing {
-    artifactName.set("textile-discord")
-}
-
 kotlin {
     explicitApi()
 
