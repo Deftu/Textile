@@ -56,7 +56,8 @@ public object TextColors {
     @JvmStatic
     public fun wrapFormatting(formatting: Formatting): TextColor {
         //#if MC >= 1.16.5
-        return TextColor(formatting.colorValue ?: 0).default(formatting)
+        val rgba = if (formatting.isColor) formatting.colorValue ?: -1 else -1
+        return TextColor(rgba).default(formatting)
         //#else
         //$$ return when (formatting) {
         //$$     TextFormatting.BLACK -> BLACK
@@ -81,7 +82,12 @@ public object TextColors {
     }
 
     @JvmStatic
+    @Suppress("EnumValuesSoftDeprecate")
     public fun convertFormatting(color: TextColor): Formatting? {
-        return color.formatting ?: Formatting.byColorIndex(color.rgba and 0xFFFFFF)
+        //#if MC >= 1.16.5
+        return color.formatting ?: Formatting.values().firstOrNull { it.colorValue == (color.rgba and 0xFFFFFF) }
+        //#else
+        //$$ return color.formatting // Otherwise we just can't map it back since there's no sane way to do it on legacy
+        //#endif
     }
 }
