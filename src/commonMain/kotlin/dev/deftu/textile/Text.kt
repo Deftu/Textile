@@ -107,23 +107,21 @@ public interface Text : StringVisitable {
         return builder.toString()
     }
 
-    public fun withStyle(style: TextStyle): List<Text> {
-        return buildList {
-            add(visit({ content, style ->
-                if (content.isNotEmpty()) {
-                    literal(content).setStyle(style)
-                } else {
-                    null
-                }
-            }, style))
-        }.filterNotNull()
+    public fun withStyle(style: TextStyle): Text {
+        return visit({ content, style ->
+            if (content.isNotEmpty()) {
+                literal(content).setStyle(style)
+            } else {
+                empty()
+            }
+        }, style) ?: empty()
     }
 
-    public fun withStyle(builder: TextStyleBuilder): List<Text> {
+    public fun withStyle(builder: TextStyleBuilder): Text {
         return withStyle(builder.build())
     }
 
-    public fun withoutStyle(): List<Text> {
+    public fun withoutStyle(): Text {
         return withStyle(TextStyle.EMPTY)
     }
 
