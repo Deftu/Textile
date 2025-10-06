@@ -71,7 +71,7 @@ public interface Text : StringVisitable {
         var currentProperties = listOf<TextStyle.Property<*>>()
         visit({ content, style ->
             if (content.isEmpty()) {
-                return@visit
+                return@visit null
             }
 
             val nextProperties = style.properties
@@ -82,7 +82,7 @@ public interface Text : StringVisitable {
             if (nextProperties === currentProperties || nextProperties == currentProperties) {
                 builder.append(content)
                 currentProperties = nextProperties
-                return@visit
+                return@visit null
             }
 
             val currentByKey = currentProperties.associateBy(TextStyle.Property<*>::key)
@@ -102,6 +102,7 @@ public interface Text : StringVisitable {
 
             builder.append(content)
             currentProperties = nextProperties
+            null
         }, TextStyle.EMPTY)
 
         currentProperties.asSequence()
