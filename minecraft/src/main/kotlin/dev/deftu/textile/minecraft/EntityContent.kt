@@ -1,6 +1,7 @@
 package dev.deftu.textile.minecraft
 
 import dev.deftu.textile.Text
+import net.minecraft.entity.Entity
 import net.minecraft.text.HoverEvent
 import java.util.Optional
 import java.util.UUID
@@ -51,6 +52,23 @@ public data class EntityContent(
             //$$ val name: Optional<Text> = Optional.ofNullable(nbt.getString("name")).map(Text::literal)
             //$$ return EntityContent(type, id, name)
             //#endif
+        }
+
+        @JvmStatic
+        public fun of(entity: Entity): EntityContent {
+            return EntityContent(
+                //#if MC >= 1.16.5
+                entity.type,
+                //#else
+                //$$ entity.entityId.toString(),
+                //#endif
+                entity.uuid,
+                //#if MC >= 1.16.5
+                Optional.ofNullable(entity.name).map(MCText::wrap)
+                //#else
+                //$$ Optional.ofNullable(entity.name).map(Text::literal)
+                //#endif
+            )
         }
     }
 }
