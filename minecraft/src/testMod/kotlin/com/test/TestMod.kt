@@ -1,11 +1,13 @@
 package com.test
 
 import dev.deftu.textile.minecraft.ClickEvent
+import dev.deftu.textile.minecraft.EntityContent
 import dev.deftu.textile.minecraft.HoverEvent
 import dev.deftu.textile.minecraft.MCText
 import dev.deftu.textile.minecraft.MCTextStyle
 import dev.deftu.textile.minecraft.TextColors
 import java.net.URI
+import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Formatting
 
 //#if FABRIC
@@ -66,6 +68,8 @@ class TestMod : ClientModInitializer {
         println("-".repeat(dividerSize))
         test5()
         println("-".repeat(dividerSize))
+        test6()
+        println("-".repeat(dividerSize))
 
         //#if FABRIC && MC >= 1.16.5
         var tick = 0
@@ -76,6 +80,8 @@ class TestMod : ClientModInitializer {
 
             println("-".repeat(dividerSize))
             test4()
+            println("-".repeat(dividerSize))
+            test6()
             println("-".repeat(dividerSize))
             tick = 0
         }
@@ -145,5 +151,27 @@ class TestMod : ClientModInitializer {
         println(text)
         println(MCText.convert(text))
         println(text.collapseToString())
+    }
+
+    private fun test6() {
+        val player = MinecraftClient.getInstance().player ?: return println("No player found, skipping test6()")
+
+        val text = MCText.translatable(
+            key = "chat.type.text",
+            replacements = arrayOf(
+                MCText.literal("Deftu").setStyle(
+                    MCTextStyle()
+                        .setClickEvent(ClickEvent.SuggestCommand("/tell Deftu"))
+                        .setHoverEvent(HoverEvent.ShowEntity(EntityContent.of(player)))
+                ),
+                MCText.literal("Hello, Deftu!")
+            )
+        )
+
+        println(text)
+        val converted = MCText.convert(text)
+        println(converted)
+        println(text.collapseToString())
+        println(MCText.wrap(converted))
     }
 }
