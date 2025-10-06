@@ -4,6 +4,7 @@ import dev.deftu.textile.MutableText
 import dev.deftu.textile.Text
 import dev.deftu.textile.TextStyle
 import net.minecraft.text.Text as VanillaText
+import net.minecraft.text.TranslatableTextContent as VanillaTranslatableTextContent
 import java.util.Optional
 
 public object MCText {
@@ -43,20 +44,62 @@ public object MCText {
 
     @JvmStatic
     public fun wrap(text: VanillaText): Text {
-        val result = Text.literal(buildString {
-            text.content.visit { content ->
+        val content = text.content
+        if (content is VanillaTranslatableTextContent) {
+            return translatable(
+                key = content.key,
+                //#if MC >= 1.19.4
+                fallback = content.fallback,
+                //#else
+                //$$ fallback = null,
+                //#endif
+                replacements = content.args.map { arg ->
+                    when (arg) {
+                        is VanillaText -> wrap(arg)
+                        else -> arg
+                    }
+                }.toTypedArray()
+            ).setStyle(MCTextStyle.wrap(text.style).build()).also { result ->
+                text.siblings.map(::wrap).forEach(result::append)
+            }
+        }
+
+        return literal(buildString {
+            content.visit { content ->
                 append(content)
                 Optional.empty<Any>()
             }
-        }).setStyle(MCTextStyle.wrap(text.style).build())
-        text.siblings.map(::wrap).forEach(result::append)
-        return result
+        }).setStyle(MCTextStyle.wrap(text.style).build()).also { result ->
+            text.siblings.map(::wrap).forEach(result::append)
+        }
     }
 
     @JvmStatic
     public fun convert(text: Text): VanillaText {
-        return VanillaText.literal(text.content.string).apply {
-            val style = MCTextStyle.get(text)
+        val style = MCTextStyle.get(text)
+        val content = text.content
+        if (content is TranslatableTextContent) {
+            //#if MC >= 1.19.4
+            return VanillaText.translatableWithFallback(
+                content.key,
+                content.fallback,
+            //#else
+            //$$ return VanillaText.translatable(
+            //$$     content.key,
+            //#endif
+                *content.replacements.map { replacement ->
+                    when (replacement) {
+                        is Text -> convert(replacement)
+                        else -> replacement
+                    }
+                }.toTypedArray()
+            ).apply {
+                this.styled(style::applyTo)
+                text.siblings.map(::convert).forEach(this::append)
+            }
+        }
+
+        return VanillaText.literal(content.string).apply {
             this.styled(style::applyTo)
             text.siblings.map(::convert).forEach(this::append)
         }

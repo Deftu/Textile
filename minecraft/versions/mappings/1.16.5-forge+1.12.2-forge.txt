@@ -12,3 +12,5 @@ net.minecraft.network.chat.Style withItalic() setItalic()
 net.minecraft.network.chat.Style withUnderlined() setUnderlined()
 net.minecraft.network.chat.Style withClickEvent() setClickEvent()
 net.minecraft.network.chat.Style withHoverEvent() setHoverEvent()
+
+net.minecraft.network.chat.TranslatableComponent net.minecraft.util.text.TextComponentTranslation

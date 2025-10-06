@@ -4,6 +4,7 @@ import dev.deftu.textile.MutableText
 import dev.deftu.textile.Text
 import dev.deftu.textile.TextStyle
 import net.minecraft.text.LiteralText
+import net.minecraft.text.TranslatableText as VanillaTranslatableText
 import net.minecraft.text.Text as VanillaText
 
 public object MCText {
@@ -43,16 +44,51 @@ public object MCText {
 
     @JvmStatic
     public fun wrap(text: VanillaText): Text {
-        val result = Text.literal(text.string)
-            .setStyle(MCTextStyle.wrap(text.style).build())
-        text.siblings.map(::wrap).forEach(result::append)
-        return result
+        if (text is VanillaTranslatableText) {
+            return translatable(
+                key = text.key,
+                fallback = null,
+                replacements = text.args.map { arg ->
+                    when (arg) {
+                        is VanillaText -> wrap(arg)
+                        else -> arg
+                    }
+                }.toTypedArray()
+            ).setStyle(MCTextStyle.wrap(text.style)).also { result ->
+                text.siblings.map(::wrap).forEach(result::append)
+            }
+        }
+
+        return literal(text.string).apply {
+            this.setStyle(MCTextStyle.wrap(text.style))
+            text.siblings.map(::wrap).forEach(this::append)
+        }
     }
 
     @JvmStatic
     public fun convert(text: Text): VanillaText {
-        return LiteralText(text.content.string).apply {
-            val style = MCTextStyle.get(text)
+        val style = MCTextStyle.get(text)
+        val content = text.content
+        if (content is TranslatableTextContent) {
+            return VanillaTranslatableText(
+                content.key,
+                *content.replacements.map { arg ->
+                    when (arg) {
+                        is Text -> convert(arg)
+                        else -> arg
+                    }
+                }.toTypedArray()
+            ).apply {
+                //#if MC >= 1.16.5
+                this.styled(style::applyTo)
+                //#else
+                //$$ this.setStyle(style.applyTo(this.style))
+                //#endif
+                text.siblings.map(::convert).forEach(this::append)
+            }
+        }
+
+        return LiteralText(content.string).apply {
             //#if MC >= 1.16.5
             this.styled(style::applyTo)
             //#else
