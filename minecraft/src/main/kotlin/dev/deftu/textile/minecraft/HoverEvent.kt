@@ -14,8 +14,8 @@ public sealed interface HoverEvent {
 
     public data class ShowItem(public val value: ItemStack) : HoverEvent {
         //#if MC >= 1.16.5
-        public val vanilla: VanillaHoverEvent.ItemStackContent
-            get() = VanillaHoverEvent.ItemStackContent(value)
+        public val vanilla: VanillaHoverEvent.ShowItem
+            get() = VanillaHoverEvent.ShowItem(value)
         //#endif
     }
 
