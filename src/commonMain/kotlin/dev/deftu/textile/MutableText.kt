@@ -19,8 +19,8 @@ public class MutableText(
         return this
     }
 
-    public fun append(content: String): MutableText {
-        return append(Text.literal(content))
+    public fun append(content: String?): MutableText {
+        return append(if (content.isNullOrEmpty()) Text.empty() else Text.literal(content))
     }
 
     public fun fillStyle(style: TextStyle): MutableText {
