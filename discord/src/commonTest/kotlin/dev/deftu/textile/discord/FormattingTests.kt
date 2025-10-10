@@ -16,67 +16,79 @@ class FormattingTests {
 
     @Test
     fun bold_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isBold = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isBold = true))
         assertEquals("**${TEST_PHRASE}**", text.collapseToString())
     }
 
     @Test
     fun italic_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isItalic = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isItalic = true))
         assertEquals("*${TEST_PHRASE}*", text.collapseToString())
     }
 
     @Test
     fun underline_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isUnderlined = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isUnderlined = true))
         assertEquals("__${TEST_PHRASE}__", text.collapseToString())
     }
 
     @Test
     fun strikethrough_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isStrikethrough = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isStrikethrough = true))
         assertEquals("~~${TEST_PHRASE}~~", text.collapseToString())
     }
 
     @Test
     fun inline_code_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isInlineCode = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isInlineCode = true))
         assertEquals("`${TEST_PHRASE}`", text.collapseToString())
     }
 
     @Test
     fun code_block_formatting() {
-        val text = createTestText().setStyle(DCTextStyle().setCodeBlockLanguage("kotlin").build())
+        val text = createTestText().setStyle(DCTextStyle().setCodeBlockLanguage("kotlin"))
         assertEquals("```kotlin\n${TEST_PHRASE}\n```", text.collapseToString())
     }
 
     @Test
     fun spoiler_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isSpoiler = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isSpoiler = true))
         assertEquals("||${TEST_PHRASE}||", text.collapseToString())
     }
 
     @Test
     fun quote_line_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isQuoteLine = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isQuoteLine = true))
         assertEquals("> $TEST_PHRASE", text.collapseToString())
     }
 
     @Test
     fun quote_block_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isQuoteBlock = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isQuoteBlock = true))
         assertEquals(">>> $TEST_PHRASE", text.collapseToString())
     }
 
     @Test
     fun bold_and_italic_formatting() {
-        val text = createTestText().setStyle(DCTextStyle(isBold = true, isItalic = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isBold = true, isItalic = true))
         assertEquals("***$TEST_PHRASE***", text.collapseToString())
     }
 
     @Test
     fun multiple_formats() {
-        val text = createTestText().setStyle(DCTextStyle(isBold = true, isItalic = true, isUnderlined = true).build())
+        val text = createTestText().setStyle(DCTextStyle(isBold = true, isItalic = true, isUnderlined = true))
         assertEquals("***__${TEST_PHRASE}__***", text.collapseToString())
+    }
+
+    @Test
+    fun multiple_formats_hyperlink() {
+        val text = createTestText().setStyle(DCTextStyle(isBold = true, isItalic = true, isUnderlined = true, hyperlink = "https://example.com"))
+        assertEquals("***__[${TEST_PHRASE}](https://example.com)__***", text.collapseToString())
+    }
+
+    @Test
+    fun multiple_siblings() {
+        val text = createTestText().append(" ").append(createTestText().setStyle(DCTextStyle(isBold = true, hyperlink = "https://youtube.com")))
+        assertEquals("$TEST_PHRASE **[$TEST_PHRASE](https://youtube.com)**", text.collapseToString())
     }
 }

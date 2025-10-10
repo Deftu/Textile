@@ -24,6 +24,7 @@ public object DCTextStyleProperties {
     @JvmField public val CODE_BLOCK_KEY: TextStyle.PropertyKey<CodeBlock> = TextStyle.PropertyKey("discord:code_block", 6)
     @JvmField public val QUOTE_LINE_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey("discord:quote_line", 7)
     @JvmField public val QUOTE_BLOCK_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey("discord:quote_block", 8)
+    @JvmField public val HYPERLINK_KEY: TextStyle.PropertyKey<String> = TextStyle.PropertyKey("discord:hyperlink", 9)
 
     @JvmStatic
     public fun bold(bold: Boolean = true): TextStyle.Property<Boolean> {
@@ -112,6 +113,16 @@ public object DCTextStyleProperties {
             quoteBlock,
             left = if (quoteBlock) QUOTE_BLOCK_FMT else null,
             right = null
+        )
+    }
+
+    @JvmStatic
+    public fun hyperlink(link: String): TextStyle.Property<String> {
+        return TextStyle.Property(
+            HYPERLINK_KEY,
+            link,
+            left = "[",
+            right = "]($link)"
         )
     }
 }

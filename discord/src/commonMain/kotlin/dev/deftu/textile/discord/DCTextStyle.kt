@@ -14,7 +14,8 @@ public data class DCTextStyle @JvmOverloads public constructor(
     public val isInlineCode: Boolean? = null,
     public val codeBlock: CodeBlock? = null,
     public val isQuoteLine: Boolean? = null,
-    public val isQuoteBlock: Boolean? = null
+    public val isQuoteBlock: Boolean? = null,
+    public val hyperlink: String? = null
 ) : TextStyleBuilder {
     public companion object {
         @JvmStatic
@@ -28,7 +29,8 @@ public data class DCTextStyle @JvmOverloads public constructor(
                 isInlineCode = style[DCTextStyleProperties.INLINE_CODE_KEY]?.value,
                 codeBlock = style[DCTextStyleProperties.CODE_BLOCK_KEY]?.value,
                 isQuoteLine = style[DCTextStyleProperties.QUOTE_LINE_KEY]?.value,
-                isQuoteBlock = style[DCTextStyleProperties.QUOTE_BLOCK_KEY]?.value
+                isQuoteBlock = style[DCTextStyleProperties.QUOTE_BLOCK_KEY]?.value,
+                hyperlink = style[DCTextStyleProperties.HYPERLINK_KEY]?.value
             )
         }
     }
@@ -141,6 +143,18 @@ public data class DCTextStyle @JvmOverloads public constructor(
         return setQuoteBlock(false)
     }
 
+    public fun setHyperlink(hyperlink: String?): DCTextStyle {
+        return if (hyperlink == this.hyperlink) this else copy(hyperlink = hyperlink)
+    }
+
+    public fun hyperlink(link: String): DCTextStyle {
+        return setHyperlink(link)
+    }
+
+    public fun clearHyperlink(): DCTextStyle {
+        return setHyperlink(null)
+    }
+
     override fun build(): TextStyle {
         val props = mutableListOf<TextStyle.Property<*>>()
         isBold?.let { props += DCTextStyleProperties.bold(it) }
@@ -152,6 +166,7 @@ public data class DCTextStyle @JvmOverloads public constructor(
         codeBlock?.let { props += DCTextStyleProperties.codeBlock(it) }
         isQuoteLine?.let { props += DCTextStyleProperties.quoteLine(it) }
         isQuoteBlock?.let { props += DCTextStyleProperties.quoteBlock(it) }
+        hyperlink?.let { props += DCTextStyleProperties.hyperlink(it) }
         return TextStyle(props.associateBy(TextStyle.Property<*>::key))
     }
 }
