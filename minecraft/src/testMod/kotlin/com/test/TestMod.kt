@@ -201,6 +201,8 @@ class TestMod : ClientModInitializer {
         println(MCText.convert(text))
         println(text.collapseToString(CollapseMode.DELTA))
 
+        //#if MC >= 1.16.5
+        // I can't be bothered to make this work on legacy versions right now
         val player = MinecraftClient.getInstance().player ?: return
         val newText = MCText.literal(text.collapseToString(CollapseMode.DELTA))
         val converted = MCText.convert(newText)
@@ -208,5 +210,6 @@ class TestMod : ClientModInitializer {
         println(converted)
         println(newText.collapseToString(CollapseMode.DELTA))
         player.sendMessage(converted, false)
+        //#endif
     }
 }
