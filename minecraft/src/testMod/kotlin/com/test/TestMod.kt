@@ -1,7 +1,9 @@
 package com.test
 
+import dev.deftu.textile.CollapseMode
 import dev.deftu.textile.minecraft.ClickEvent
 import dev.deftu.textile.minecraft.EntityContent
+import dev.deftu.textile.minecraft.FormattingCodes
 import dev.deftu.textile.minecraft.HoverEvent
 import dev.deftu.textile.minecraft.MCText
 import dev.deftu.textile.minecraft.MCTextStyle
@@ -70,6 +72,8 @@ class TestMod : ClientModInitializer {
         println("-".repeat(dividerSize))
         test6()
         println("-".repeat(dividerSize))
+        test7()
+        println("-".repeat(dividerSize))
 
         //#if FABRIC && MC >= 1.16.5
         var tick = 0
@@ -82,6 +86,8 @@ class TestMod : ClientModInitializer {
             test4()
             println("-".repeat(dividerSize))
             test6()
+            println("-".repeat(dividerSize))
+            test7()
             println("-".repeat(dividerSize))
             tick = 0
         }
@@ -173,5 +179,34 @@ class TestMod : ClientModInitializer {
         println(converted)
         println(text.collapseToString())
         println(MCText.wrap(converted))
+    }
+
+
+    private fun test7() {
+        val text = MCText.literal("Hello, Deftu! ")
+            .setStyle(MCTextStyle.color(FormattingCodes.RED))
+            .append(
+                MCText.literal("This is bold and underlined!")
+                    .setStyle(MCTextStyle().clearColor().setBold(true).setUnderlined(true))
+                    .append(
+                        MCText.literal(" Now it's normal again. ")
+                            .append(
+                                MCText.literal("This is green!")
+                                    .setStyle(MCTextStyle.color('a').notBold().notUnderlined())
+                            )
+                    )
+            )
+
+        println(text)
+        println(MCText.convert(text))
+        println(text.collapseToString(CollapseMode.DELTA))
+
+        val player = MinecraftClient.getInstance().player ?: return
+        val newText = MCText.literal(text.collapseToString(CollapseMode.DELTA))
+        val converted = MCText.convert(newText)
+        println(newText)
+        println(converted)
+        println(newText.collapseToString(CollapseMode.DELTA))
+        player.sendMessage(converted, false)
     }
 }
