@@ -63,26 +63,52 @@ public interface Text : StringVisitable {
         return null
     }
 
-    public fun collapseToString(): String {
+    public fun collapseToString(mode: CollapseMode = CollapseMode.AUTO): String {
+        val resolvedMode: CollapseMode = when (mode) {
+            CollapseMode.DELTA -> CollapseMode.DELTA
+            CollapseMode.SCOPED -> CollapseMode.SCOPED
+            CollapseMode.AUTO -> run {
+                var isScoped = false
+                this.visit({ content, style ->
+                    if (!isScoped && content.isNotEmpty() && style.properties.any { it.right != null }) {
+                        isScoped = true
+                    }
+                    null
+                }, TextStyle.EMPTY)
+
+                if (isScoped) CollapseMode.SCOPED else CollapseMode.DELTA
+            }
+        }
+
         val openingOrder = compareBy(TextStyle.Property<*>::key)
         val closingOrder = openingOrder.reversed()
 
         val builder = StringBuilder()
         var currentProperties = listOf<TextStyle.Property<*>>()
-        visit({ content, style ->
-            if (content.isEmpty()) {
-                return@visit null
-            }
+
+        fun process(content: String, style: TextStyle) {
+            if (content.isEmpty()) return
 
             val nextProperties = style.properties
 
-            // Check identity as fast path to skip a list comparison in the case that the instance is unchanged
-            // We'll fall back to equality check in case the instance is different but the properties are the same
             @Suppress("SuspiciousEqualsCombination")
             if (nextProperties === currentProperties || nextProperties == currentProperties) {
                 builder.append(content)
-                currentProperties = nextProperties
-                return@visit null
+                if (resolvedMode == CollapseMode.SCOPED) {
+                    val closers = nextProperties.asSequence()
+                        .sortedWith(closingOrder)
+                        .mapNotNull(TextStyle.Property<*>::right)
+                        .toList()
+                    if (closers.isNotEmpty()) {
+                        closers.forEach(builder::append)
+                        currentProperties = emptyList()
+                    } else {
+                        currentProperties = nextProperties
+                    }
+                } else {
+                    currentProperties = nextProperties
+                }
+                return
             }
 
             val currentByKey = currentProperties.associateBy(TextStyle.Property<*>::key)
@@ -101,9 +127,31 @@ public interface Text : StringVisitable {
                 .forEach(builder::append)
 
             builder.append(content)
-            currentProperties = nextProperties
-            null
-        }, TextStyle.EMPTY)
+
+            if (resolvedMode == CollapseMode.SCOPED) {
+                val scopedClosers = nextProperties.asSequence()
+                    .sortedWith(closingOrder)
+                    .mapNotNull(TextStyle.Property<*>::right)
+                    .toList()
+                if (scopedClosers.isNotEmpty()) {
+                    scopedClosers.forEach(builder::append)
+                    currentProperties = emptyList()
+                } else {
+                    currentProperties = nextProperties
+                }
+            } else {
+                currentProperties = nextProperties
+            }
+        }
+
+        fun walk(node: Text) {
+            node.content.visit { text ->
+                process(text, node.style) ; null
+            }
+            for (s in node.siblings) walk(s)
+        }
+
+        walk(this)
 
         currentProperties.asSequence()
             .sortedWith(closingOrder)
@@ -111,6 +159,10 @@ public interface Text : StringVisitable {
             .forEach(builder::append)
 
         return builder.toString()
+    }
+
+    public fun collapseToString(): String {
+        return collapseToString(CollapseMode.AUTO)
     }
 
     public fun withStyle(style: TextStyle): Text {
