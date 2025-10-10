@@ -17,14 +17,22 @@ public data class MCTextStyle @JvmOverloads public constructor(
     public val isObfuscated: Boolean? = null,
     public val color: TextColor? = null,
     public val clickEvent: ClickEvent? = null,
-    public val hoverEvent: HoverEvent? = null
+    public val hoverEvent: HoverEvent? = null,
 ) : TextStyleBuilder {
     public companion object {
-        public const val COLOR_CHAR: Char = '\u00A7'
-
         @JvmStatic
         public fun color(color: TextColor): MCTextStyle {
             return MCTextStyle(color = color)
+        }
+
+        @JvmStatic
+        public fun color(color: String): MCTextStyle {
+            return MCTextStyle(color = FormattingCodes.codeToColor(color))
+        }
+
+        @JvmStatic
+        public fun color(color: Char): MCTextStyle {
+            return MCTextStyle(color = FormattingCodes.codeToColor(color))
         }
 
         @JvmStatic
@@ -131,6 +139,14 @@ public data class MCTextStyle @JvmOverloads public constructor(
 
     public fun colored(color: TextColor): MCTextStyle {
         return setColor(color)
+    }
+
+    public fun colored(color: String): MCTextStyle {
+        return setColor(FormattingCodes.codeToColor(color))
+    }
+
+    public fun colored(color: Char): MCTextStyle {
+        return setColor(FormattingCodes.codeToColor(color))
     }
 
     public fun clearColor(): MCTextStyle {
