@@ -1,31 +1,44 @@
 package dev.deftu.textile
 
 /**
- * Controls how [Text.collapseToString] emits formatting styles.
+ * How [Text.collapseToString] should write style codes into a plain string.
  *
- * You should usually use [CollapseMode.AUTO] unless you have a specific reason not to.
+ * Think of it as: "how aggressive should we be about turning styles on/off as we build the string?".
+ *
+ * **TL;DR**
+ * - Use [AUTO]. It picks the right thing for you.
+ * - [SCOPED] = each piece cleans up after itself (no style leaks).
+ * - [DELTA]  = only change when needed (styles keep flowing until changed).
+ *
+ * ## Example (same styled content, different outputs)
+ * Given three pieces: `red = ("Hello")`, `bold & underlined = ("World")`, `green = ("!")`
+ *
+ * - **SCOPED** → `§cHello §r§l§nWorld§r §a!§r`  (open, write, reset every time)
+ * - **DELTA**  → `§cHello §l§nWorld §a!`        (only emit when something changes)
  */
 public enum class CollapseMode {
     /**
-     * Heuristic: choose behavior based on the styles present.
+     * Pick automatically based on the styles you use.
      *
-     * If any property supplies a *right* closer (e.g., a Minecraft reset), behave like [SCOPED].
-     * Otherwise, behave like [DELTA].
+     * If any style provides a "close" code (a *right* closer, like a reset),
+     * act like [SCOPED]. Otherwise, act like [DELTA].
+     *
+     * This lets platforms opt into safer output without the caller caring.
      */
     AUTO,
 
     /**
-     * Self-contained spans. No style bleed.
+     * Self-contained spans (no bleed).
      *
-     * For each visually formatted node, emit its left openers **before** content and its right closers
-     * **after** content. Adjacent segments never inherit styles from each other.
+     * For each formatted piece, write its left codes **before** the text and its right closers
+     * **after** the text. Neighboring pieces never inherit styles from each other.
      */
     SCOPED,
 
     /**
-     * Minimal, flowing styles (inherit across siblings until changed).
+     * Minimal, flowing styles (carry forward until changed).
      *
-     * Emit formatting only when the **effective** style changes. Do not emit *right* closers after each node.
+     * Only write codes when the **effective** style changes. Do **not** emit right closers after each piece.
      */
     DELTA
 }
