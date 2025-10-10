@@ -179,6 +179,12 @@ public data class MCTextStyle @JvmOverloads public constructor(
         color?.let { value -> props.add(MCTextStyleProperties.color(value)) }
         clickEvent?.let { value -> props.add(MCTextStyleProperties.clickEvent(value)) }
         hoverEvent?.let { value -> props.add(MCTextStyleProperties.hoverEvent(value)) }
+
+        // If any formatting or color is set, we'll auto-apply a reset so that subsequent text is not affected.
+        if (props.isNotEmpty() && (color != null || listOf(isBold, isItalic, isUnderlined, isStrikethrough, isObfuscated).any { it == true })) {
+            props.add(MCTextStyleProperties.reset())
+        }
+
         return TextStyle(props.associateBy(TextStyle.Property<*>::key))
     }
 

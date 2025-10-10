@@ -11,6 +11,7 @@ public object MCTextStyleProperties {
     @JvmField public val ITALIC_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey(name = "minecraft:italic", sortIndex = 60)
     @JvmField public val CLICK_EVENT_KEY: TextStyle.PropertyKey<ClickEvent> = TextStyle.PropertyKey(name = "minecraft:click_event", sortIndex = 100)
     @JvmField public val HOVER_EVENT_KEY: TextStyle.PropertyKey<HoverEvent> = TextStyle.PropertyKey(name = "minecraft:hover_event", sortIndex = 110)
+    @JvmField public val RESET_KEY: TextStyle.PropertyKey<Boolean> = TextStyle.PropertyKey(name = "minecraft:reset", sortIndex = 999)
 
     @JvmStatic
     public fun bold(bold: Boolean = true): TextStyle.Property<Boolean> {
@@ -50,5 +51,10 @@ public object MCTextStyleProperties {
     @JvmStatic
     public fun hoverEvent(event: HoverEvent): TextStyle.Property<HoverEvent> {
         return TextStyle.Property(HOVER_EVENT_KEY, event)
+    }
+
+    @JvmStatic
+    public fun reset(): TextStyle.Property<Boolean> {
+        return TextStyle.Property(RESET_KEY, true, right = FormattingCodes.RESET)
     }
 }
