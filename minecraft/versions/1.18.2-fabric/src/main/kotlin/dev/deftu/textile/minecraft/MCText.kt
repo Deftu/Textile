@@ -3,9 +3,9 @@ package dev.deftu.textile.minecraft
 import dev.deftu.textile.MutableText
 import dev.deftu.textile.Text
 import dev.deftu.textile.TextStyle
-import net.minecraft.text.LiteralText
-import net.minecraft.text.TranslatableText as VanillaTranslatableText
-import net.minecraft.text.Text as VanillaText
+import net.minecraft.network.chat.Component as VanillaText
+import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.TranslatableComponent as VanillaTranslatableText
 
 public object MCText {
     @JvmStatic
@@ -80,7 +80,7 @@ public object MCText {
                 }.toTypedArray()
             ).apply {
                 //#if MC >= 1.16.5
-                this.styled(style::applyTo)
+                this.withStyle(style::applyTo)
                 //#else
                 //$$ this.setStyle(style.applyTo(this.style))
                 //#endif
@@ -88,9 +88,9 @@ public object MCText {
             }
         }
 
-        return LiteralText(content.string).apply {
+        return TextComponent(content.string).apply {
             //#if MC >= 1.16.5
-            this.styled(style::applyTo)
+            this.withStyle(style::applyTo)
             //#else
             //$$ this.setStyle(style.applyTo(this.style))
             //#endif

@@ -1,8 +1,8 @@
 package dev.deftu.textile.minecraft
 
 import dev.deftu.textile.Text
-import net.minecraft.item.ItemStack
-import net.minecraft.text.HoverEvent as VanillaHoverEvent
+import net.minecraft.world.item.ItemStack
+import net.minecraft.network.chat.HoverEvent as VanillaHoverEvent
 
 //#if MC <= 1.12.2
 //$$ import net.minecraft.nbt.NBTTagCompound
@@ -19,11 +19,11 @@ public sealed interface HoverEvent {
         //#endif
     }
 
-    public data class ShowEntity(public val value: EntityContent) : HoverEvent {
+    public data class ShowEntity(public val value: EntityTooltipInfo) : HoverEvent {
         //#if MC >= 1.16.5
-        internal fun createVanillaWrapper(): VanillaHoverEvent.EntityContent {
+        internal fun createVanillaWrapper(): VanillaHoverEvent.EntityTooltipInfo {
             val name = value.name.map(MCText::convert)
-            return VanillaHoverEvent.EntityContent(
+            return VanillaHoverEvent.EntityTooltipInfo(
                 value.type,
                 value.uuid,
                 //#if MC >= 1.20.4

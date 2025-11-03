@@ -3,10 +3,10 @@ package dev.deftu.textile.minecraft
 import dev.deftu.textile.Text
 import dev.deftu.textile.TextStyle
 import dev.deftu.textile.TextStyleBuilder
-import net.minecraft.text.Style
+import net.minecraft.network.chat.Style
 
 //#if MC <= 1.16.5
-//$$ import net.minecraft.util.Formatting
+//$$ import net.minecraft.ChatFormatting
 //#endif
 
 public data class MCTextStyle @JvmOverloads public constructor(
@@ -192,15 +192,15 @@ public data class MCTextStyle @JvmOverloads public constructor(
         var style = vanilla
         isBold?.let { style = style.withBold(it) }
         isItalic?.let { style = style.withItalic(it) }
-        isUnderlined?.let { style = style.withUnderline(it) }
+        isUnderlined?.let { style = style.withUnderlined(it) }
 
         //#if MC >= 1.17.1
         isStrikethrough?.let { style = style.withStrikethrough(it) }
         isObfuscated?.let { style = style.withObfuscated(it) }
         //#elseif MC >= 1.16.5
-        //$$ style = style.withFormatting(*listOfNotNull(
-        //$$     if (isStrikethrough == true) Formatting.STRIKETHROUGH else null,
-        //$$     if (isObfuscated == true) Formatting.OBFUSCATED else null
+        //$$ style = style.applyFormats(*listOfNotNull(
+        //$$     if (isStrikethrough == true) ChatFormatting.STRIKETHROUGH else null,
+        //$$     if (isObfuscated == true) ChatFormatting.OBFUSCATED else null
         //$$ ).toTypedArray())
         //#else
         //$$ isStrikethrough?.let { style = style.setStrikethrough(it) }

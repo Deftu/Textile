@@ -1,7 +1,10 @@
 package dev.deftu.textile.minecraft
 
-import java.net.URI
-import net.minecraft.text.ClickEvent as VanillaClickEvent
+import net.minecraft.network.chat.ClickEvent as VanillaClickEvent
+
+//#if MC < 1.21.5
+//$$ import java.net.URI
+//#endif
 
 public object ClickEvents {
     @JvmStatic

@@ -1,13 +1,13 @@
 package dev.deftu.textile.minecraft
 
-import net.minecraft.text.ClickEvent as VanillaClickEvent
+import net.minecraft.network.chat.ClickEvent as VanillaClickEvent
 import java.net.URI
 
 //#if MC >= 1.21.6
-import net.minecraft.dialog.type.Dialog
-import net.minecraft.nbt.NbtElement
-import net.minecraft.registry.entry.RegistryEntry
-import net.minecraft.util.Identifier
+import net.minecraft.server.dialog.Dialog
+import net.minecraft.nbt.Tag
+import net.minecraft.core.Holder
+import net.minecraft.resources.ResourceLocation
 import java.util.Optional
 //#endif
 
@@ -75,13 +75,13 @@ public sealed interface ClickEvent {
     //#endif
 
     //#if MC >= 1.21.6
-    public data class ShowDialog(val dialog: RegistryEntry<Dialog>) : ClickEvent {
+    public data class ShowDialog(val dialog: Holder<Dialog>) : ClickEvent {
         override fun asVanilla(): VanillaClickEvent {
             return VanillaClickEvent.ShowDialog(dialog)
         }
     }
 
-    public data class Custom(val identifier: Identifier, val payload: Optional<NbtElement>) : ClickEvent {
+    public data class Custom(val identifier: ResourceLocation, val payload: Optional<Tag>) : ClickEvent {
         override fun asVanilla(): VanillaClickEvent {
             return VanillaClickEvent.Custom(identifier, payload)
         }

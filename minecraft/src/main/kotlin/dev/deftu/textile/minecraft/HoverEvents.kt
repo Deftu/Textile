@@ -1,10 +1,10 @@
 package dev.deftu.textile.minecraft
 
-import net.minecraft.text.HoverEvent as VanillaHoverEvent
+import net.minecraft.network.chat.HoverEvent as VanillaHoverEvent
 
 //#if MC <= 1.12.2
 //#if FABRIC
-//$$ import net.minecraft.nbt.NbtCompound
+//$$ import net.minecraft.nbt.NBTTagCompound
 //#endif
 //$$
 //$$ import dev.deftu.textile.Text
@@ -19,7 +19,7 @@ public object HoverEvents {
         return when (event) {
             is VanillaHoverEvent.ShowText -> HoverEvent.ShowText(MCText.wrap(event.value))
             is VanillaHoverEvent.ShowItem -> HoverEvent.ShowItem(event.item)
-            is VanillaHoverEvent.ShowEntity -> HoverEvent.ShowEntity(EntityContent.wrap(event.entity))
+            is VanillaHoverEvent.ShowEntity -> HoverEvent.ShowEntity(EntityTooltipInfo.wrap(event.entity))
             else -> null
         }
         //#elseif MC >= 1.16.5
@@ -36,7 +36,7 @@ public object HoverEvents {
         //$$     }
         //$$
         //$$     VanillaHoverEvent.Action.SHOW_ENTITY -> {
-        //$$         val value = event.getValue(VanillaHoverEvent.Action.SHOW_ENTITY)?.let(EntityContent::wrap) ?: return null
+        //$$         val value = event.getValue(VanillaHoverEvent.Action.SHOW_ENTITY)?.let(EntityTooltipInfo::wrap) ?: return null
         //$$         HoverEvent.ShowEntity(value)
         //$$     }
         //$$
@@ -58,7 +58,7 @@ public object HoverEvents {
         //$$         HoverEvent.ShowItem(stack)
         //$$     }
         //$$
-        //$$     VanillaHoverEvent.Action.SHOW_ENTITY -> HoverEvent.ShowEntity(EntityContent.wrap(value))
+        //$$     VanillaHoverEvent.Action.SHOW_ENTITY -> HoverEvent.ShowEntity(EntityTooltipInfo.wrap(value))
         //$$
         //$$     else -> null
         //$$ }
@@ -97,9 +97,9 @@ public object HoverEvents {
     }
 
     //#if FABRIC && MC <= 1.12.2
-    //$$ private fun ItemStack.serializeNBT(): NbtCompound {
-    //$$     val value = NbtCompound()
-    //$$     toNbt(value)
+    //$$ private fun ItemStack.serializeNBT(): NBTTagCompound {
+    //$$     val value = NBTTagCompound()
+    //$$     writeToNBT(value)
     //$$     return value
     //$$ }
     //#endif

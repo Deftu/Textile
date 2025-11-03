@@ -48,3 +48,7 @@ dependencies {
         }
     }
 }
+
+java {
+    withSourcesJar()
+}

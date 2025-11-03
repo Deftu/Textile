@@ -3,8 +3,8 @@ package dev.deftu.textile.minecraft
 import dev.deftu.textile.MutableText
 import dev.deftu.textile.Text
 import dev.deftu.textile.TextStyle
-import net.minecraft.text.Text as VanillaText
-import net.minecraft.text.TranslatableTextContent as VanillaTranslatableTextContent
+import net.minecraft.network.chat.Component as VanillaText
+import net.minecraft.network.chat.contents.TranslatableContents as VanillaTranslatableTextContent
 import java.util.Optional
 
 public object MCText {
@@ -44,7 +44,7 @@ public object MCText {
 
     @JvmStatic
     public fun wrap(text: VanillaText): Text {
-        val content = text.content
+        val content = text.contents
         if (content is VanillaTranslatableTextContent) {
             return translatable(
                 key = content.key,
@@ -94,13 +94,13 @@ public object MCText {
                     }
                 }.toTypedArray()
             ).apply {
-                this.styled(style::applyTo)
+                this.withStyle(style::applyTo)
                 text.siblings.map(::convert).forEach(this::append)
             }
         }
 
         return VanillaText.literal(content.string).apply {
-            this.styled(style::applyTo)
+            this.withStyle(style::applyTo)
             text.siblings.map(::convert).forEach(this::append)
         }
     }

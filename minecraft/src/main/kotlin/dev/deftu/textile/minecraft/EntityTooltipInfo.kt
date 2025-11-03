@@ -1,19 +1,19 @@
 package dev.deftu.textile.minecraft
 
 import dev.deftu.textile.Text
-import net.minecraft.entity.Entity
-import net.minecraft.text.HoverEvent
+import net.minecraft.world.entity.Entity
+import net.minecraft.network.chat.HoverEvent
 import java.util.Optional
 import java.util.UUID
 
 //#if MC >= 1.16.5
-import net.minecraft.entity.EntityType
+import net.minecraft.world.entity.EntityType
 //#else
 //$$ import net.minecraft.util.text.ITextComponent as VanillaText
 //$$ import net.minecraft.nbt.JsonToNBT
 //#endif
 
-public data class EntityContent(
+public data class EntityTooltipInfo(
     //#if MC >= 1.16.5
     public val type: EntityType<*>,
     //#else
@@ -26,14 +26,14 @@ public data class EntityContent(
         @JvmStatic
         public fun wrap(
             //#if MC >= 1.16.5
-            content: HoverEvent.EntityContent
+            content: HoverEvent.EntityTooltipInfo
             //#else
             //$$ content: VanillaText
             //#endif
-        ): EntityContent {
+        ): EntityTooltipInfo {
             //#if MC >= 1.16.5
-            return EntityContent(
-                content.entityType,
+            return EntityTooltipInfo(
+                content.type,
                 content.uuid,
                 //#if MC >= 1.20.4
                 content.name.map(MCText::wrap),
@@ -50,13 +50,13 @@ public data class EntityContent(
             //#endif
             //$$ val type = if (nbt.hasKey("type", 8)) nbt.getString("type") else null
             //$$ val name: Optional<Text> = Optional.ofNullable(nbt.getString("name")).map(Text::literal)
-            //$$ return EntityContent(type, id, name)
+            //$$ return EntityTooltipInfo(type, id, name)
             //#endif
         }
 
         @JvmStatic
-        public fun of(entity: Entity): EntityContent {
-            return EntityContent(
+        public fun of(entity: Entity): EntityTooltipInfo {
+            return EntityTooltipInfo(
                 //#if MC >= 1.16.5
                 entity.type,
                 //#else

@@ -1,9 +1,9 @@
 package dev.deftu.textile.minecraft
 
-import net.minecraft.util.Formatting
+import net.minecraft.ChatFormatting
 
 public data class TextColor(public val rgba: Int) {
-    public var formatting: Formatting? = null
+    public var formatting: ChatFormatting? = null
         private set
 
     public var isFormattingStringifiable: Boolean = false
@@ -29,7 +29,7 @@ public data class TextColor(public val rgba: Int) {
         }
 
     public fun withFallback(
-        formatting: Formatting,
+        formatting: ChatFormatting,
         stringified: Boolean = true
     ): TextColor {
         return if (this.formatting != formatting && this.isCustom) {
@@ -42,7 +42,7 @@ public data class TextColor(public val rgba: Int) {
         }
     }
 
-    internal fun default(formatting: Formatting): TextColor {
+    internal fun default(formatting: ChatFormatting): TextColor {
         this.formatting = formatting
         this.isFormattingStringifiable = true
         this.isCustom = false

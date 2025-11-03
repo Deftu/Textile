@@ -2,15 +2,15 @@ package com.test
 
 import dev.deftu.textile.CollapseMode
 import dev.deftu.textile.minecraft.ClickEvent
-import dev.deftu.textile.minecraft.EntityContent
+import dev.deftu.textile.minecraft.EntityTooltipInfo
 import dev.deftu.textile.minecraft.FormattingCodes
 import dev.deftu.textile.minecraft.HoverEvent
 import dev.deftu.textile.minecraft.MCText
 import dev.deftu.textile.minecraft.MCTextStyle
 import dev.deftu.textile.minecraft.TextColors
 import java.net.URI
-import net.minecraft.client.MinecraftClient
-import net.minecraft.util.Formatting
+import net.minecraft.ChatFormatting
+import net.minecraft.client.Minecraft
 
 //#if FABRIC
 import net.fabricmc.api.ClientModInitializer
@@ -123,7 +123,7 @@ class TestMod : ClientModInitializer {
     private fun test3() {
         val text = MCText.literal("Hello, Deftu!")
             .setStyle(MCTextStyle()
-                .setColor(TextColors.hex("#C33F3F").withFallback(Formatting.RED, false))
+                .setColor(TextColors.hex("#C33F3F").withFallback(ChatFormatting.RED, false))
                 .setClickEvent(ClickEvent.OpenUrl(URI.create("https://deftu.dev")))
                 .setHoverEvent(HoverEvent.ShowText(MCText.literal("Oh my guh!")))
                 .build())
@@ -149,7 +149,7 @@ class TestMod : ClientModInitializer {
     private fun test5() {
         val text = MCText.literal("Hello, Deftu!")
             .setStyle(MCTextStyle()
-                .setColor(TextColors.hex("#C33F3F").withFallback(Formatting.RED))
+                .setColor(TextColors.hex("#C33F3F").withFallback(ChatFormatting.RED))
                 .setClickEvent(ClickEvent.OpenUrl(URI.create("https://deftu.dev")))
                 .setHoverEvent(HoverEvent.ShowText(MCText.literal("Oh my guh!")))
                 .build())
@@ -160,7 +160,7 @@ class TestMod : ClientModInitializer {
     }
 
     private fun test6() {
-        val player = MinecraftClient.getInstance().player ?: return println("No player found, skipping test6()")
+        val player = Minecraft.getInstance().player ?: return println("No player found, skipping test6()")
 
         val text = MCText.translatable(
             key = "chat.type.text",
@@ -168,7 +168,7 @@ class TestMod : ClientModInitializer {
                 MCText.literal("Deftu").setStyle(
                     MCTextStyle()
                         .setClickEvent(ClickEvent.SuggestCommand("/tell Deftu"))
-                        .setHoverEvent(HoverEvent.ShowEntity(EntityContent.of(player)))
+                        .setHoverEvent(HoverEvent.ShowEntity(EntityTooltipInfo.of(player)))
                 ),
                 MCText.literal("Hello, Deftu!")
             )
@@ -203,13 +203,13 @@ class TestMod : ClientModInitializer {
 
         //#if MC >= 1.16.5
         // I can't be bothered to make this work on legacy versions right now
-        val player = MinecraftClient.getInstance().player ?: return
+        val player = Minecraft.getInstance().player ?: return
         val newText = MCText.literal(text.collapseToString(CollapseMode.DELTA))
         val converted = MCText.convert(newText)
         println(newText)
         println(converted)
         println(newText.collapseToString(CollapseMode.DELTA))
-        player.sendMessage(converted, false)
+        player.displayClientMessage(converted, false)
         //#endif
     }
 }

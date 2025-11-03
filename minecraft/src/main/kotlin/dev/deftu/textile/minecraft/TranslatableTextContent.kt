@@ -4,7 +4,7 @@ import dev.deftu.textile.StringVisitable
 import dev.deftu.textile.StringVisitor
 import dev.deftu.textile.TextContent
 import dev.deftu.textile.TextStyle
-import net.minecraft.util.Language
+import net.minecraft.locale.Language
 
 //#if MC <= 1.12.2
 //$$ import net.minecraft.client.Minecraft
@@ -89,7 +89,7 @@ public class TranslatableTextContent(
         cachedLanguage = language
         val value =
             //#if MC >= 1.19.4
-            if (fallback != null) language.get(key, fallback) else language.get(key)
+            if (fallback != null) language.getOrDefault(key, fallback) else language.getOrDefault(key)
             //#elseif MC >= 1.16.5
             //$$ if (fallback != null) {
             //$$     if (language.has(key)) {

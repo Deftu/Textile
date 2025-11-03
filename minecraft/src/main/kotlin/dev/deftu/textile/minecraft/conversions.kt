@@ -1,9 +1,9 @@
 package dev.deftu.textile.minecraft
 
 import dev.deftu.textile.Text
-import net.minecraft.text.ClickEvent as VanillaClickEvent
-import net.minecraft.text.HoverEvent as VanillaHoverEvent
-import net.minecraft.text.Text as VanillaText
+import net.minecraft.network.chat.ClickEvent as VanillaClickEvent
+import net.minecraft.network.chat.HoverEvent as VanillaHoverEvent
+import net.minecraft.network.chat.Component as VanillaText
 
 public fun Text.asVanilla(): VanillaText {
     return MCText.convert(this)
