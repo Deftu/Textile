@@ -112,14 +112,14 @@ public class TranslatableTextContent(
             //$$ }
             //#else
             //$$ if (fallback != null) {
-            //$$     val translation = I18n.translate(key)
+            //$$     val translation = I18n.format(key)
             //$$     if (translation == key) {
             //$$         fallback
             //$$     } else {
             //$$         translation
             //$$     }
             //$$ } else {
-            //$$     I18n.translate(key)
+            //$$     I18n.format(key)
             //$$ }
             //#endif
 

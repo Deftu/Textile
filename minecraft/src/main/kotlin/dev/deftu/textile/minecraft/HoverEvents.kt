@@ -53,7 +53,7 @@ public object HoverEvents {
                 //#if MC >= 1.12.2
                 //$$ val stack = ItemStack(nbt)
                 //#else
-                //$$ val stack = ItemStack.fromNbt(nbt)
+                //$$ val stack = ItemStack.loadItemStackFromNBT(nbt)
                 //#endif
         //$$         HoverEvent.ShowItem(stack)
         //$$     }
