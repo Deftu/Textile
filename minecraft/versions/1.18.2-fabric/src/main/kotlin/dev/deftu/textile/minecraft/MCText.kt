@@ -59,7 +59,7 @@ public object MCText {
             }
         }
 
-        return literal(text.string).apply {
+        return literal((text as? TextComponent)?.text ?: text.string).apply {
             this.setStyle(MCTextStyle.wrap(text.style))
             text.siblings.map(::wrap).forEach(this::append)
         }
