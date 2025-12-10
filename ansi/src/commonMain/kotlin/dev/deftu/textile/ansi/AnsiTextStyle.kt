@@ -7,10 +7,10 @@ import kotlin.jvm.JvmOverloads
 public data class AnsiTextStyle @JvmOverloads public constructor(
     public val foreground: Int? = null, // 0xRRGGBB
     public val background: Int? = null, // 0xRRGGBB
-    public val bold: Boolean? = null,
-    public val italic: Boolean? = null,
-    public val underline: Boolean? = null,
-    public val strikethrough: Boolean? = null,
+    public val isBold: Boolean? = null,
+    public val isItalic: Boolean? = null,
+    public val isUnderlined: Boolean? = null,
+    public val isStrikethrough: Boolean? = null,
     public val colorLevel: ColorLevel = ColorLevel.TRUECOLOR,
     public val autoReset: Boolean = true,
 ) : TextStyleBuilder {
@@ -23,7 +23,7 @@ public data class AnsiTextStyle @JvmOverloads public constructor(
     }
 
     public fun setBold(bold: Boolean?): AnsiTextStyle {
-        return if (bold == this.bold) this else copy(bold = bold)
+        return if (bold == this.isBold) this else copy(isBold = bold)
     }
 
     public fun bold(): AnsiTextStyle {
@@ -35,7 +35,7 @@ public data class AnsiTextStyle @JvmOverloads public constructor(
     }
 
     public fun setItalic(italic: Boolean?): AnsiTextStyle {
-        return if (italic == this.italic) this else copy(italic = italic)
+        return if (italic == this.isItalic) this else copy(isItalic = italic)
     }
 
     public fun italic(): AnsiTextStyle {
@@ -47,7 +47,7 @@ public data class AnsiTextStyle @JvmOverloads public constructor(
     }
 
     public fun setUnderline(underline: Boolean?): AnsiTextStyle {
-        return if (underline == this.underline) this else copy(underline = underline)
+        return if (underline == this.isUnderlined) this else copy(isUnderlined = underline)
     }
 
     public fun underline(): AnsiTextStyle {
@@ -59,7 +59,7 @@ public data class AnsiTextStyle @JvmOverloads public constructor(
     }
 
     public fun setStrikethrough(strikethrough: Boolean?): AnsiTextStyle {
-        return if (strikethrough == this.strikethrough) this else copy(strikethrough = strikethrough)
+        return if (strikethrough == this.isStrikethrough) this else copy(isStrikethrough = strikethrough)
     }
 
     public fun strikethrough(): AnsiTextStyle {
@@ -72,10 +72,10 @@ public data class AnsiTextStyle @JvmOverloads public constructor(
 
     override fun build(): TextStyle {
         val props = mutableListOf<TextStyle.Property<*>>()
-        bold?.let { props.add(AnsiTextStyleProperties.bold(it)) }
-        italic?.let { props.add(AnsiTextStyleProperties.italic(it)) }
-        underline?.let { props.add(AnsiTextStyleProperties.underline(it)) }
-        strikethrough?.let { props.add(AnsiTextStyleProperties.strikethrough(it)) }
+        isBold?.let { props.add(AnsiTextStyleProperties.bold(it)) }
+        isItalic?.let { props.add(AnsiTextStyleProperties.italic(it)) }
+        isUnderlined?.let { props.add(AnsiTextStyleProperties.underline(it)) }
+        isStrikethrough?.let { props.add(AnsiTextStyleProperties.strikethrough(it)) }
         foreground?.let { rgb -> props.add(TextStyle.Property(key = AnsiTextStyleProperties.FG_COLOR_KEY, value = rgb, left = fgCode(rgb, colorLevel))) }
         background?.let { rgb -> props.add(TextStyle.Property(key = AnsiTextStyleProperties.BG_COLOR_KEY, value = rgb, left = bgCode(rgb, colorLevel))) }
 
