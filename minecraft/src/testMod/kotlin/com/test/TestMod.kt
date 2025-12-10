@@ -8,6 +8,7 @@ import dev.deftu.textile.minecraft.HoverEvent
 import dev.deftu.textile.minecraft.MCText
 import dev.deftu.textile.minecraft.MCTextStyle
 import dev.deftu.textile.minecraft.TextColors
+import dev.deftu.textile.text
 import java.net.URI
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
@@ -92,6 +93,17 @@ class TestMod : ClientModInitializer {
             tick = 0
         }
         //#endif
+    }
+
+    private val abc = text {
+        literal("A", MCTextStyle.color('c'))
+        literal("B", MCTextStyle.color('a'))
+        literal("C", MCTextStyle.color('b'))
+        append {
+            literal("D", MCTextStyle.color('e'))
+            literal("E", MCTextStyle.color('d'))
+            literal("F", MCTextStyle.color('9'))
+        }
     }
 
     private fun test1() {
