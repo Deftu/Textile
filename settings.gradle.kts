@@ -95,6 +95,9 @@ listOf(
 
     "1.21.10-neoforge",
     "1.21.10-fabric",
+
+//    "1.21.11-neoforge",
+    "1.21.11-fabric"
 ).forEach { version ->
     include(":minecraft:$version")
     project(":minecraft:$version").apply {
