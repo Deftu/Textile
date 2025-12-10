@@ -29,6 +29,7 @@ plugins {
 
 rootProject.name = extra["project.name"]?.toString() ?: throw IllegalStateException("project.name is not defined")
 
+include(":ansi")
 include(":discord")
 
 // Setup Minecraft
