@@ -19,7 +19,7 @@ pluginManagement {
     }
 
     plugins {
-        id("dev.deftu.gradle.multiversion-root") version("2.61.0")
+        id("dev.deftu.gradle.multiversion-root") version("2.64.0")
     }
 }
 
