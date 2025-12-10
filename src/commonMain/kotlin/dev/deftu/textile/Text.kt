@@ -38,6 +38,53 @@ public interface Text : StringVisitable {
         public fun literal(content: String, builder: TextStyleBuilder): MutableText {
             return of(TextContent.Literal(content), builder.build())
         }
+
+        @JvmStatic
+        public fun concat(vararg parts: Text): MutableText {
+            return when (parts.size) {
+                0 -> empty()
+                1 -> parts[0].shallowCopy() as MutableText
+                else -> {
+                    val head = parts[0].shallowCopy() as MutableText
+                    for (i in 1 until parts.size) {
+                        head.append(parts[i].shallowCopy())
+                    }
+
+                    head
+                }
+            }
+        }
+
+        @JvmStatic
+        public fun join(separator: Text, parts: Iterable<Text>): MutableText {
+            val iterator = parts.iterator()
+            if (!iterator.hasNext()) {
+                return empty()
+            }
+
+            val head = iterator.next().shallowCopy() as MutableText
+            while (iterator.hasNext()) {
+                head.append(separator.shallowCopy())
+                head.append(iterator.next().shallowCopy())
+            }
+
+            return head
+        }
+
+        @JvmStatic
+        public fun join(separator: Text, vararg parts: Text): MutableText {
+            return join(separator, parts.asList())
+        }
+
+        @JvmStatic
+        public fun join(separator: String, parts: Iterable<Text>): MutableText {
+            return join(literal(separator), parts)
+        }
+
+        @JvmStatic
+        public fun join(separator: String, vararg parts: Text): MutableText {
+            return join(literal(separator), parts.asList())
+        }
     }
 
     public val content: TextContent
