@@ -61,6 +61,34 @@ public object FormattingCodes {
     }
 
     @JvmStatic
+    public fun applyCode(code: Char, style: MCTextStyle): MCTextStyle {
+        return applyCode("$COLOR_CHAR$code", style)
+    }
+
+    @JvmStatic
+    public fun applyCode(input: String, style: MCTextStyle): MCTextStyle {
+        if (input.length != 2 || input[0] != COLOR_CHAR) {
+            return style
+        }
+
+        val code = input[1]
+        return when (input) {
+            BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED,
+            DARK_PURPLE, GOLD, GRAY, DARK_GRAY, BLUE,
+            GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW,
+            WHITE -> MCTextStyle.color(codeToColor(code)!!)
+
+            OBFUSCATED -> style.obfuscated()
+            BOLD -> style.bold()
+            STRIKETHROUGH -> style.strikethrough()
+            UNDERLINED -> style.underlined()
+            ITALIC -> style.italic()
+            RESET -> MCTextStyle()
+            else -> style
+        }
+    }
+
+    @JvmStatic
     public fun strip(text: String): String {
         return text.replace(COLOR_CODE_PATTERN, "")
     }
