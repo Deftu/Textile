@@ -96,22 +96,16 @@ public object FormattingCodes {
     @JvmStatic
     public fun stripColor(text: String): String {
         return text.replace(COLOR_CODE_PATTERN) {
-            if (it.value[1] in '0'..'9') {
-                ""
-            } else {
-                it.value
-            }
+            val c = it.value[1].lowercaseChar()
+            if (c in '0'..'9' || c in 'a'..'f') "" else it.value
         }
     }
 
     @JvmStatic
     public fun stripFormatting(text: String): String {
         return text.replace(COLOR_CODE_PATTERN) {
-            if (it.value[1] in 'a'..'r' || it.value[1] in 'A'..'R') {
-                ""
-            } else {
-                it.value
-            }
+            val c = it.value[1].lowercaseChar()
+            if (c in listOf('k','l','m','n','o','r')) "" else it.value
         }
     }
 
