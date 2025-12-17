@@ -97,4 +97,38 @@ public object MCText {
             text.siblings.map(::convert).forEach(this::append)
         }
     }
+
+    @JvmStatic
+    public fun parse(input: String, baseStyle: MCTextStyle = MCTextStyle()): Text {
+        var currentStyle = baseStyle
+        val root = Text.empty()
+        val builder = StringBuilder()
+
+        fun flush() {
+            if (builder.isEmpty()) {
+                return
+            }
+
+            root.append(Text.literal(builder.toString(), currentStyle.build()))
+            builder.setLength(0)
+        }
+
+        var i = 0
+        while (i < input.length) {
+            val c = input[i]
+            if (c == FormattingCodes.COLOR_CHAR && i + 1 < input.length) {
+                flush()
+                val code = input[i + 1]
+                currentStyle = FormattingCodes.applyCode(code, currentStyle)
+                i += 2
+                continue
+            }
+
+            builder.append(c)
+            i++
+        }
+
+        flush()
+        return root
+    }
 }
