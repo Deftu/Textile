@@ -221,7 +221,11 @@ class TestMod : ClientModInitializer {
         println(newText)
         println(converted)
         println(newText.collapseToString(CollapseMode.DELTA))
+        //#if MC >= 26.1
+        //$$ player.sendSystemMessage(converted)
+        //#else
         player.displayClientMessage(converted, false)
+        //#endif
         //#endif
     }
 }

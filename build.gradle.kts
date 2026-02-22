@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("multiplatform") version("2.2.10")
-    val dgtVersion = "2.65.0"
+    kotlin("multiplatform") version("2.3.0")
+    val dgtVersion = "2.70.0"
     id("dev.deftu.gradle.tools") version(dgtVersion)
     id("dev.deftu.gradle.tools.publishing.maven") version(dgtVersion)
 }
@@ -20,7 +20,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
 
-        withJava()
         withSourcesJar()
     }
 

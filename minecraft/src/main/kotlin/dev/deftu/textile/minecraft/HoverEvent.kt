@@ -4,6 +4,10 @@ import dev.deftu.textile.Text
 import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.HoverEvent as VanillaHoverEvent
 
+//#if MC >= 26.1
+//$$ import net.minecraft.world.item.ItemStackTemplate
+//#endif
+
 //#if MC <= 1.12.2
 //$$ import net.minecraft.nbt.NBTTagCompound
 //$$ import net.minecraft.util.text.ITextComponent as VanillaText
@@ -15,7 +19,15 @@ public sealed interface HoverEvent {
     public data class ShowItem(public val value: ItemStack) : HoverEvent {
         //#if MC >= 1.16.5
         public val vanilla: VanillaHoverEvent.ShowItem
-            get() = VanillaHoverEvent.ShowItem(value)
+            get() {
+                //#if MC >= 26.1
+                //$$ val item = ItemStackTemplate.fromNonEmptyStack(value)
+                //#else
+                val item = value
+                //#endif
+
+                return VanillaHoverEvent.ShowItem(item)
+            }
         //#endif
     }
 

@@ -20,7 +20,7 @@
         ]
     },
     "depends": {
-        "minecraft": "~${minor_mc_version}",
+        "minecraft": "~${fabric_mc_version}",
         "fabric-language-kotlin": "*"
     },
     "custom": {

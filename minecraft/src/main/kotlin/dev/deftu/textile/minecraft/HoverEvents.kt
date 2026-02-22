@@ -2,6 +2,11 @@ package dev.deftu.textile.minecraft
 
 import net.minecraft.network.chat.HoverEvent as VanillaHoverEvent
 
+//#if MC >= 26.1
+//$$ import net.minecraft.world.item.ItemStackTemplate
+//$$ import net.minecraft.world.item.ItemStack
+//#endif
+
 //#if MC <= 1.12.2
 //#if FABRIC
 //$$ import net.minecraft.nbt.NBTTagCompound
@@ -18,8 +23,18 @@ public object HoverEvents {
         //#if MC >= 1.21.5
         return when (event) {
             is VanillaHoverEvent.ShowText -> HoverEvent.ShowText(MCText.wrap(event.value))
-            is VanillaHoverEvent.ShowItem -> HoverEvent.ShowItem(event.item)
+
+            is VanillaHoverEvent.ShowItem -> {
+                //#if MC >= 26.1
+                //$$ val itemStack = ItemStack(event.item().item())
+                //#else
+                val itemStack = event.item
+                //#endif
+                HoverEvent.ShowItem(itemStack)
+            }
+
             is VanillaHoverEvent.ShowEntity -> HoverEvent.ShowEntity(EntityTooltipInfo.wrap(event.entity))
+
             else -> null
         }
         //#elseif MC >= 1.16.5
@@ -70,7 +85,16 @@ public object HoverEvents {
         //#if MC >= 1.21.5
         return when (event) {
             is HoverEvent.ShowText -> VanillaHoverEvent.ShowText(MCText.convert(event.value))
-            is HoverEvent.ShowItem -> VanillaHoverEvent.ShowItem(event.value)
+
+            is HoverEvent.ShowItem -> {
+                //#if MC >= 26.1
+                //$$ val item = ItemStackTemplate.fromNonEmptyStack(event.value)
+                //#else
+                val item = event.value
+                //#endif
+                VanillaHoverEvent.ShowItem(item)
+            }
+
             is HoverEvent.ShowEntity -> VanillaHoverEvent.ShowEntity(event.createVanillaWrapper())
         }
         //#elseif MC >= 1.16.5

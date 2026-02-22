@@ -11,7 +11,7 @@ plugins {
     id("dev.deftu.gradle.tools.publishing.maven")
     id("dev.deftu.gradle.tools.minecraft.loom")
     id("dev.deftu.gradle.tools.minecraft.api")
-    id("dev.deftu.gradle.tools.minecraft.releases")
+    id("dev.deftu.gradle.tools.minecraft.releases-v2")
     id("dev.deftu.gradle.tools.shadow")
 }
 
@@ -23,17 +23,17 @@ if (mcData.isForgeLike && mcData.version >= MinecraftVersions.VERSION_1_16_5) {
     toolkitLoomHelper.useKotlinForForge()
 }
 
-toolkitReleases {
-    detectVersionType.set(true)
-
-    modrinth {
-        projectId.set("T0Zb6DLv")
-    }
-
-    curseforge {
-        projectId.set("1215303")
-    }
-}
+//toolkitReleases {
+//    detectVersionType.set(true)
+//
+//    modrinth {
+//        projectId.set("T0Zb6DLv")
+//    }
+//
+//    curseforge {
+//        projectId.set("1215303")
+//    }
+//}
 
 dependencies {
     api(includeOrShade(project(":")) {
@@ -41,10 +41,10 @@ dependencies {
     })
 
     if (mcData.isFabric) {
-        modImplementation("net.fabricmc:fabric-language-kotlin:${mcData.dependencies.fabric.fabricLanguageKotlinVersion}")
+        maybeModImplementation("net.fabricmc:fabric-language-kotlin:${mcData.dependencies.fabric.fabricLanguageKotlinVersion}")
 
         if (mcData.version >= MinecraftVersions.VERSION_1_16_5) {
-            modImplementation(fabricApi.module("fabric-lifecycle-events-v1", mcData.dependencies.fabric.fabricApiVersion))
+            maybeModImplementation(fabricApi.module("fabric-lifecycle-events-v1", mcData.dependencies.fabric.fabricApiVersion))
         }
     }
 }
